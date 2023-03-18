@@ -14,7 +14,7 @@ WebApiClient有两个版本
 
 + `WebApiclientCore` 基于`.NET Standard2.1`重新设计的新版本，与全新的`依赖注入`、`配置`、`选项`、`日志`等重新设计过的.NET抽象Api完美契合
 + `WebApiClient.JIT`、`WebApiClient.AOT` 基于`.NET Standard2.0`的旧版本(额外支持`.NET Framework 4.5+`)，支持`.NET Core 2.0+`,在老版本的.NET上亦能独当一面
-+ QQ群 825135345(在线)
++ [QQ群 825135345](<https://shang.qq.com/wpa/qunwpa?idkey=c6df21787c9a774ca7504a954402c9f62b6595d1e63120eabebd6b2b93007410>)进群时请注明**WebApiClient**，在咨询问题之前，请先认真阅读以下剩余的文档，避免消耗作者不必要的重复解答时间。
 + 反馈问题请前往 [https://github.com/dotnetcore/WebApiClient/issues](https://github.com/dotnetcore/WebApiClient/issues)
 
 ## 特性
