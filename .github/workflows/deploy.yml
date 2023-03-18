@@ -9,7 +9,7 @@ jobs:
         with:
           ref: main
       - name: vuepress-deploy
-        uses: robineco/vuepress-deploy@master
+        uses: EzrealJ/vuepress-deploy-node18@main
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           TARGET_REPO: EzrealJ/WebApiClientWiki
