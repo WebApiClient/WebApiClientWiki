@@ -47,7 +47,7 @@ public class ProtobufReturnAttribute : ApiReturnAttribute
 }
 ```
 
-### 2 应用相关自定义特性
+## 2 应用相关自定义特性
 
 ```csharp
 [ProtobufReturn]
