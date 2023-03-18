@@ -5,4 +5,5 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "WebApiClient",
   description: "声明，调用！",
+  base: "/WebApiClientWiki/", // 或者 '/'
 });
