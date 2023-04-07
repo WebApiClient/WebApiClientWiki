@@ -1,6 +1,7 @@
 ﻿import { defineUserConfig } from "vuepress";
 import { defaultTheme } from "@vuepress/theme-default";
 import { navbarZh, sidebarZh } from "./configs/index.js";
+import { prismjsPlugin } from "@vuepress/plugin-prismjs";
 const isProd = process.env.NODE_ENV === "production";
 
 export default defineUserConfig({
@@ -70,38 +71,10 @@ export default defineUserConfig({
       prismjs: !isProd,
     },
   }),
-  // head: [
-  //   // 在 BootCDN 上引入 Prism.js 核心库
-  //   [
-  //     "script",
-  //     {
-  //       src: "https://cdn.bootcdn.net/ajax/libs/prism/1.29.0/components/prism-core.min.js",
-  //     },
-  //   ],
-  //   // 在 BootCDN 上引入 JavaScript 语言库
-  //   [
-  //     "script",
-  //     {
-  //       src: "https://cdn.bootcdn.net/ajax/libs/prism/1.29.0/components/prism-javascript.min.js",
-  //     },
-  //   ],
-  //   // 在 BootCDN 上引入 CSS 样式文件
-  //   [
-  //     "link",
-  //     {
-  //       rel: "stylesheet",
-  //       href: "https://cdn.bootcdn.net/ajax/libs/prism/1.29.0/themes/prism.min.css",
-  //     },
-  //   ],
-  // ],
   plugins: [
-    "@vuepress/plugin-prismjs",
-    //暂时只需要使用默认的Prism.js
-    // [
-    //   "@vuepress/plugin-shiki",
-    //   {
-    //     theme: "nord",
-    //   },
-    // ],
+    prismjsPlugin({
+      preloadLanguages: ["markdown", "csharp", "javascript"],
+      // 配置项
+    }),
   ],
 });
