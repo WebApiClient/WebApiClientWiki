@@ -9,10 +9,6 @@ export default defineUserConfig({
   title: "WebApiClient",
   description: "声明，调用！",
   base: "/WebApiClientWiki/", // 或者 '/'
-  markdown: {
-    // 启用代码高亮
-    highlight: true,
-  },
   // configure default theme
   theme: defaultTheme({
     logo: "/logo.png",
