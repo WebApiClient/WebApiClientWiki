@@ -92,7 +92,8 @@ AspNetCore Startup
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddHttpApi<IUserApi>();
+  //注册
+  services.AddHttpApi<IUserApi>();
 }
 ```
 
@@ -104,6 +105,32 @@ public static void Main(string[] args)
     //无依赖注入的环境需要自行创建
     IServiceCollection services = new ServiceCollection();
     services.AddHttpApi<IUserApi>();
+}
+```
+
+## 配置
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+  // 注册并配置
+  services.AddHttpApi(typeof(IUserApi), o =>
+  {
+      o.UseLogging = Environment.IsDevelopment();
+      o.HttpHost = new Uri("http://localhost:5000/");
+  });
+  //注册，然后配置
+  services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
+  {
+      o.UseLogging = Environment.IsDevelopment();
+      o.HttpHost = new Uri("http://localhost:5000/");
+  });
+  //添加全局配置
+  services.AddWebApiClient().ConfigureHttpApi(o =>
+  {
+      o.UseLogging = Environment.IsDevelopment();
+      o.HttpHost = new Uri("http://localhost:5000/");
+  });
 }
 ```
 
