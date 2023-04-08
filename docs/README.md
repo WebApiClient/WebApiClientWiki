@@ -2,13 +2,16 @@
 home: true
 heroImage: /logo.png
 heroText: WebApiClient
-tagline: 用接口和特性来声明HTTP请求,动态代理替你实现。
+tagline: 使用C#接口描述你的http接口
 actions:
   - text: 快速开始 💡
     link: /guide/
     type: primary
   - text: 安装
     link: /reference/nuget
+    type: default
+  - text: 旧版文档
+    link: /old/
     type: default
 features:
   - title: AOT/JIT
