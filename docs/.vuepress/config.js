@@ -15,7 +15,7 @@ export default defineUserConfig({
     logo: "/logo.png",
     repo: "dotnetcore/WebApiClient",
     docsRepo: "ezrealj/WebApiClientWiki",
-    docsDir: "",
+    docsDir: "docs",
     docsBranch: "main",
 
     // theme-level locales config
