@@ -9,12 +9,12 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "WebApiClient",
   description: "声明，调用！",
-  base: "/WebApiClientWiki/", // 或者 '/'
+  base: "/", // 或者 '/'
   // configure default theme
   theme: defaultTheme({
     logo: "/logo.png",
     repo: "dotnetcore/WebApiClient",
-    docsRepo: "ezrealj/WebApiClientWiki",
+    docsRepo: "WebApiClient/WebApiClientWiki",
     docsDir: "docs",
     docsBranch: "main",
 
