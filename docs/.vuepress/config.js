@@ -1,4 +1,5 @@
 ﻿import { defineUserConfig } from "vuepress";
+import { path } from "@vuepress/utils";
 import { defaultTheme } from "@vuepress/theme-default";
 import { navbarZh, sidebarZh } from "./configs/index.js";
 import { prismjsPlugin } from "@vuepress/plugin-prismjs";
@@ -10,6 +11,17 @@ export default defineUserConfig({
   title: "WebApiClient",
   description: "声明，调用！",
   base: "/", // 或者 '/'
+  head: [
+    [
+      "script",
+      {
+        src: "https://cdn.wwads.cn/js/makemoney.js",
+        type: "text/javascript",
+        charset: "UTF-8",
+        async: true,
+      },
+    ],
+  ],
   // configure default theme
   theme: defaultTheme({
     logo: "/logo.png",
@@ -79,4 +91,5 @@ export default defineUserConfig({
       // 配置项
     }),
   ],
+  clientConfigFile: path.resolve(__dirname, "./client.js"),
 });
