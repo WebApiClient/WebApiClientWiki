@@ -13,7 +13,7 @@ export default defineClientConfig({
       const ad = document.createElement("div");
       ad.classList.add("wwads-cn", "wwads-vertical", "wwads-sticky");
       ad.setAttribute("data-id", "233");
-      ad.style.maxWidth = "180px";
+      ad.style.maxWidth = "160px";
       // ad.style.position = "fixed";
       // ad.style.bottom = "0";
       // ad.style.right = "0";
