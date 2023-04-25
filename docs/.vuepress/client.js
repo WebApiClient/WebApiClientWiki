@@ -25,6 +25,7 @@ export default defineClientConfig({
         const firstChild = body.firstElementChild;
         body.insertBefore(ad, firstChild);
       } else {
+        ad.style.margin = "auto 20px 50px 20px";
         document.body.appendChild(ad);
       }
     }
