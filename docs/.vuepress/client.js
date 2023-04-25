@@ -11,9 +11,13 @@ export default defineClientConfig({
     if (typeof window !== "undefined") {
       // 在浏览器环境中执行的代码...
       const ad = document.createElement("div");
-      ad.classList.add("wwads-cn", "wwads-vertical", "wwads-sticky");
+      ad.classList.add("wwads-cn", "wwads-vertical");
       ad.setAttribute("data-id", "233");
-      ad.style.maxWidth = "160px";
+      // 判断屏幕PPI
+      if (window.devicePixelRatio <= 2) {
+        ad.style.maxWidth = "160px";
+        ad.classList.add("wwads-sticky");
+      }
       // ad.style.position = "fixed";
       // ad.style.bottom = "0";
       // ad.style.right = "0";
