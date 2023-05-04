@@ -17,3 +17,4 @@ jobs:
           dst_token: ${{ secrets.GITEE_TOKEN }}
           account_type: org
           debug: true
+          force_update: true
