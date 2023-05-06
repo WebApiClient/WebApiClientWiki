@@ -1,0 +1,30 @@
+﻿@media screen and (max-width: 768px) {
+  :root {
+    --content-width: 90%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --content-width: 80%;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  :root {
+    --content-width: calc(70% + 100px);
+  }
+}
+.external-link-icon {
+  //   display: inline-block; // 让图标和链接在同一行显示
+  display: none;
+  vertical-align: middle; // 让图标和链接垂直居中对齐
+  margin-left: 0.25rem; // 让图标和链接之间有一定的间距
+}
+a[target="_blank"]::after {
+  content: " "; // 使用一个 代替图标
+  //   font-size: 0.75rem; // 调整字体大小
+}
+// a[target="_blank"] {
+//   text-decoration: underline dotted; // 为外部链接添加一个虚线下划线
+// }

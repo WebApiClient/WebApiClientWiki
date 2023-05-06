@@ -1,10 +1,10 @@
-﻿### Nuget
+﻿# Nuget
 
-| 包名 | 描述 | Nuget |
----|---|--|
-| WebApiClientCore | 基础包 | [![NuGet](https://buildstats.info/nuget/WebApiClientCore)](https://www.nuget.org/packages/WebApiClientCore) |
-| WebApiClientCore.Extensions.SourceGenerator | 编译时代理类生成包 | [![NuGet](https://buildstats.info/nuget/WebApiClientCore.Extensions.SourceGenerator)](https://www.nuget.org/packages/WebApiClientCore.Extensions.SourceGenerator) |
-| WebApiClientCore.Extensions.OAuths | OAuth2与token管理扩展包 | [![NuGet](https://buildstats.info/nuget/WebApiClientCore.Extensions.OAuths)](https://www.nuget.org/packages/WebApiClientCore.Extensions.OAuths) |
-| WebApiClientCore.Extensions.NewtonsoftJson | Json.Net扩展包 | [![NuGet](https://buildstats.info/nuget/WebApiClientCore.Extensions.NewtonsoftJson)](https://www.nuget.org/packages/WebApiClientCore.Extensions.NewtonsoftJson) |
-| WebApiClientCore.Extensions.JsonRpc | JsonRpc调用扩展包 | [![NuGet](https://buildstats.info/nuget/WebApiClientCore.Extensions.JsonRpc)](https://www.nuget.org/packages/WebApiClientCore.Extensions.JsonRpc) |
-| WebApiClientCore.OpenApi.SourceGenerator | 将本地或远程OpenApi文档解析生成WebApiClientCore接口代码的dotnet tool | [![NuGet](https://buildstats.info/nuget/WebApiClientCore.OpenApi.SourceGenerator)](https://www.nuget.org/packages/WebApiClientCore.OpenApi.SourceGenerator) |
+| 包名                                                                                                                      | Nuget                                                                                    | 描述                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [WebApiClientCore](https://www.nuget.org/packages/WebApiClientCore)                                                       | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore)                            | 基础包                                                                    |
+| [WebApiClientCore.Extensions.SourceGenerator](https://www.nuget.org/packages/WebApiClientCore.Extensions.SourceGenerator) | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore.Extensions.SourceGenerator) | 编译时代理类生成包                                                        |
+| [WebApiClientCore.Extensions.OAuths](https://www.nuget.org/packages/WebApiClientCore.Extensions.OAuths)                   | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore.Extensions.OAuths)          | OAuth2 与 token 管理扩展包                                                |
+| [WebApiClientCore.Extensions.NewtonsoftJson](https://www.nuget.org/packages/WebApiClientCore.Extensions.NewtonsoftJson)   | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore.Extensions.NewtonsoftJson)  | Json.Net 扩展包                                                           |
+| [WebApiClientCore.Extensions.JsonRpc](https://www.nuget.org/packages/WebApiClientCore.Extensions.JsonRpc)                 | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore.Extensions.JsonRpc)         | JsonRpc 调用扩展包                                                        |
+| [WebApiClientCore.OpenApi.SourceGenerator](https://www.nuget.org/packages/WebApiClientCore.OpenApi.SourceGenerator)       | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore.OpenApi.SourceGenerator)    | 将本地或远程 OpenApi 文档解析生成 WebApiClientCore 接口代码的 dotnet tool |
