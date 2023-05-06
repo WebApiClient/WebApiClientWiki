@@ -12,9 +12,10 @@
 
 @media screen and (min-width: 1025px) {
   :root {
-    --content-width: calc(70% + 100px);
+    --content-width: 70%;
   }
 }
+
 .external-link-icon {
   //   display: inline-block; // 让图标和链接在同一行显示
   display: none;
