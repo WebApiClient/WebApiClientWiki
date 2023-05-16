@@ -1,7 +1,7 @@
 ﻿export const sidebarZh = {
   "/guide/": [
     {
-      text: "指南",
+      text: "指南[以下菜单可以点击展开]",
       children: [
         "/guide/README.md",
         "/guide/getting-started.md",
@@ -23,6 +23,7 @@
         "/guide/jsonnet.md",
         "/guide/json-rpc.md",
         "/guide/dynamic-host.md",
+        "/guide/openapi-sg.md",
       ],
     },
   ],
