@@ -172,7 +172,7 @@ services.AddTokeProvider<IUserApi>(s =>
 
 ```csharp
 // 为接口注册CustomTokenProvider
-services.AddTokeProvider<IUserApi, CustomTokenProvider>();
+services.AddTokenProvider<IUserApi, CustomTokenProvider>();
 ```
 
 ```csharp
