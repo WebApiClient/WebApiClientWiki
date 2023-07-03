@@ -1,20 +1,19 @@
-﻿
-# OAuths&Token
+﻿# OAuths&Token
 
-使用WebApiClientCore.Extensions.OAuths扩展，轻松支持token的获取、刷新与应用。
+使用 WebApiClientCore.Extensions.OAuths 扩展，轻松支持 token 的获取、刷新与应用。
 
 ## 对象与概念
 
-对象 | 用途
----|---
-ITokenProviderFactory | tokenProvider的创建工厂，提供通过HttpApi接口类型获取或创建tokenProvider
-ITokenProvider | token提供者，用于获取token，在token的过期后的头一次请求里触发重新请求或刷新token
-OAuthTokenAttribute | token的应用特性，使用ITokenProviderFactory创建ITokenProvider，然后使用ITokenProvider获取token，最后将token应用到请求消息中
-OAuthTokenHandler | 属于http消息处理器，功能与OAuthTokenAttribute一样，除此之外，如果因为意外的原因导致服务器仍然返回未授权(401状态码)，其还会丢弃旧token，申请新token来重试一次请求。
+| 对象                  | 用途                                                                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ITokenProviderFactory | tokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 tokenProvider                                                                                                |
+| ITokenProvider        | token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token                                                                                      |
+| OAuthTokenAttribute   | token 的应用特性，使用 ITokenProviderFactory 创建 ITokenProvider，然后使用 ITokenProvider 获取 token，最后将 token 应用到请求消息中                                        |
+| OAuthTokenHandler     | 属于 http 消息处理器，功能与 OAuthTokenAttribute 一样，除此之外，如果因为意外的原因导致服务器仍然返回未授权(401 状态码)，其还会丢弃旧 token，申请新 token 来重试一次请求。 |
 
-## OAuth的Client模式
+## OAuth 的 Client 模式
 
-### 1 为接口注册tokenProvider
+### 1 为接口注册 tokenProvider
 
 ```csharp
 // 为接口注册与配置Client模式的tokenProvider
@@ -26,11 +25,11 @@ services.AddClientCredentialsTokenProvider<IUserApi>(o =>
 });
 ```
 
-### 2 token的应用
+### 2 token 的应用
 
-#### 2.1 使用OAuthToken特性
+#### 2.1 使用 OAuthToken 特性
 
-OAuthTokenAttribute属于WebApiClientCore框架层，很容易操控请求内容和响应模型，比如将token作为表单字段添加到既有请求表单中，或者读取响应消息反序列化之后对应的业务模型都非常方便，但它不能在请求内部实现重试请求的效果。在服务器颁发token之后，如果服务器的token丢失了，使用OAuthTokenAttribute会得到一次失败的请求，本次失败的请求无法避免。
+OAuthTokenAttribute 属于 WebApiClientCore 框架层，很容易操控请求内容和响应模型，比如将 token 作为表单字段添加到既有请求表单中，或者读取响应消息反序列化之后对应的业务模型都非常方便，但它不能在请求内部实现重试请求的效果。在服务器颁发 token 之后，如果服务器的 token 丢失了，使用 OAuthTokenAttribute 会得到一次失败的请求，本次失败的请求无法避免。
 
 ```csharp
 /// <summary>
@@ -43,7 +42,7 @@ public interface IUserApi
 }
 ```
 
-OAuthTokenAttribute默认实现将token放到Authorization请求头，如果你的接口需要请token放到其它地方比如uri的query，需要重写OAuthTokenAttribute：
+OAuthTokenAttribute 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 uri 的 query，需要重写 OAuthTokenAttribute：
 
 ```csharp
 class UriQueryTokenAttribute : OAuthTokenAttribute
@@ -61,9 +60,9 @@ public interface IUserApi
 }
 ```
 
-#### 2.1 使用OAuthTokenHandler
+#### 2.1 使用 OAuthTokenHandler
 
-OAuthTokenHandler的强项是支持在一个请求内部里进行多次尝试，在服务器颁发token之后，如果服务器的token丢失了，OAuthTokenHandler在收到401状态码之后，会在本请求内部丢弃和重新请求token，并使用新token重试请求，从而表现为一次正常的请求。但OAuthTokenHandler不属于WebApiClientCore框架层的对象，在里面只能访问原始的HttpRequestMessage与HttpResponseMessage，如果需要将token追加到HttpRequestMessage的Content里，这是非常困难的，同理，如果不是根据http状态码(401等)作为token无效的依据，而是使用HttpResponseMessage的Content对应的业务模型的某个标记字段，也是非常棘手的活。
+OAuthTokenHandler 的强项是支持在一个请求内部里进行多次尝试，在服务器颁发 token 之后，如果服务器的 token 丢失了，OAuthTokenHandler 在收到 401 状态码之后，会在本请求内部丢弃和重新请求 token，并使用新 token 重试请求，从而表现为一次正常的请求。但 OAuthTokenHandler 不属于 WebApiClientCore 框架层的对象，在里面只能访问原始的 HttpRequestMessage 与 HttpResponseMessage，如果需要将 token 追加到 HttpRequestMessage 的 Content 里，这是非常困难的，同理，如果不是根据 http 状态码(401 等)作为 token 无效的依据，而是使用 HttpResponseMessage 的 Content 对应的业务模型的某个标记字段，也是非常棘手的活。
 
 ```csharp
 // 注册接口时添加OAuthTokenHandler
@@ -72,7 +71,7 @@ services
     .AddOAuthTokenHandler();
 ```
 
-OAuthTokenHandler默认实现将token放到Authorization请求头，如果你的接口需要请token放到其它地方比如uri的query，需要重写OAuthTokenHandler：
+OAuthTokenHandler 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 uri 的 query，需要重写 OAuthTokenHandler：
 
 ```csharp
 class UriQueryOAuthTokenHandler : OAuthTokenHandler
@@ -80,7 +79,7 @@ class UriQueryOAuthTokenHandler : OAuthTokenHandler
     /// <summary>
     /// token应用的http消息处理程序
     /// </summary>
-    /// <param name="tokenProvider">token提供者</param> 
+    /// <param name="tokenProvider">token提供者</param>
     public UriQueryOAuthTokenHandler(ITokenProvider tokenProvider)
         : base(tokenProvider)
     {
@@ -96,7 +95,7 @@ class UriQueryOAuthTokenHandler : OAuthTokenHandler
         // var builder = new UriBuilder(request.RequestUri);
         // builder.Query += "mytoken=" + Uri.EscapeDataString(tokenResult.Access_token);
         // request.RequestUri = builder.Uri;
-        
+
         var uriValue = new UriValue(request.RequestUri).AddQuery("myToken", tokenResult.Access_token);
         request.RequestUri = uriValue.ToUri();
     }
@@ -109,9 +108,9 @@ services
     .AddOAuthTokenHandler((s, tp) => new UriQueryOAuthTokenHandler(tp));
 ```
 
-## 多接口共享的TokenProvider
+## 多接口共享的 TokenProvider
 
-可以给http接口设置基础接口，然后为基础接口配置TokenProvider，例如下面的xxx和yyy接口，都属于IBaidu，只需要给IBaidu配置TokenProvider。
+可以给 http 接口设置基础接口，然后为基础接口配置 TokenProvider，例如下面的 xxx 和 yyy 接口，都属于 IBaidu，只需要给 IBaidu 配置 TokenProvider。
 
 ```csharp
 [OAuthToken]
@@ -144,9 +143,9 @@ services.AddPasswordCredentialsTokenProvider<IBaidu>(o =>
 });
 ```
 
-## 自定义TokenProvider
+## 自定义 TokenProvider
 
-扩展包已经内置了OAuth的Client和Password模式两种标准token请求，但是仍然还有很多接口提供方在实现上仅仅体现了它的精神，这时候就需要自定义TokenProvider，假设接口提供方的获取token的接口如下：
+扩展包已经内置了 OAuth 的 Client 和 Password 模式两种标准 token 请求，但是仍然还有很多接口提供方在实现上仅仅体现了它的精神，这时候就需要自定义 TokenProvider，假设接口提供方的获取 token 的接口如下：
 
 ```csharp
 public interface ITokenApi
@@ -156,19 +155,19 @@ public interface ITokenApi
 }
 ```
 
-### 委托TokenProvider
+### 委托 TokenProvider
 
-委托TokenProvider是一种最简单的实现方式，它将请求token的委托作为自定义TokenProvider的实现逻辑：
+委托 TokenProvider 是一种最简单的实现方式，它将请求 token 的委托作为自定义 TokenProvider 的实现逻辑：
 
 ```csharp
 // 为接口注册自定义tokenProvider
-services.AddTokeProvider<IUserApi>(s =>
+services.AddTokenProvider<IUserApi>(s =>
 {
     return s.GetService<ITokenApi>().RequestTokenAsync("id", "secret");
 });
 ```
 
-### 完整实现的TokenProvider
+### 完整实现的 TokenProvider
 
 ```csharp
 // 为接口注册CustomTokenProvider
@@ -195,6 +194,6 @@ class CustomTokenProvider : TokenProvider
 }
 ```
 
-### 自定义TokenProvider的选项
+### 自定义 TokenProvider 的选项
 
-每个TokenProvider都有一个Name属性，与service.AddTokeProvider()返回的ITokenProviderBuilder的Name是同一个值。读取Options值可以使用TokenProvider的GetOptionsValue()方法，配置Options则通过ITokenProviderBuilder的Name来配置。
+每个 TokenProvider 都有一个 Name 属性，与 service.AddTokenProvider()返回的 ITokenProviderBuilder 的 Name 是同一个值。读取 Options 值可以使用 TokenProvider 的 GetOptionsValue()方法，配置 Options 则通过 ITokenProviderBuilder 的 Name 来配置。
