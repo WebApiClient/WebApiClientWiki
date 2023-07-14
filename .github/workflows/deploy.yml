@@ -4,11 +4,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: board
-        uses: gitboard-io/gitboard-action@main
-        with:
-          username: ezrealj
-          key: ${{ secrets.GITBOARD }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -21,3 +16,8 @@ jobs:
           TARGET_BRANCH: gh-pages
           BUILD_SCRIPT: yarn && yarn docs:build
           BUILD_DIR: docs/.vuepress/dist/
+      - name: board
+        uses: gitboard-io/gitboard-action@main
+        with:
+          username: ezrealj
+          key: ${{ secrets.GITBOARD }}
