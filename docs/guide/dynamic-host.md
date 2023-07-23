@@ -1,18 +1,16 @@
-﻿
-# 动态Host
+﻿# 动态 Host
 
-针对大家经常提问的动态Host,提供以下简单的示例供参阅；实现的方式不仅限于示例中提及的，**原则上在请求还没有发出去之前的任何环节，都可以修改请求消息的RequestUri来实现动态目标的目的**
+针对大家经常提问的动态 Host,提供以下简单的示例供参阅；实现的方式不仅限于示例中提及的，**原则上在请求还没有发出去之前的任何环节，都可以修改请求消息的 RequestUri 来实现动态目标的目的**
 
 ```csharp
-    
 
-[LoggingFilter]
+    [LoggingFilter]
     public interface IDynamicHostDemo
     {
         //直接传入绝对目标的方式
         [HttpGet]
         ITask<HttpResponseMessage> ByUrlString([Uri] string urlString);
-        
+
         //通过Filter的形式
         [HttpGet]
         [UriFilter]
@@ -56,7 +54,7 @@
     /*通过Filter修饰的方式*/
 
     /// <summary>
-    ///用来处理动态Uri的拦截器 
+    ///用来处理动态Uri的拦截器
     /// </summary>
     public class UriFilterAttribute : ApiFilterAttribute
     {

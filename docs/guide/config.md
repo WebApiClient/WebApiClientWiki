@@ -2,14 +2,14 @@
 
 ## 全局配置
 
-2.0以后的版本，提供services.AddWebApiClient()的全局配置功能，支持提供自定义的IHttpApiActivator<>、IApiActionDescriptorProvider、IApiActionInvokerProvider和IResponseCacheProvider。
+2.0 以后的版本，提供 services.AddWebApiClient()的全局配置功能，支持提供自定义的 IHttpApiActivator<>、IApiActionDescriptorProvider、IApiActionInvokerProvider 和 IResponseCacheProvider。
 
 ## 接口注册与选项
 
 调用`services.AddHttpApi<IUserApi>()`即可完成接口注册，
-每个接口的选项对应为`HttpApiOptions`，选项名称通过HttpApi.GetName()方法获取得到。
+每个接口的选项对应为`HttpApiOptions`，选项名称通过 HttpApi.GetName()方法获取得到。
 
-## 在IHttpClientBuilder配置
+## 在 IHttpClientBuilder 配置
 
 ```csharp
 services
@@ -22,7 +22,7 @@ services
     });
 ```
 
-配置文件的json
+配置文件的 json
 
 ```json
 {
@@ -38,7 +38,7 @@ services
 }
 ```
 
-## 在IServiceCollection配置
+## 在 IServiceCollection 配置
 
 ```csharp
 services

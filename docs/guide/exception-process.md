@@ -1,9 +1,8 @@
-﻿
-# 异常和异常处理
+﻿# 异常和异常处理
 
-请求一个接口，不管出现何种异常，最终都抛出HttpRequestException，HttpRequestException的内部异常为实际具体异常，之所以设计为内部异常，是为了完好的保存内部异常的堆栈信息。
+请求一个接口，不管出现何种异常，最终都抛出 HttpRequestException，HttpRequestException 的内部异常为实际具体异常，之所以设计为内部异常，是为了完好的保存内部异常的堆栈信息。
 
-WebApiClient内部的很多异常都基于ApiException这个抽象异常，也就是很多情况下，抛出的异常都是内为某个ApiException的HttpRequestException。
+WebApiClient 内部的很多异常都基于 ApiException 这个抽象异常，也就是很多情况下，抛出的异常都是内为某个 ApiException 的 HttpRequestException。
 
 ```csharp
 try

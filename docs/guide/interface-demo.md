@@ -1,6 +1,6 @@
 ﻿# 接口声明示例
 
-这个OpenApi文档在[petstore.swagger.io](https://petstore.swagger.io/)，代码为使用WebApiClientCore.OpenApi.SourceGenerator工具将其OpenApi文档反向生成得到
+这个 OpenApi 文档在[petstore.swagger.io](https://petstore.swagger.io/)，代码为使用 WebApiClientCore.OpenApi.SourceGenerator 工具将其 OpenApi 文档反向生成得到
 
 ```csharp
 /// <summary>

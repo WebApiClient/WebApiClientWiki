@@ -2,38 +2,38 @@
 
 ::: warning
 
-+ 如果你的项目所运行的.NET版本支持`.NET Standard2.1`，并具备依赖注入的环境，我们强烈建议你直接使用全新的`WebApiclientCore`
-+ `WebApiClient.JIT`、`WebApiClient.AOT` 目前处于 `修补性维护` 阶段。你仍可用用它来构建项目，但我们仅修补致命性错误而不会为其带来任何功能性的更新。
+- 如果你的项目所运行的.NET 版本支持`.NET Standard2.1`，并具备依赖注入的环境，我们强烈建议你直接使用全新的`WebApiclientCore`
+- `WebApiClient.JIT`、`WebApiClient.AOT` 目前处于 `修补性维护` 阶段。你仍可用用它来构建项目，但我们仅修补致命性错误而不会为其带来任何功能性的更新。
 
 :::
 
 ## 依赖环境
 
- 对于`WebApiclientCore`，由于基于`.NET Standard2.1`它可以运行在以下平台
+对于`WebApiclientCore`，由于基于`.NET Standard2.1`它可以运行在以下平台
 
-+ .NET Core 3 +
-+ .NET 5、6、7、8
-+ Mono 6.4 +
-+ Xamarin.iOS 12.16 +
-+ Xamarin.Mac 5.16 +
-+ Xamarin.Android 10 +
-+ 包括但不限于以上列举的实现`.NET Standard2.1`的平台
+- .NET Core 3 +
+- .NET 5、6、7、8
+- Mono 6.4 +
+- Xamarin.iOS 12.16 +
+- Xamarin.Mac 5.16 +
+- Xamarin.Android 10 +
+- 包括但不限于以上列举的实现`.NET Standard2.1`的平台
 
- 对于`WebApiClient.JIT`、`WebApiClient.AOT`，由于基于`.NET Standard2.0`它可以运行在以下平台
+对于`WebApiClient.JIT`、`WebApiClient.AOT`，由于基于`.NET Standard2.0`它可以运行在以下平台
 
-+ .NET Framework 4.6.1+
-+ .NET Core 2 +
-+ .NET Core 3 +
-+ .NET 5、6、7、8
-+ Mono 4.6 +
-+ Xamarin.iOS 10 +
-+ Xamarin.Mac 3 +
-+ Xamarin.Android 7 +
-+ 通用Windows平台10 +
-+ 包括但不限于以上列举的实现`.NET Standard2.0`的平台
-+ 额外支持.NET Framework 4.5
+- .NET Framework 4.6.1+
+- .NET Core 2 +
+- .NET Core 3 +
+- .NET 5、6、7、8
+- Mono 4.6 +
+- Xamarin.iOS 10 +
+- Xamarin.Mac 3 +
+- Xamarin.Android 7 +
+- 通用 Windows 平台 10 +
+- 包括但不限于以上列举的实现`.NET Standard2.0`的平台
+- 额外支持.NET Framework 4.5
 
-## 从Nuget安装
+## 从 Nuget 安装
 
 这一章节会帮助你从头搭建一个简单的 VuePress 文档网站。如果你想在一个现有项目中使用 VuePress 管理文档，从步骤 3 开始。
 
@@ -50,7 +50,7 @@ dotnet add package WebApiClientCore
   <CodeGroupItem title=" Package Manager">
 
 ```bash
-NuGet\Install-Package WebApiClientCore 
+NuGet\Install-Package WebApiClientCore
 ```
 
   </CodeGroupItem>
@@ -79,7 +79,7 @@ public interface IUserApi
 {
     [HttpGet("api/users/{id}")]
     Task<User> GetAsync(string id);
-    
+
     [HttpPost("api/users")]
     Task<User> PostAsync([JsonContent] User user);
 }

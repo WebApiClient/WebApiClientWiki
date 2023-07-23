@@ -2,32 +2,32 @@
 
 ## 缺省配置值
 
-缺省配置是[JsonReturn(0.01),XmlReturn(0.01)]，对应的请求accept值是
+缺省配置是[JsonReturn(0.01),XmlReturn(0.01)]，对应的请求 accept 值是
 `Accept: application/json; q=0.01, application/xml; q=0.01`
 
-## Json优先
+## Json 优先
 
-在Interface或Method上显式地声明`[JsonReturn]`，请求accept变为`Accept: application/json, application/xml; q=0.01`
+在 Interface 或 Method 上显式地声明`[JsonReturn]`，请求 accept 变为`Accept: application/json, application/xml; q=0.01`
 
-## 禁用json
+## 禁用 json
 
-在Interface或Method上声明`[JsonReturn(Enable = false)]`，请求变为`Accept: application/xml; q=0.01`
+在 Interface 或 Method 上声明`[JsonReturn(Enable = false)]`，请求变为`Accept: application/xml; q=0.01`
 
 ## 原始类型返回值
 
-当接口返回值声明为如下类型时，我们称之为原始类型，会被RawReturnAttribute处理。
+当接口返回值声明为如下类型时，我们称之为原始类型，会被 RawReturnAttribute 处理。
 
-返回类型 | 说明
----|---
-`Task` | 不关注响应消息
-`Task<HttpResponseMessage>` | 原始响应消息类型
-`Task<Stream>` | 原始响应流
-`Task<byte[]>` | 原始响应二进制数据
-`Task<string>` | 原始响应消息文本
+| 返回类型                    | 说明               |
+| --------------------------- | ------------------ |
+| `Task`                      | 不关注响应消息     |
+| `Task<HttpResponseMessage>` | 原始响应消息类型   |
+| `Task<Stream>`              | 原始响应流         |
+| `Task<byte[]>`              | 原始响应二进制数据 |
+| `Task<string>`              | 原始响应消息文本   |
 
 ## 响应内容缓存
 
-配置CacheAttribute特性的Method会将本次的响应内容缓存起来，下一次如果符合预期条件的话，就不会再请求到远程服务器，而是从IResponseCacheProvider获取缓存内容，开发者可以自己实现ResponseCacheProvider。
+配置 CacheAttribute 特性的 Method 会将本次的响应内容缓存起来，下一次如果符合预期条件的话，就不会再请求到远程服务器，而是从 IResponseCacheProvider 获取缓存内容，开发者可以自己实现 ResponseCacheProvider。
 
 ### 声明缓存特性
 
@@ -41,7 +41,7 @@ public interface IUserApi
 }
 ```
 
-默认缓存条件：URL(如`http://abc.com/a`)和指定的请求Header一致。
+默认缓存条件：URL(如`http://abc.com/a`)和指定的请求 Header 一致。
 如果需要类似`[CacheByPath]`这样的功能，可直接继承`ApiCacheAttribute`来实现:
 
 ```csharp
@@ -77,7 +77,7 @@ public class RedisResponseCacheProvider : IResponseCacheProvider
     {
         throw new NotImplementedException();
     }
-} 
+}
 ```
 
 ```csharp

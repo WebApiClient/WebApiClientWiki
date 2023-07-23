@@ -2,7 +2,7 @@
 
 ## 参数值验证
 
-对于参数值，支持ValidationAttribute特性修饰来验证值。
+对于参数值，支持 ValidationAttribute 特性修饰来验证值。
 
 ```csharp
 public interface IUserApi

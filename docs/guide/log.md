@@ -2,16 +2,16 @@
 
 ## 请求和响应日志
 
-在整个Interface或某个Method上声明`[LoggingFilter]`，即可把请求和响应的内容输出到LoggingFactory中。如果要排除某个Method不打印日志，在该Method上声明`[LoggingFilter(Enable = false)]`，即可将本Method排除。
+在整个 Interface 或某个 Method 上声明`[LoggingFilter]`，即可把请求和响应的内容输出到 LoggingFactory 中。如果要排除某个 Method 不打印日志，在该 Method 上声明`[LoggingFilter(Enable = false)]`，即可将本 Method 排除。
 
 ## 默认日志
 
 ```csharp
-[LoggingFilter]   
+[LoggingFilter]
 public interface IUserApi
 {
     [HttpGet("api/users/{account}")]
-    ITask<HttpResponseMessage> GetAsync([Required]string account);  
+    ITask<HttpResponseMessage> GetAsync([Required]string account);
 
     // 禁用日志
     [LoggingFilter(Enable =false)]
@@ -32,7 +32,7 @@ class MyLoggingAttribute : LoggingFilterAttribute
     }
 }
 
-[MyLogging]   
+[MyLogging]
 public interface IUserApi
 {
 }
