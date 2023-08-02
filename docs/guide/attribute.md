@@ -10,6 +10,21 @@
 
 IApiReturnAttribute -> 返回值验证 -> IApiFilterAttribute
 
+## 各特性的位置
+
+```csharp
+    [IApiFilterAttribute]/*作用于接口内所有方法的Filter*/
+    [IApiReturnAttribute]/*作用于接口内所有方法的ReturnAttribute*/
+    public interface DemoApiInterface
+    {
+
+        [IApiActionAttribute]
+        [IApiFilterAttribute]/*作用于本方法的Filter*/
+        [IApiReturnAttribute]/*作用于本方法的ReturnAttribute*/
+        ITask<HttpResponseMessage> DemoApiMethod([IApiParameterAttribute] ParameterClass parameterClass);
+    }
+```
+
 ## Return 特性
 
 | 特性名称            | 功能描述             | 备注       |
@@ -21,17 +36,17 @@ IApiReturnAttribute -> 返回值验证 -> IApiFilterAttribute
 
 ## 常用 Action 特性
 
-| 特性名称                | 功能描述                       | 备注                      |
-| ----------------------- | ------------------------------ | ------------------------- |
-| HttpHostAttribute       | 请求服务 http 绝对完整主机域名 | 优先级比 Options 配置低   |
-| HttpGetAttribute        | 声明 Get 请求方法与路径        | 支持 null、绝对或相对路径 |
-| HttpPostAttribute       | 声明 Post 请求方法与路径       | 支持 null、绝对或相对路径 |
-| HttpPutAttribute        | 声明 Put 请求方法与路径        | 支持 null、绝对或相对路径 |
-| HttpDeleteAttribute     | 声明 Delete 请求方法与路径     | 支持 null、绝对或相对路径 |
-| _HeaderAttribute_       | 声明请求头                     | 常量值                    |
-| _TimeoutAttribute_      | 声明超时时间                   | 常量值                    |
-| _FormFieldAttribute_    | 声明 Form 表单字段与值         | 常量键和值                |
-| _FormDataTextAttribute_ | 声明 FormData 表单字段与值     | 常量键和值                |
+| 特性名称                | 功能描述                       | 备注                                                       |
+| ----------------------- | ------------------------------ | ---------------------------------------------------------- |
+| HttpHostAttribute       | 请求服务 http 绝对完整主机域名 | 优先级比 Options 配置低、它也支持直接在 interface 级别使用 |
+| HttpGetAttribute        | 声明 Get 请求方法与路径        | 支持 null、绝对或相对路径                                  |
+| HttpPostAttribute       | 声明 Post 请求方法与路径       | 支持 null、绝对或相对路径                                  |
+| HttpPutAttribute        | 声明 Put 请求方法与路径        | 支持 null、绝对或相对路径                                  |
+| HttpDeleteAttribute     | 声明 Delete 请求方法与路径     | 支持 null、绝对或相对路径                                  |
+| _HeaderAttribute_       | 声明请求头                     | 常量值                                                     |
+| _TimeoutAttribute_      | 声明超时时间                   | 常量值                                                     |
+| _FormFieldAttribute_    | 声明 Form 表单字段与值         | 常量键和值                                                 |
+| _FormDataTextAttribute_ | 声明 FormData 表单字段与值     | 常量键和值                                                 |
 
 ## 常用 Parameter 特性
 

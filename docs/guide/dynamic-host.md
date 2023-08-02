@@ -2,57 +2,30 @@
 
 针对大家经常提问的动态 Host,提供以下简单的示例供参阅；实现的方式不仅限于示例中提及的，**原则上在请求还没有发出去之前的任何环节，都可以修改请求消息的 RequestUri 来实现动态目标的目的**
 
-```csharp
+## 方案 1：直接传入绝对目标的方式
 
+```csharp
     [LoggingFilter]
     public interface IDynamicHostDemo
     {
-        //直接传入绝对目标的方式
         [HttpGet]
         ITask<HttpResponseMessage> ByUrlString([Uri] string urlString);
-
-        //通过Filter的形式
-        [HttpGet]
-        [UriFilter]
-        ITask<HttpResponseMessage> ByFilter();
-        //通过Attribute修饰的方式
-        [HttpGet]
-        [ServiceName("baiduService")]
-        ITask<HttpResponseMessage> ByAttribute();
     }
+```
 
-    /*通过Attribute修饰的方式*/
+## 方案 2：通过 ApiFilterAttribute
 
-    /// <summary>
-    /// 表示对应的服务名
-    /// </summary>
-    public class ServiceNameAttribute : ApiActionAttribute
+```csharp
+    [LoggingFilter]
+    [UriFilter]//可以放在interface级别
+    public interface IDynamicHostDemo
     {
-        public ServiceNameAttribute(string name)
-        {
-            Name = name;
-            OrderIndex = int.MinValue;
-        }
+        [HttpGet]
+        [UriFilter]//也可以放在Method(Action)级别
+        ITask<HttpResponseMessage> ByFilter();
 
-        public string Name { get; set; }
-
-        public override async Task OnRequestAsync(ApiRequestContext context)
-        {
-            await Task.CompletedTask;
-            IServiceProvider sp = context.HttpContext.ServiceProvider;
-            HostProvider hostProvider = sp.GetRequiredService<HostProvider>();
-            //服务名也可以在接口配置时挂在Properties中
-            string host = hostProvider.ResolveService(this.Name);
-            HttpApiRequestMessage requestMessage = context.HttpContext.RequestMessage;
-            //和原有的Uri组合并覆盖原有Uri
-            //并非一定要这样实现，只要覆盖了RequestUri,即完成了替换
-            requestMessage.RequestUri = requestMessage.MakeRequestUri(new Uri(host));
-        }
-
+        //也可以选择在配置接口时通过GlobalFilter添加
     }
-
-    /*通过Filter修饰的方式*/
-
     /// <summary>
     ///用来处理动态Uri的拦截器
     /// </summary>
@@ -80,36 +53,62 @@
             return Task.CompletedTask;
         }
     }
-
-    //以上代码中涉及的依赖项
-    public interface IDBProvider
+    public class HostProvider
     {
-        string SelectServiceUri(string serviceName);
-    }
-    public class DBProvider : IDBProvider
-    {
-        public string SelectServiceUri(string serviceName)
+        public string ResolveService(string name)
         {
-            if (serviceName == "baiduService") return "https://www.baidu.com";
-            if (serviceName == "microsoftService") return "https://www.microsoft.com";
-            return string.Empty;
+            string servicehost=string.Empty;
+            //TODO get service host
+            return servicehost;
+        }
+    }
+```
+
+## 方案 3：通过 ApiActionAttribute
+
+```csharp
+    [LoggingFilter]
+    [ServiceName("baiduService")]//可以放在interface级别
+    public interface IDynamicHostDemo
+    {
+        [HttpGet]
+        [ServiceName("baiduService")]//也可以放在Method(Action)级别
+        ITask<HttpResponseMessage> ByAttribute();
+    }
+    /// <summary>
+    /// 表示对应的服务名
+    /// </summary>
+    public class ServiceNameAttribute : ApiActionAttribute
+    {
+        public ServiceNameAttribute(string name)
+        {
+            Name = name;
+            OrderIndex = int.MinValue;
+        }
+
+        public string Name { get; set; }
+
+        public override async Task OnRequestAsync(ApiRequestContext context)
+        {
+            await Task.CompletedTask;
+            IServiceProvider sp = context.HttpContext.ServiceProvider;
+            HostProvider hostProvider = sp.GetRequiredService<HostProvider>();
+            //服务名也可以在接口配置时挂在Properties中
+            string host = hostProvider.ResolveService(this.Name);
+            HttpApiRequestMessage requestMessage = context.HttpContext.RequestMessage;
+            //和原有的Uri组合并覆盖原有Uri
+            //并非一定要这样实现，只要覆盖了RequestUri,即完成了替换
+            requestMessage.RequestUri = requestMessage.MakeRequestUri(new Uri(host));
         }
     }
 
     public class HostProvider
     {
-        private readonly IDBProvider dbProvider;
-
-        public HostProvider(IDBProvider dbProvider)
+        public string ResolveService(string name)
         {
-            this.dbProvider = dbProvider;
-            //将HostProvider放到依赖注入容器中，即可从容器获取其它服务来实现动态的服务地址查询
-        }
-
-        internal string ResolveService(string name)
-        {
-            //如何获取动态的服务地址由你自己决定，此处仅以简单的接口定义简要说明
-            return dbProvider.SelectServiceUri(name);
+            string servicehost=string.Empty;
+            //TODO get service host
+            return servicehost;
         }
     }
 ```

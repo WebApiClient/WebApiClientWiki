@@ -14,6 +14,9 @@ actions:
   - text: 旧版文档
     link: /old/
     type: default
+  - text: 支持我们
+    link: /reference/donate
+    type: default
 features:
   - title: AOT/JIT
     details: ⛳ 支持编译时，运行时生成代理类，提高运行时性能和兼容性
@@ -27,5 +30,5 @@ features:
     details: ✒ 支持OAuth2与token管理扩展包，方便实现身份认证和授权
   - title: 自动生成
     details: 💻 支持将本地或远程OpenApi文档解析生成WebApiClientCore接口代码的dotnet tool，简化接口声明的工作量
-footer: MIT Licensed | Copyright © WebApiClient.[我们会接入广告获取一点收入，以提供更好的文档，请您谅解]
+footer: MIT Licensed | Copyright © WebApiClient.
 ---
