@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/EzrealJ/WebApiClientWiki#readme",
   "devDependencies": {
-    "vuepress-vite": "^2.0.0-beta.66",
-    "vuepress": "^2.0.0-beta.66"
+    "@vuepress/plugin-register-components": "^2.0.0-beta.61",
+    "vuepress": "^2.0.0-beta.61"
   },
   "directories": {
     "doc": "docs"
