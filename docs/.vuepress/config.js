@@ -3,6 +3,8 @@ import { path } from "@vuepress/utils";
 import { defaultTheme } from "@vuepress/theme-default";
 import { navbarZh, sidebarZh } from "./configs/index.js";
 import { prismjsPlugin } from "@vuepress/plugin-prismjs";
+import { searchPlugin } from "@vuepress/plugin-search";
+
 const isProd = process.env.NODE_ENV === "production";
 
 export default defineUserConfig({
@@ -84,6 +86,13 @@ export default defineUserConfig({
     prismjsPlugin({
       preloadLanguages: ["markdown", "csharp", "javascript"],
       // 配置项
+    }),
+    searchPlugin({
+      locales: {
+        "/": {
+          placeholder: "搜索文档",
+        },
+      },
     }),
   ],
   clientConfigFile: path.resolve(__dirname, "./client.js"),

@@ -29,3 +29,8 @@ a[target="_blank"]::after {
 // a[target="_blank"] {
 //   text-decoration: underline dotted; // 为外部链接添加一个虚线下划线
 // }
+
+.navbar .search-box {
+  order: -1;
+  margin-right: 1rem;
+}
