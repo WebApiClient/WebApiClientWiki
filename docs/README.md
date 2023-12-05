@@ -21,7 +21,7 @@ features:
   - title: AOT/JIT
     details: ⛳ 支持编译时，运行时生成代理类，提高运行时性能和兼容性
   - title: 多样序列化
-    details: 🛠 默认System.Text.Json,Newtonsoft.Json，同样也支持XML处理
+    details: 🛠 支持System.Text.Json（默认）、Newtonsoft.Json（扩展包），同样也支持XML处理
   - title: 语法分析
     details: 💡提供接口声明的语法分析与提示，帮助开发者声明接口时避免使用不当的语法。
   - title: 功能完备
