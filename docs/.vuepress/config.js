@@ -23,6 +23,7 @@ export default defineUserConfig({
         async: true,
       },
     ],
+    ["link", { rel: "icon", href: "/favicon.ico" }],
   ],
   // configure default theme
   theme: defaultTheme({
