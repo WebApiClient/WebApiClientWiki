@@ -30,7 +30,7 @@
   ],
   "/old/": [
     {
-      text: "旧版本",
+      text: "旧版本[不再更新]",
       children: [
         "/old/README.md",
         "/old/getting-started.md",

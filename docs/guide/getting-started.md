@@ -35,8 +35,6 @@
 
 ## 从 Nuget 安装
 
-这一章节会帮助你从头搭建一个简单的 VuePress 文档网站。如果你想在一个现有项目中使用 VuePress 管理文档，从步骤 3 开始。
-
 <CodeGroup>
 
   <CodeGroupItem title=".NET CLI" active>
