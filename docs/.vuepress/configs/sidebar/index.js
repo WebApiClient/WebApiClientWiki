@@ -1,4 +1,29 @@
-﻿export const sidebarZh = {
+﻿import { log } from "console";
+import fs from "fs";
+import path from "path";
+
+function readDirectoryFiles(directoryPath) {
+  const folderPath = path.resolve(directoryPath); // 解析为绝对路径
+  console.log(folderPath);
+  try {
+    const files = fs.readdirSync(folderPath);
+    return files;
+  } catch (error) {
+    console.error("Error reading folder:", error);
+    return [];
+  }
+}
+function readmeFirst(array) {
+  const index = array.indexOf("README.md");
+  if (index != -1) {
+    array.splice(index, 1);
+    array.unshift("README.md");
+  }
+  console.log(array);
+  return array;
+}
+
+export const sidebarZh = {
   "/guide/": [
     {
       text: "指南[以下菜单可以点击展开]",
@@ -51,4 +76,11 @@
     },
   ],
   "/reference/": [],
+  "/qa/": [
+    {
+      text: "社区QA",
+      // children: ["/qa/README.md", "/qa/1.md"],
+      children: readmeFirst(readDirectoryFiles(path.resolve(__dirname, "../../../qa"))).map((file) => `/qa/${file}`),
+    },
+  ],
 };
