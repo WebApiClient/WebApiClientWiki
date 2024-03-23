@@ -33,6 +33,68 @@ IApiReturnAttribute -> 返回值验证 -> IApiFilterAttribute
 | JsonReturnAttribute | 处理 Json 模型返回值 | 缺省也生效 |
 | XmlReturnAttribute  | 处理 Xml 模型返回值  | 缺省也生效 |
 | NoneReturnAttribute | 处理空返回值         | 缺省也生效 |
+| JsonNetReturnAttribute | 使用`Newtonsoft.Json`处理 Json 模型返回值|由`WebApiClientCore.Extensions.NewtonsoftJson`包提供|
+
+### 对于内置和扩展包以上Return特性
+
+* 除了`NoneReturnAttribute`外，其余均可以通过设置其`EnsureSuccessStatusCode`属性为`true`来确保响应的http状态码通过`IsSuccessStatusCode`验证，**当值为true时，请求可能会引发`HttpStatusFailureException`**
+* 均允许通过构造函数设置其`acceptQuality`即quality值，用于在多个Return特性同时存在时，根据quality值选择最优特性。
+* 这些特性缺省时也生效，但你可以通过显式的声明它们并设置其`Enable`属性来关闭它们。
+* `JsonReturnAttribute`,`XmlReturnAttribute`,`JsonNetReturnAttribute`,允许通过设置其`EnsureMatchAcceptContentType`属性来确保响应的`Content-Type`与请求的`Accept`匹配，默认为`true`，你可以设置其为`false`来适配一些畸形的接口
+
+```csharp
+    [RawReturnAttribute(0.1)]
+    [JsonReturnAttribute(0.8,EnsureSuccessStatusCode = false)]
+    [XmlReturnAttribute(Enable = false)]
+    [NoneReturnAttribute(0.1)]
+    [JsonNetReturnAttribute(EnsureMatchAcceptContentType =false)]
+    ITask<SpecialResultClass> DemoApiMethod();
+```
+
+### RawReturnAttribute
+
+表示原始类型的结果特性,支持结果类型为`string`、`byte[]`、`Stream`和`HttpResponseMessage`
+
+```csharp
+    [RawReturnAttribute]
+    ITask<HttpResponseMessage> DemoApiMethod();
+```
+
+### JsonReturnAttribute
+
+表示json内容的结果特性，使用`System.Text.Json`进行序列化和反序列化
+
+```csharp
+    [JsonReturnAttribute]
+    ITask<JsonResultClass> DemoApiMethod();
+```
+
+### XmlReturnAttribute
+
+表示xml内容的结果特性,使用`System.Xml.Serialization`进行序列化和反序列化
+
+```csharp
+    [XmlReturnAttribute]
+    ITask<XmlResultClass> DemoApiMethod();
+```
+
+### NoneReturnAttribute
+
+表示响应状态为204时将结果设置为返回类型的默认值特性
+
+```csharp
+    [NoneReturnAttribute]//if response status code is 204,return default value of return type
+    ITask<int> DemoApiMethod();
+```
+
+### JsonNetReturnAttribute
+
+表示json内容的结果特性，使用`Newtonsoft.Json`进行序列化和反序列化
+
+```csharp
+    [JsonNetReturnAttribute]
+    ITask<JsonResultClass> DemoApiMethod();
+```
 
 ## 常用 Action 特性
 
