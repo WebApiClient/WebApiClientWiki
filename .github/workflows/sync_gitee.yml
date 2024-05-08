@@ -18,8 +18,3 @@ jobs:
           account_type: org
           debug: true
           force_update: true
-      - name: board
-        uses: gitboard-io/gitboard-action@main
-        with:
-          username: ezrealj
-          key: ${{ secrets.GITBOARD }}
