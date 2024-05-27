@@ -10,3 +10,16 @@ services
     .AddWebApiClient()
     .UseSourceGeneratorHttpApiActivator();
 ```
+
+## 确保正确的代码裁剪
+
+同时使用SourceGenerator和代码裁剪`PublishTrimmed`时，需要额外添加`AddDynamicDependencyApp`才能确保生成的代理类不被裁剪。
+
+**此特性从扩展包`WebApiClientCore.Extensions.SourceGenerator 2.0.5.1`版本开始支持**
+
+```csharp
+services
+    .AddWebApiClient()
+    .UseSourceGeneratorHttpApiActivator()
+    .AddDynamicDependencyApp();
+```
