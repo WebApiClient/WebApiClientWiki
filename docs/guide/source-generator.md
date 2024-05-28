@@ -11,17 +11,6 @@ services
     .UseSourceGeneratorHttpApiActivator();
 ```
 
-## 确保正确的代码裁剪
+## 关于代码裁剪
 
-同时使用SourceGenerator和代码裁剪`PublishTrimmed`时，需要额外添加`AddDynamicDependency{AssemblyName}`才能确保生成的代理类不被裁剪，这里的AssemblyName是Api声明所在程序集名称，若名称中有.则将其移除。
-
-**此特性从扩展包`WebApiClientCore.Extensions.SourceGenerator 2.0.5.1`版本开始支持**
-
-例如需要确保正确裁剪的程序集名称为`Example.Client`，则需要添加如下配置：
-
-```csharp
-services
-    .AddWebApiClient()
-    .UseSourceGeneratorHttpApiActivator()
-    .AddDynamicDependencyExampleClient();
-```
+**从`2.0.6`版本开始支持代码裁剪**
