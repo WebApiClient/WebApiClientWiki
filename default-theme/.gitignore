@@ -104,9 +104,3 @@ dist
 .tern-port
 
 .temp
-
-
-node_modules/
-docs/.vuepress/.cache/
-docs/.vuepress/.temp/
-docs/.vuepress/dist/
