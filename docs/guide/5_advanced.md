@@ -404,8 +404,7 @@ public class UserFiler : IApiFilter
 
 除了常见的 xml 或 json 响应内容要反序列化为强类型结果模型，你可能会遇到其它的二进制协议响应内容，比如 google 的 ProtoBuf 二进制内容。
 
-**自定义请求内容处理特性**
-
+自定义请求内容处理特性
 ```csharp
 public class ProtobufContentAttribute : HttpContentAttribute
 {
@@ -428,8 +427,7 @@ public class ProtobufContentAttribute : HttpContentAttribute
 }
 ```
 
-**自定义响应内容解析特性**
-
+自定义响应内容解析特性
 ```csharp
 public class ProtobufReturnAttribute : ApiReturnAttribute
 {
@@ -446,8 +444,7 @@ public class ProtobufReturnAttribute : ApiReturnAttribute
 }
 ```
 
-**应用相关自定义特性**
-
+应用相关自定义特性
 ```csharp
 [ProtobufReturn]
 public interface IProtobufApi
