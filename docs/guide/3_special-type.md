@@ -1,5 +1,5 @@
-﻿# 特殊参数类型
-特殊参数类型是指不需要任何特性来修饰就能工作的一些类型。
+﻿# 特殊参数
+特殊参数是指不需要任何特性来修饰就能工作的一些参数类型。
  
 ## CancellationToken 类型
 每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于取消请求操作。CancellationToken.None 表示永不取消，创建一个 CancellationTokenSource，可以提供一个 CancellationToken。
