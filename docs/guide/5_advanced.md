@@ -169,7 +169,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 
 ### 响应的 ContentType 不是期待值
 
-响应的内容通过肉眼看上是 json 内容，但响应头里的 ContentType 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 ContentType 值为 text/plain 一样，让服务端无法处理。
+响应的内容通过肉眼看上是 json 内容，但响应头里的 Content-Type 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 Content-Type 值为 text/plain 一样，让服务端无法处理。
 
 解决办法是在 Interface 或 Method 声明`[JsonReturn]`特性，并设置其 EnsureMatchAcceptContentType 属性为 false，表示 Content-Type 不是期望值匹配也要处理。
 
