@@ -17,7 +17,7 @@ public interface IUserApi
 
 ## 请求或响应模型验证
 
-请求和相应用到的 User 其两个属性值都得到验证。
+请求和相应用到的 User 的两个属性值都得到验证。
 
 ```csharp
 public interface IUserApi

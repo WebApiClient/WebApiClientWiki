@@ -169,7 +169,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 
 ### 响应的 ContentType 不是期待值
 
-响应的内容通过肉眼看上是 json 内容，但响应头里的 ContentType 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 ContentType 值为 text/plain 一样，让服务端无法处理。
+响应的内容通过肉眼看上是 json 内容，但响应头里的 Content-Type 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 Content-Type 值为 text/plain 一样，让服务端无法处理。
 
 解决办法是在 Interface 或 Method 声明`[JsonReturn]`特性，并设置其 EnsureMatchAcceptContentType 属性为 false，表示 Content-Type 不是期望值匹配也要处理。
 
@@ -375,12 +375,36 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 });
 ```
 
+## 在接口配置中使用过滤器
+除了能在接口声明中使用 IApiFilterAttribute 子类的特性标注之外，还可以在接口注册时的配置添加 IApiFilter 类型的过滤器，这些过滤器将对整个接口生效，且优先于通过特性标注的 IApiFilterAttribute 类型执行。
+```csharp
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
+{
+    o.GlobalFilters.Add(new UserFiler());
+});
+```
+
+```csharp
+public class UserFiler : IApiFilter
+{
+    public Task OnRequestAsync(ApiRequestContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task OnResponseAsync(ApiResponseContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+```
+
+
 ## 自定义请求内容与响应内容解析
 
 除了常见的 xml 或 json 响应内容要反序列化为强类型结果模型，你可能会遇到其它的二进制协议响应内容，比如 google 的 ProtoBuf 二进制内容。
 
-**自定义请求内容处理特性**
-
+自定义请求内容处理特性
 ```csharp
 public class ProtobufContentAttribute : HttpContentAttribute
 {
@@ -403,8 +427,7 @@ public class ProtobufContentAttribute : HttpContentAttribute
 }
 ```
 
-**自定义响应内容解析特性**
-
+自定义响应内容解析特性
 ```csharp
 public class ProtobufReturnAttribute : ApiReturnAttribute
 {
@@ -421,8 +444,7 @@ public class ProtobufReturnAttribute : ApiReturnAttribute
 }
 ```
 
-**应用相关自定义特性**
-
+应用相关自定义特性
 ```csharp
 [ProtobufReturn]
 public interface IProtobufApi
@@ -485,7 +507,7 @@ services
     .AddHttpMessageHandler(s => new AutoRefreshCookieHandler(s.GetRequiredService<IUserLoginApi>()));
 ```
 
-现在，调用 IUserApi 的任意接口，只要响应的状态码为 401，就触发 IUserLoginApi 登录，然后将登录得到的 cookie 来重试请求接口，最终响应为正确的结果。你也可以重写 CookieAuthorizationHandler 的 IsUnauthorizedAsync(HttpResponseMessage)方法来指示响应是未授权状态。
+现在，调用 IUserApi 的任意接口，只要响应的状态码为 401，就触发 IUserLoginApi 登录，然后将登录得到的 cookie 来重试请求接口，最终响应为正确的结果。你也可以重写 CookieAuthorizationHandler 的 IsUnauthorizedAsync(HttpResponseMessage) 方法来指示响应是未授权状态。
 
 ## 自定义日志输出目标
 

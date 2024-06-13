@@ -3,17 +3,22 @@
 使用 WebApiClientCore.Extensions.OAuths 扩展，轻松支持 token 的获取、刷新与应用。
 
 ## 对象与概念
+### ITokenProviderFactory
+ITokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 tokenProvider。
 
-| 对象                  | 用途                                                                                                                                                                       |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ITokenProviderFactory | tokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 tokenProvider                                                                                                |
-| ITokenProvider        | token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token                                                                                      |
-| OAuthTokenAttribute   | token 的应用特性，使用 ITokenProviderFactory 创建 ITokenProvider，然后使用 ITokenProvider 获取 token，最后将 token 应用到请求消息中                                        |
-| OAuthTokenHandler     | 属于 http 消息处理器，功能与 OAuthTokenAttribute 一样，除此之外，如果因为意外的原因导致服务器仍然返回未授权(401 状态码)，其还会丢弃旧 token，申请新 token 来重试一次请求。 |
+### ITokenProvider
+token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token。 
+
+### OAuthTokenAttribute
+token 的应用特性，使用 ITokenProviderFactory 创建 ITokenProvider，然后使用 ITokenProvider 获取 token，最后将 token 应用到请求消息中。
+
+### OAuthTokenHandler
+属于 http 消息处理器，功能与 OAuthTokenAttribute 一样，除此之外，如果因为意外的原因导致服务器仍然返回未授权(401 状态码)，其还会丢弃旧 token，申请新 token 来重试一次请求。
+ 
 
 ## OAuth 的 Client 模式
 
-### 1 为接口注册 tokenProvider
+### 为接口注册 tokenProvider
 
 ```csharp
 // 为接口注册与配置Client模式的tokenProvider
@@ -25,9 +30,9 @@ services.AddClientCredentialsTokenProvider<IUserApi>(o =>
 });
 ```
 
-### 2 token 的应用
+### token 的应用
 
-#### 2.1 使用 OAuthToken 特性
+#### 使用 OAuthToken 特性
 
 OAuthTokenAttribute 属于 WebApiClientCore 框架层，很容易操控请求内容和响应模型，比如将 token 作为表单字段添加到既有请求表单中，或者读取响应消息反序列化之后对应的业务模型都非常方便，但它不能在请求内部实现重试请求的效果。在服务器颁发 token 之后，如果服务器的 token 丢失了，使用 OAuthTokenAttribute 会得到一次失败的请求，本次失败的请求无法避免。
 
@@ -60,7 +65,7 @@ public interface IUserApi
 }
 ```
 
-#### 2.1 使用 OAuthTokenHandler
+#### 使用 OAuthTokenHandler
 
 OAuthTokenHandler 的强项是支持在一个请求内部里进行多次尝试，在服务器颁发 token 之后，如果服务器的 token 丢失了，OAuthTokenHandler 在收到 401 状态码之后，会在本请求内部丢弃和重新请求 token，并使用新 token 重试请求，从而表现为一次正常的请求。但 OAuthTokenHandler 不属于 WebApiClientCore 框架层的对象，在里面只能访问原始的 HttpRequestMessage 与 HttpResponseMessage，如果需要将 token 追加到 HttpRequestMessage 的 Content 里，这是非常困难的，同理，如果不是根据 http 状态码(401 等)作为 token 无效的依据，而是使用 HttpResponseMessage 的 Content 对应的业务模型的某个标记字段，也是非常棘手的活。
 
