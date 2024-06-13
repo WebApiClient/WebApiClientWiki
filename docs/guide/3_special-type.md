@@ -1,8 +1,8 @@
 ﻿# 特殊参数类型
-特殊参数类型是指不需要任何特性来修饰就能工作的一些系统特殊类型的处理。
+特殊参数类型是指不需要任何特性来修饰就能工作的一些类型。
  
 ## CancellationToken 类型
-每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于支持取消请求操作。CancellationToken.None 表示永不取消，创建一个 CancellationTokenSource，可以提供一个 CancellationToken。
+每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于取消请求操作。CancellationToken.None 表示永不取消，创建一个 CancellationTokenSource，可以提供一个 CancellationToken。
 
 ```csharp 
 public interface IUserApi
@@ -13,7 +13,7 @@ public interface IUserApi
 ```
 
 ## FileInfo 类型
-做为 multipart/form-data 表单的一个文件项
+做为 multipart/form-data 表单的一个文件项，实现文件上传功能。
 ```csharp 
 public interface IUserApi
 {
@@ -41,7 +41,7 @@ public interface IUserApi
 实现IApiParameter的类型，称为自解释参数类型，它可以弥补特性(Attribute)不能解决的一些复杂参数。
 
 ### FormDataFile 类型
-做为 multipart/form-data 表单的一个文件项，等效于 FileInfo 类型。
+做为 multipart/form-data 表单的一个文件项，实现文件上传功能，等效于 FileInfo 类型。
 ```csharp 
 public interface IUserApi
 {

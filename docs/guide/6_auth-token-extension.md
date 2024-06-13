@@ -45,7 +45,7 @@ public interface IUserApi
 OAuthTokenAttribute 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 uri 的 query，需要重写 OAuthTokenAttribute：
 
 ```csharp
-class UriQueryTokenAttribute : OAuthTokenAttribute
+public class UriQueryTokenAttribute : OAuthTokenAttribute
 {
     protected override void UseTokenResult(ApiRequestContext context, TokenResult tokenResult)
     {
@@ -74,7 +74,7 @@ services
 OAuthTokenHandler 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 uri 的 query，需要重写 OAuthTokenHandler：
 
 ```csharp
-class UriQueryOAuthTokenHandler : OAuthTokenHandler
+public class UriQueryOAuthTokenHandler : OAuthTokenHandler
 {
     /// <summary>
     /// token应用的http消息处理程序
@@ -96,7 +96,8 @@ class UriQueryOAuthTokenHandler : OAuthTokenHandler
         // builder.Query += "mytoken=" + Uri.EscapeDataString(tokenResult.Access_token);
         // request.RequestUri = builder.Uri;
 
-        var uriValue = new UriValue(request.RequestUri).AddQuery("myToken", tokenResult.Access_token);
+        var uriValue = new UriValue(request.RequestUri);
+        uriValue = uriValue.AddQuery("myToken", tokenResult.Access_token);
         request.RequestUri = uriValue.ToUri();
     }
 }
@@ -163,7 +164,7 @@ public interface ITokenApi
 // 为接口注册自定义tokenProvider
 services.AddTokenProvider<IUserApi>(s =>
 {
-    return s.GetService<ITokenApi>().RequestTokenAsync("id", "secret");
+    return s.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
 });
 ```
 
@@ -175,7 +176,7 @@ services.AddTokenProvider<IUserApi, CustomTokenProvider>();
 ```
 
 ```csharp
-class CustomTokenProvider : TokenProvider
+public class CustomTokenProvider : TokenProvider
 {
     public CustomTokenProvider(IServiceProvider serviceProvider)
         : base(serviceProvider)
@@ -184,7 +185,7 @@ class CustomTokenProvider : TokenProvider
 
     protected override Task<TokenResult> RequestTokenAsync(IServiceProvider serviceProvider)
     {
-        return serviceProvider.GetService<ITokenApi>().RequestTokenAsync("id", "secret");
+        return serviceProvider.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
     }
 
     protected override Task<TokenResult> RefreshTokenAsync(IServiceProvider serviceProvider, string refresh_token)

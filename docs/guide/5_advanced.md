@@ -1,7 +1,7 @@
 # 进阶功能
 ## Uri 拼接规则
 
-所有的 Uri 拼接都是通过 Uri(Uri baseUri, Uri relativeUri)这个构造器生成。
+所有的 Uri 拼接都是通过 new Uri(Uri baseUri, Uri relativeUri) 这个构造器生成。
 
 **带`/`结尾的 baseUri**
 
@@ -21,12 +21,12 @@
 
 请求一个接口，不管出现何种异常，最终都抛出 HttpRequestException，HttpRequestException 的内部异常为实际具体异常，之所以设计为内部异常，是为了完好的保存内部异常的堆栈信息。
 
-WebApiClient 内部的很多异常都基于 ApiException 这个抽象异常，也就是很多情况下，抛出的异常都是内为某个 ApiException 的 HttpRequestException。
+WebApiClientCore 内部的很多异常都基于 ApiException 这个异常抽象类，也就是很多情况下抛出的异常都是内部异常为某个 ApiException 的 HttpRequestException。
 
 ```csharp
 try
 {
-    var model = await api.GetAsync();
+    var datas = await api.GetAsync();
 }
 catch (HttpRequestException ex) when (ex.InnerException is ApiInvalidConfigException configException)
 {
@@ -57,7 +57,7 @@ catch (Exception ex)
 
 ## 请求条件性重试
 
-使用 ITask<>异步声明，就有 Retry 的扩展，Retry 的条件可以为捕获到某种 Exception 或响应模型符合某种条件。
+使用`ITask<>`异步声明，就有 Retry 的扩展，Retry 的条件可以为捕获到某种 Exception 或响应模型符合某种条件。
 
 ```csharp
 public interface IUserApi
@@ -71,6 +71,8 @@ var result = await userApi.GetAsync(id: "id001")
     .WhenCatch<HttpRequestException>()
     .WhenResult(r => r.Age <= 0);
 ```
+
+`ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试，请结合使用 [Polly](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 来实现。
 
 ## 表单集合处理
 按照 OpenApi，一个集合在 Uri 的 Query 或表单中支持 5 种表述方式，分别是：
@@ -98,7 +100,7 @@ var result = await userApi.GetAsync(id: "id001")
 例如服务器要求一个 Query 参数的名字为`field-Name`，这个是 c#关键字或变量命名不允许的，我们可以使用`[AliasAsAttribute]`来达到这个要求：
 
 ```csharp
-public interface IDeformedApi
+public interface IUserApi
 {
     [HttpGet("api/users")]
     ITask<string> GetAsync([AliasAs("field-Name")] string fieldName);
@@ -117,7 +119,7 @@ public interface IDeformedApi
 对应强类型模型是
 
 ```csharp
-class Field2
+public class Field2
 {
     public string Name {get; set;}
 
@@ -128,7 +130,7 @@ class Field2
 常规下我们得把 field2 的实例 json 序列化得到 json 文本，然后赋值给 field2 这个 string 属性，使用[JsonFormField]特性可以轻松帮我们自动完成 Field2 类型的 json 序列化并将结果字符串作为表单的一个字段。
 
 ```csharp
-public interface IDeformedApi
+public interface IUserApi
 {
     Task PostAsync([FormField] string field1, [JsonFormField] Field2 field2)
 }
@@ -157,22 +159,21 @@ public interface IDeformedApi
 合理情况下，对于复杂嵌套结构的数据模型，应当使用 applicaiton/json，但接口要求必须使用 Form 提交，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
 
 ```csharp
-services.AddHttpApi<IDeformedApi>(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
     o.KeyValueSerializeOptions.KeyNamingStyle = KeyNamingStyle.FullName;
 });
 ```
 
+### 响应的 ContentType 不是期待值
 
-### 响应未指明 ContentType
+响应的内容通过肉眼看上是 json 内容，但响应头里的 ContentType 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 ContentType 值为 text/plain 一样，让服务端无法处理。
 
-明明响应的内容肉眼看上是 json 内容，但服务响应头里没有 ContentType 告诉客户端这内容是 json，这好比客户端使用 Form 或 json 提交时就不在请求头告诉服务器内容格式是什么，而是让服务器猜测一样的道理。
-
-解决办法是在 Interface 或 Method 声明`[JsonReturn]`特性，并设置其 EnsureMatchAcceptContentType 属性为 false，表示 ContentType 不是期望值匹配也要处理。
+解决办法是在 Interface 或 Method 声明`[JsonReturn]`特性，并设置其 EnsureMatchAcceptContentType 属性为 false，表示 Content-Type 不是期望值匹配也要处理。
 
 ```csharp
 [JsonReturn(EnsureMatchAcceptContentType = false)]
-public interface IDeformedApi
+public interface IUserApi
 {
 }
 ```
@@ -181,10 +182,10 @@ public interface IDeformedApi
 ### 使用 UriAttribute 传绝对 Uri 参
 ```csharp
 [LoggingFilter]
-public interface IDynamicHostDemo
+public interface IUserApi
 {
     [HttpGet]
-    ITask<HttpResponseMessage> ByUrlString([Uri] string urlString);
+    ITask<User> GetAsync([Uri] string urlString, [PathQuery] string id);
 }
 ```
 
@@ -226,15 +227,15 @@ public class ServiceNameHostAttribute : HttpHostBaseAttribute
 
 ## 请求签名
 ### 请求动态签名
-例如每个请求的 url 额外的动态添加一个叫 sign 的参数，这个 sign 可能和请求参数值有关联，每次都需要计算。
-我们可以自定义 ApiFilterAttribute 来实现自己的 sign 功能，然后把自定义 Filter 声明到 Interface 或 Method 即可
+例如每个请求的 Uri 额外的动态添加一个叫 sign 的 query 参数，这个 sign 可能和请求参数值有关联，每次都需要计算。
+我们可以自定义 ApiFilterAttribute 的子来实现自己的 sign 功能，然后把自定义 Filter 声明到 Interface 或 Method 即可
 
 ```csharp
-class SignFilterAttribute : ApiFilterAttribute
+public class SignFilterAttribute : ApiFilterAttribute
 {
     public override Task OnRequestAsync(ApiRequestContext context)
     {
-        var signService = context.HttpContext.ServiceProvider.GetService<SignService>();
+        var signService = context.HttpContext.ServiceProvider.GetRequiredService<SignService>();
         var sign = signService.SignValue(DateTime.Now);
         context.HttpContext.RequestMessage.AddUrlQuery("sign", sign);
         return Task.CompletedTask;
@@ -242,7 +243,7 @@ class SignFilterAttribute : ApiFilterAttribute
 }
 
 [SignFilter]
-public interface IDeformedApi
+public interface IUserApi
 {
     ...
 }
@@ -250,10 +251,16 @@ public interface IDeformedApi
 
 ### 表单字段排序
 
-不知道是哪门公司起的所谓的“签名算法”，往往要字段排序等。
+不知道是哪门公司起的所谓的“签名算法”，往往要表单的字段排序等。
 
 ```csharp
-class SortedFormContentAttribute : FormContentAttribute
+public interface IUserApi
+{
+    [HttpGet("/path")]
+    Task<HttpResponseMessage> PostAsync([SortedFormContent] Model model);
+}
+
+public class SortedFormContentAttribute : FormContentAttribute
 {
     protected override IEnumerable<KeyValue> SerializeToKeyValues(ApiParameterContext context)
     {
@@ -262,20 +269,46 @@ class SortedFormContentAttribute : FormContentAttribute
     }
 }
 
-public interface IDeformedApi
+```
+## .NET8 AOT 发布
+System.Text.Json 中使用[源生成功能](https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-8-0)之后，使项目AOT发布成为可能。
+
+json 序列化源生成示例
+```csharp
+[JsonSerializable(typeof(User[]))] // 这里要挂上所有接口中使用到的 json 模型类型 
+[JsonSerializable(typeof(YourModel[]))]
+public partial class AppJsonSerializerContext : JsonSerializerContext
 {
-    [HttpGet("/path")]
-    Task<HttpResponseMessage> PostAsync([SortedFormContent] Model model);
 }
 ```
 
+在 WebApiClientCore 的全局配置中添加 json 源生成的上下文
+```csharp
+services
+    .AddWebApiClient()
+    .ConfigureHttpApi(options => // json SG生成器配置
+    {
+        options.PrependJsonSerializerContext(AppJsonSerializerContext.Default);
+    });
+```
 
-## PrimaryHttpMessageHandler 配置
+## HttpClient 的配置
+这部分是 [Httpclient Factory](https://learn.microsoft.com/zh-cn/dotnet/core/extensions/httpclient-factory) 的内容，这里不做过多介绍。
+```csharp
+services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
+{
+    httpClient.Timeout = TimeSpan.FromMinutes(1d);
+    httpClient.DefaultRequestVersion = HttpVersion.Version20;
+    httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
+});
+```
+
+## PrimaryHttpMessageHandler 的配置
 
 ### Http 代理配置
 
 ```csharp
-services.AddHttpApi<IUserApi>(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
     o.HttpHost = new Uri("http://localhost:5000/");
 })
@@ -299,7 +332,7 @@ services.AddHttpApi<IUserApi>(o =>
 有些服务器为了限制客户端的连接，开启了 https 双向验证，只允许它执有它颁发的证书的客户端进行连接
 
 ```csharp
-services.AddHttpApi<IUserApi>(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
     o.HttpHost = new Uri("http://localhost:5000/");
 })
@@ -317,7 +350,7 @@ services.AddHttpApi<IUserApi>(o =>
 
 ```csharp
 var cookieContainer = new CookieContainer();
-services.AddHttpApi<IUserApi>(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
     o.HttpHost = new Uri("http://localhost:5000/");
 })
@@ -438,7 +471,7 @@ services
 
 services
     .AddHttpApi<IUserApi>()
-    .AddHttpMessageHandler(s => new AutoRefreshCookieHandler(s.GetService<IUserLoginApi>()));
+    .AddHttpMessageHandler(s => new AutoRefreshCookieHandler(s.GetRequiredService<IUserLoginApi>()));
 ```
 
 现在，调用 IUserApi 的任意接口，只要响应的状态码为 401，就触发 IUserLoginApi 登录，然后将登录得到的 cookie 来重试请求接口，最终响应为正确的结果。你也可以重写 CookieAuthorizationHandler 的 IsUnauthorizedAsync(HttpResponseMessage)方法来指示响应是未授权状态。
@@ -447,13 +480,13 @@ services
 ## 自定义日志输出目标
 
 ```csharp
-[MyLogging]
+[CustomLogging]
 public interface IUserApi
 {
 }
 
 
-public class MyLoggingAttribute : LoggingFilterAttribute
+public class CustomLoggingAttribute : LoggingFilterAttribute
 {
     protected override Task WriteLogAsync(ApiResponseContext context, LogMessage logMessage)
     {
@@ -510,7 +543,7 @@ public class RedisResponseCacheProvider : IResponseCacheProvider
 客户端期望的业务模型
 
 ```csharp
-class FaceModel
+public class FaceModel
 {
     public Bitmap Image1 {get; set;}
     public Bitmap Image2 {get; set;}
@@ -520,7 +553,7 @@ class FaceModel
 我们希望构造模型实例时传入 Bitmap 对象，但传输的时候变成 Bitmap 的 base64 值，所以我们要改造 FaceModel，让它实现 IApiParameter 接口：
 
 ```csharp
-class FaceModel : IApiParameter
+public class FaceModel : IApiParameter
 {
     public Bitmap Image1 { get; set; }
 

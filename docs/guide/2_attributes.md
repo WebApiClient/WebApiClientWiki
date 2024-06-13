@@ -27,16 +27,16 @@ public interface DemoApiInterface
 ## Return 特性
 
 Return特性用于处理响应内容为对应的.NET数据模型，其存在以下规则：
-1. 当其EnsureMatchAcceptContentType为true(默认值)时，其AcceptContentType与响应的Content-Type匹配时才工作。
-2. 当其EnsureSuccessStatusCode为true(默认值)时，且响应了不在200到299的状态码时，引发`ApiResponseStatusException`。
-3. 同一种AcceptContentType的多个Return特性，只保留其AcceptQuality值最大的特性。
-4. 没有任何Return的AcceptContentType能匹配响应的Content-Type时，引发`ApiReturnNotSupportedException`
+1. 当其EnsureMatchAcceptContentType属性为true(默认值)时，其AcceptContentType属性值与响应的Content-Type值匹配时才生效。
+2. 当所有Return特性的AcceptContentType属性值都不匹配响应的Content-Type值时，引发`ApiReturnNotSupportedException`
+3. 当其EnsureSuccessStatusCode属性为true(默认值)时，且响应的状态码不在200到299之间时，引发`ApiResponseStatusException`。
+5. 同一种AcceptContentType属性值的多个Return特性，只有AcceptQuality属性值最大的特性生效。
 
 ### 缺省的Return特性
 在缺省情况下，每个接口的都已经隐性存在了多个AcceptQuality为0.001的Return特性，当你想修改某种Return特性的其它属性时，你只需要声明一个AcceptQuality值更大的同类型Return特性即可。
 
 ```csharp
-[Json(EnsureMatchAcceptContentType = false)]
+[Json(EnsureMatchAcceptContentType = false)] // AcceptQuality = 1.0
 /* 以下特性是隐性存在的
 [RawReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
 [NoneReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
@@ -86,7 +86,7 @@ Task<int> DemoApiMethod();
 
 ## Action 特性
 ### HttpHostAttribute
-在请求域名是已知且固定的情况下，才能使用HttpHost特性。
+当请求域名是已知的常量时，才能使用HttpHost特性。
 ```csharp
 [HttpHost("http://localhost:5000/")] // 对接口下所有方法适用
 public interface IUserApi
@@ -153,7 +153,7 @@ doc.Replace(item => item.Email, "laojiu@qq.com");
 ```
 
 ### HeaderAttribute
-// 常量值请求头
+// 常量值请求头。
 ```csharp
 public interface IUserApi
 {   
@@ -165,7 +165,7 @@ public interface IUserApi
 ``` 
 
 ### TimeoutAttribute
-常量值请求超时时长
+常量值请求超时时长。
 ```csharp
 public interface IUserApi
 {   
@@ -176,7 +176,7 @@ public interface IUserApi
 ``` 
  
 ### FormFieldAttribute
-常量值表单字段
+常量值 x-www-form-urlencoded 表单字段。
 ```csharp
 public interface IUserApi
 {
@@ -188,7 +188,7 @@ public interface IUserApi
 ```
 
 ### FormDataTextAttribute
-常量值multipart/form-data表单表单字段
+常量值 multipart/form-data 表单字段。
 ```csharp
 public interface IUserApi
 {
@@ -201,7 +201,7 @@ public interface IUserApi
 
 ## Parameter 特性
 ### PathQueryAttribute
-参数值的键值对作为 url 路径参数或 query 参数的特性，一般参数缺省特性时PathQueryAttribute会隐性生效。
+参数值的键值对作为请示 url 路径参数或 query 参数的特性，一般类型的参数，缺省特性时 PathQueryAttribute 会隐性生效。
 ```csharp
 public interface IUserApi
 {   
@@ -211,7 +211,7 @@ public interface IUserApi
 ``` 
 
 ### FormContentAttribute
-参数值的键值对作为 x-www-form-urlencoded 表单
+参数值的键值对作为 x-www-form-urlencoded 表单。
 ```csharp
 public interface IUserApi
 {
@@ -221,7 +221,7 @@ public interface IUserApi
 ```    
 
 ### FormFieldAttribute
-参数值作为 x-www-form-urlencoded 表单字段与值
+参数值作为 x-www-form-urlencoded 表单字段与值。
 ```csharp
 public interface IUserApi
 {
@@ -231,7 +231,7 @@ public interface IUserApi
 ```    
 
 ### FormDataContentAttribute
-参数值的键值对作为 multipart/form-data 表单    
+参数值的键值对作为 multipart/form-data 表单。   
 ```csharp
 public interface IUserApi
 {
@@ -241,7 +241,7 @@ public interface IUserApi
 ``` 
 
 ### FormDataTextAttribute
-参数值作为 multipart/form-data 表单字段与值
+参数值作为 multipart/form-data 表单字段与值。
 ```csharp
 public interface IUserApi
 {
@@ -251,7 +251,7 @@ public interface IUserApi
 ```    
 
 ### JsonContentAttribute
-参数值序列化为请求的 json 内容
+参数值序列化为请求的 json 内容。
 ```csharp
 public interface IUserApi
 {
@@ -261,7 +261,7 @@ public interface IUserApi
 ```    
 
 ### XmlContentAttribute
-参数值序列化为请求的 xml 内容
+参数值序列化为请求的 xml 内容。
 ```csharp
 public interface IUserApi
 {
@@ -271,7 +271,7 @@ public interface IUserApi
 ```    
 
 ### UriAttribute
-参数值作为请求uri，只能修饰第一个参数
+参数值作为请求uri，只能修饰第一个参数，可以是相对 Uri 或绝对 Uri。
 ```csharp
 public interface IUserApi
 {
@@ -281,7 +281,7 @@ public interface IUserApi
 ```    
 
 ### TimeoutAttribute
-参数值作为超时时间的毫秒数，值不能大于 HttpClient 的 Timeout 属性
+参数值作为超时时间的毫秒数，值不能大于 HttpClient 的 Timeout 属性。
 ```csharp
 public interface IUserApi
 {
@@ -291,7 +291,7 @@ public interface IUserApi
 ```   
 
 ### HeaderAttribute
-参数值作为请求头
+参数值作为请求头。
 ```csharp
 public interface IUserApi
 {
@@ -301,7 +301,7 @@ public interface IUserApi
 ```    
 
 ### HeadersAttribute
-参数值的键值对作为请求头
+参数值的键值对作为请求头。
 ```csharp
 public interface IUserApi
 {
@@ -320,17 +320,17 @@ public class CustomHeaders
 ```    
 
 ### RawStringContentAttribute
-原始文本内容
+原始文本内容。
 ```csharp
 public interface IUserApi
 {
     [HttpPost]
-    Task PostAsync([RawStringContent("txt/plain")] string text);
+    Task PostAsync([RawStringContent("text/plain")] string text);
 }
 ``` 
 
 ### RawJsonContentAttribute
-原始 json 内容
+原始 json 内容。
 ```csharp
 public interface IUserApi
 {
@@ -340,7 +340,7 @@ public interface IUserApi
 ``` 
 
 ### RawXmlContentAttribute
-原始 xml 内容
+原始 xml 内容。
 ```csharp
 public interface IUserApi
 {
@@ -350,7 +350,7 @@ public interface IUserApi
 ``` 
 
 ### RawFormContentAttribute
-原始表单内容，这些内容要求是表单编码过的。
+原始 x-www-form-urlencoded 表单内容，这些内容要求是表单编码过的。
 ```csharp
 public interface IUserApi
 {
@@ -362,8 +362,10 @@ public interface IUserApi
  
 ## Filter 特性
 Filter特性可用于发送前最后一步的内容修改，或者查看响应数据内容。
+
 ### LoggingFilterAttribute
 请求和响应内容的输出为日志到 LoggingFactory。
+
 ```csharp
 [LoggingFilter] // 所有方法都记录请求日志
 public interface IUserApi
@@ -378,9 +380,11 @@ public interface IUserApi
 ```    
              
 ##  Cache 特性
- 把本次的响应内容缓存起来，下一次如果符合预期条件的话，就不会再请求到远程服务器，而是从 IResponseCacheProvider 获取缓存内容，开发者可以自己实现 ResponseCacheProvider。
+把本次的响应内容缓存起来，下一次如果符合预期条件的话，就不会再请求到远程服务器，而是从 IResponseCacheProvider 获取缓存内容，开发者可以自己实现 ResponseCacheProvider。
 
 ### CacheAttribute
+使用请求的完整 Uri 做为缓存的 Key 应用缓存。
+
 ```csharp 
 public interface IUserApi
 {

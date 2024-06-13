@@ -1,5 +1,5 @@
 ﻿# 数据验证
-支持使用 ValidationAttribute 相关特性来验证请求参数值和响应结果。
+使用 ValidationAttribute 的子类特性来验证请求参数值和响应结果。
 
 ## 参数值验证
 ```csharp
@@ -14,7 +14,7 @@ public interface IUserApi
 ```
 
 ## 请求或响应模型验证
-
+请求和相应用到的 User 其两个属性值都得到验证。
 ```csharp
 public interface IUserApi
 {
@@ -22,7 +22,6 @@ public interface IUserApi
     Task<User> PostAsync([Required][JsonContent] User user);
 }
 
-// 支持模型的属性上声明ValidationAttribute
 public class User
 {
     [Required]
@@ -36,15 +35,16 @@ public class User
 ```
 
 ## 关闭数据验证功能
-默认配置下，数据验证功能是开启的，可以在接口对接的HttpApiOptions配置关闭数据验证功能。
+数据验证功能默认是开启的，可以在接口的 HttpApiOptions 配置关闭数据验证功能。
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddHttpApi<ICloudflareApi>().ConfigureHttpApi(o =>
+    services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
     {
+        // 关闭数据验证功能，即使打了验证特性也不验证。
         o.UseParameterPropertyValidate = false;
-        o.UseParameterPropertyValidate = false;
+        o.UseReturnValuePropertyValidate = false;
     }); 
 }
 ```
