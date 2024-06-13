@@ -46,7 +46,7 @@ jobs:
           repository-name: WebApiClient/WebApiClient.github.io
           branch: gh-pages
           folder: docs/.vuepress/dist
-          token: ${{ secrets.GH_KEY }}
+          ssh-key: ${{ secrets.GH_KEY }}
           commit-message: "Docs Deploy"
           single-commit: true
           clean: true
