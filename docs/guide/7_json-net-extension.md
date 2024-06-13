@@ -1,6 +1,7 @@
 # Json.NET 扩展
+
 使用 WebApiClientCore.Extensions.NewtonsoftJson 扩展，轻松支持 Newtonsoft 的 Json.NET 来序列化和反序列化 json。
- 
+
 ## 配置[可选]
 
 ```csharp

@@ -1,10 +1,11 @@
 ﻿# 快速上手
- 
 
 ## 依赖环境
+
 `WebApiclientCore`要求项目的`.NET`版本支持`.NET Standard2.1`，并且具备依赖注入的环境。
 
 ## 从 Nuget 安装
+
 | 包名                                                                                                                    | Nuget                                                                                   | 描述                                                                      |
 | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | [WebApiClientCore](https://www.nuget.org/packages/WebApiClientCore)                                                     | ![NuGet logo](https://buildstats.info/nuget/WebApiClientCore)                           | 基础包                                                                    |
@@ -59,7 +60,9 @@ public static void Main(string[] args)
 ```
 
 ## 全局配置接口
+
 全局配置可以做为所有接口的默认初始配置，当项目中有很多接口时就很有用。
+
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
@@ -72,7 +75,9 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ## 注入和调用接口
+
 在Scoped或Transient服务中注入
+
 ```csharp
 public class YourService
 {
@@ -91,8 +96,8 @@ public class YourService
 }
 ```
 
-
 在Singleton服务中注入
+
 ```csharp
 public class YourService
 {
