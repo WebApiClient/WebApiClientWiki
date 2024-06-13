@@ -17,9 +17,9 @@ export default defineClientConfig({
       if (window.devicePixelRatio <= 2 && window.innerWidth > 480) {
         ad.style.maxWidth = "160px";
         ad.classList.add("wwads-sticky");
-        // ad.style.position = "fixed";
-        // ad.style.bottom = "0";
-        // ad.style.right = "0";
+        ad.style.position = "fixed";
+        ad.style.bottom = "10px";
+        ad.style.left = "10px";
         ad.style.zIndex = "999";
         const body = document.querySelector("body");
         if (body) {
@@ -27,8 +27,13 @@ export default defineClientConfig({
           body.insertBefore(ad, firstChild);
         }
       } else {
-        ad.style.margin = "auto 20px 50px 20px";
-        document.body.appendChild(ad);
+        ad.style.margin = "60px 20px 0px 20px";
+        const app = document.getElementById("app");
+        // ad.style.position = "fixed";
+        // ad.style.top = "0";
+        // ad.style.left = "0";
+        // ad.style.zIndex = "999";
+        document.body.insertBefore(ad, app);
       }
     }
   },
