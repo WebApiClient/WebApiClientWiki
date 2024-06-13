@@ -1,9 +1,5 @@
 ﻿name: Sync Github Repos To Gitee
-on:
-  push:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
+on: [workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-20.04
