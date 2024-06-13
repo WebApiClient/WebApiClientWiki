@@ -6,10 +6,6 @@ const navbarZh = [
         link: "/guide/",
     },
     {
-        text: "社区Q&A",
-        link: "/qa/",
-    },
-    {
         text: "旧版本[不再更新]",
         link: "/old/",
     },

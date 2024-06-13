@@ -6,10 +6,6 @@ const navbarEn = [
         link: "/guide/",
     },
     {
-        text: "Q&A",
-        link: "/qa/",
-    },
-    {
         text: "Legacy[EOL]",
         link: "/old/",
     },
