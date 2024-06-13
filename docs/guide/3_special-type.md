@@ -44,7 +44,7 @@ public interface IUserApi
 
 ## IApiParameter 的子类型
 
-实现IApiParameter的类型，称为自解释参数类型，它可以弥补特性(Attribute)不能解决的一些复杂参数。
+实现 IApiParameter 的类型，称为自解释参数类型，它可以弥补特性(Attribute)不能解决的一些复杂参数。
 
 ### FormDataFile 类型
 
