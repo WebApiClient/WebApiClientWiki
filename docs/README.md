@@ -3,12 +3,12 @@ home: true
 heroImage: /icon.png
 heroHeight: 800
 heroText: WebApiClient
-tagline: 集高性能高可扩展性于一体的声明式http客户端库
+tagline: 高性能高可扩展性的声明式http客户端库
 actions:
   - text: 快速开始 💡
     link: /guide/
     type: primary
-  - text: 安装
+  - text: Nuget安装
     link: /reference/nuget
     type: default
   - text: 旧版文档
