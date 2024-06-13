@@ -1,7 +1,6 @@
 import { hopeTheme } from "vuepress-theme-hope";
 import { enNavbar, zhNavbar } from "./configs/navbar/index.js";
 import { enSidebar, zhSidebar } from "./configs/sidebar/index.js";
-import { searchPlugin } from '@vuepress/plugin-search';
 
 export default hopeTheme({
   logo: "icon.png",
@@ -9,6 +8,7 @@ export default hopeTheme({
   docsRepo: "WebApiClient/WebApiClientWiki",
   docsDir: "docs",
   docsBranch: "main",
+  darkmode: "auto",
   locales: {
     /**
      *  Chinese locale config
@@ -45,22 +45,18 @@ export default hopeTheme({
 
   },
 
-  encrypt: {
-    config: {
-      "/demo/encrypt.html": ["1234"],
-      "/zh/demo/encrypt.html": ["1234"],
-    },
-  },
-
   plugins: {
     components: {
       components: ["Badge", "VPCard"],
     },
 
-    search: {
+    searchPro: {
       locales: {
         "/": {
           placeholder: "搜索文档",
+        },
+        "/en/": {
+          placeholder: "Search",
         },
       },
     },
