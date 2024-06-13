@@ -1,10 +1,12 @@
 ﻿# 特殊参数
+
 特殊参数是指不需要任何特性来修饰就能工作的一些参数类型。
- 
+
 ## CancellationToken 类型
+
 每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于取消请求操作。CancellationToken.None 表示永不取消，创建一个 CancellationTokenSource，可以提供一个 CancellationToken。
 
-```csharp 
+```csharp
 public interface IUserApi
 {
     [HttpGet("api/users/{id}")]
@@ -13,8 +15,10 @@ public interface IUserApi
 ```
 
 ## FileInfo 类型
+
 做为 multipart/form-data 表单的一个文件项，实现文件上传功能。
-```csharp 
+
+```csharp
 public interface IUserApi
 {
     [HttpPost("api/users")] 
@@ -23,7 +27,8 @@ public interface IUserApi
 ```
 
 ## HttpContent 的子类型
-```csharp 
+
+```csharp
 public interface IUserApi
 {
     [HttpPost("api/users/{id}")]
@@ -38,11 +43,14 @@ public interface IUserApi
 ```
 
 ## IApiParameter 的子类型
+
 实现IApiParameter的类型，称为自解释参数类型，它可以弥补特性(Attribute)不能解决的一些复杂参数。
 
 ### FormDataFile 类型
+
 做为 multipart/form-data 表单的一个文件项，实现文件上传功能，等效于 FileInfo 类型。
-```csharp 
+
+```csharp
 public interface IUserApi
 {
     [HttpPost("api/users")] 
@@ -51,8 +59,10 @@ public interface IUserApi
 ```
 
 ### JsonPatchDocument 类型
+
 表示 JsonPatch 请求文档。
-```csharp 
+
+```csharp
 public interface IUserApi
 {
     [HttpPatch("api/users/{id}")]

@@ -1,4 +1,5 @@
 # 进阶功能
+
 ## Uri 拼接规则
 
 所有的 Uri 拼接都是通过 new Uri(Uri baseUri, Uri relativeUri) 这个构造器生成。
@@ -54,7 +55,6 @@ catch (Exception ex)
 }
 ```
 
-
 ## 请求条件性重试
 
 使用`ITask<>`异步声明，就有 Retry 的扩展，Retry 的条件可以为捕获到某种 Exception 或响应模型符合某种条件。
@@ -75,6 +75,7 @@ var result = await userApi.GetAsync(id: "id001")
 `ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试，请结合使用 [Polly](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 来实现。
 
 ## 表单集合处理
+
 按照 OpenApi，一个集合在 Uri 的 Query 或表单中支持 5 种表述方式，分别是：
 
 - Csv // 逗号分隔
@@ -93,8 +94,8 @@ var result = await userApi.GetAsync(id: "id001")
 | [PathQuery(CollectionFormat = CollectionFormat.Pipes)] | `id=001\|002`   |
 | [PathQuery(CollectionFormat = CollectionFormat.Multi)] | `id=001&id=002` |
 
-
 ## 适配畸形接口
+
 ### 不友好的参数名别名
 
 例如服务器要求一个 Query 参数的名字为`field-Name`，这个是 c#关键字或变量命名不允许的，我们可以使用`[AliasAsAttribute]`来达到这个要求：
@@ -179,7 +180,9 @@ public interface IUserApi
 ```
 
 ## 动态 Host
+
 ### 使用 UriAttribute 传绝对 Uri 参
+
 ```csharp
 [LoggingFilter]
 public interface IUserApi
@@ -190,6 +193,7 @@ public interface IUserApi
 ```
 
 ### 自定义 HttpHostBaseAttribute 实现
+
 ```csharp
 [ServiceNameHost("baidu")] // 使用自定义的ServiceNameHostAttribute
 public interface IUserApi
@@ -226,7 +230,9 @@ public class ServiceNameHostAttribute : HttpHostBaseAttribute
 ```
 
 ## 请求签名
+
 ### 请求动态签名
+
 例如每个请求的 Uri 额外的动态添加一个叫 sign 的 query 参数，这个 sign 可能和请求参数值有关联，每次都需要计算。
 我们可以自定义 ApiFilterAttribute 的子来实现自己的 sign 功能，然后把自定义 Filter 声明到 Interface 或 Method 即可
 
@@ -270,10 +276,13 @@ public class SortedFormContentAttribute : FormContentAttribute
 }
 
 ```
+
 ## .NET8 AOT 发布
+
 System.Text.Json 中使用[源生成功能](https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-8-0)之后，使项目AOT发布成为可能。
 
 json 序列化源生成示例
+
 ```csharp
 [JsonSerializable(typeof(User[]))] // 这里要挂上所有接口中使用到的 json 模型类型 
 [JsonSerializable(typeof(YourModel[]))]
@@ -283,6 +292,7 @@ public partial class AppJsonSerializerContext : JsonSerializerContext
 ```
 
 在 WebApiClientCore 的全局配置中添加 json 源生成的上下文
+
 ```csharp
 services
     .AddWebApiClient()
@@ -293,7 +303,9 @@ services
 ```
 
 ## HttpClient 的配置
+
 这部分是 [Httpclient Factory](https://learn.microsoft.com/zh-cn/dotnet/core/extensions/httpclient-factory) 的内容，这里不做过多介绍。
+
 ```csharp
 services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 {
@@ -365,7 +377,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 ## 自定义请求内容与响应内容解析
 
 除了常见的 xml 或 json 响应内容要反序列化为强类型结果模型，你可能会遇到其它的二进制协议响应内容，比如 google 的 ProtoBuf 二进制内容。
- 
+
 **自定义请求内容处理特性**
 
 ```csharp
@@ -419,9 +431,7 @@ public interface IProtobufApi
 }
 ```
 
-
-
-## 自定义 CookieAuthorizationHandler 
+## 自定义 CookieAuthorizationHandler
 
 对于使用 Cookie 机制的接口，只有在接口请求之后，才知道 Cookie 是否已失效。通过自定义 CookieAuthorizationHandler，可以做在请求某个接口过程中，遇到 Cookie 失效时自动刷新 Cookie 再重试请求接口。
 
@@ -476,7 +486,6 @@ services
 
 现在，调用 IUserApi 的任意接口，只要响应的状态码为 401，就触发 IUserLoginApi 登录，然后将登录得到的 cookie 来重试请求接口，最终响应为正确的结果。你也可以重写 CookieAuthorizationHandler 的 IsUnauthorizedAsync(HttpResponseMessage)方法来指示响应是未授权状态。
 
-
 ## 自定义日志输出目标
 
 ```csharp
@@ -497,10 +506,9 @@ public class CustomLoggingAttribute : LoggingFilterAttribute
 
 ```
 
-
 ## 自定义缓存提供者
 
-默认的缓存提供者为内存缓存，如果希望将缓存保存到其它存储位置，则需要自定义 缓存提者，并注册替换默认的缓存提供者。 
+默认的缓存提供者为内存缓存，如果希望将缓存保存到其它存储位置，则需要自定义 缓存提者，并注册替换默认的缓存提供者。
 
 ```csharp
 public static IWebApiClientBuilder UseRedisResponseCacheProvider(this IWebApiClientBuilder builder)
