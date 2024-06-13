@@ -28,16 +28,21 @@ function readmeFirst(array) {
 const sidebarZh = {
 
   "/guide/": [
-    "1_getting-started",
-    "2_attributes",
-    "3_special-type",
-    "4_data-validation",
-    "5_advanced",
-    "6_auth-token-extension",
-    "7_json-net-extension",
-    "8_jsonrpc-extension",
-    "9_openapi-to-code",
-  ],
+    {
+      text: "指南",
+      prefix: "/guide/",
+      children: [
+        "1_getting-started",
+        "2_attributes",
+        "3_special-type",
+        "4_data-validation",
+        "5_advanced",
+        "6_auth-token-extension",
+        "7_json-net-extension",
+        "8_jsonrpc-extension",
+        "9_openapi-to-code",
+      ]
+    }],
   "/old/": [{
     text: "旧版本[不再更新]",
     prefix: "/old/",

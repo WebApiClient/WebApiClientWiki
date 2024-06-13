@@ -36,3 +36,16 @@ features:
     details: 🚀 在BenchmarkDotNet中，各种请求下性能和分配2.X倍领先于同类产品Refit  
 footer: MIT Licensed | Copyright © WebApiClient.
 ---
+## 👯 Contributors (贡献者)
+
+### 感谢以下贡献者为项目添砖加瓦
+
+<a href="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient">
+  <img src="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient" />
+</a>
+
+### 感谢以下贡献者对文档锦上添花
+
+<a href="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki">
+  <img src="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki" />
+</a>
