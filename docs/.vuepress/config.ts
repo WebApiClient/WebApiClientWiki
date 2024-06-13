@@ -30,8 +30,8 @@ export default defineUserConfig({
     },
     "/en/": {
       lang: "en-US",
-      title: "Docs Demo",
-      description: "A docs demo for vuepress-theme-hope",
+      title: "WebApiClient",
+      description: "WebApiClient Docs",
     },
   },
 
