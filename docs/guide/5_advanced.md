@@ -378,7 +378,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 ## 在接口配置中使用过滤器
 除了能在接口声明中使用 IApiFilterAttribute 子类的特性标注之外，还可以在接口注册时的配置添加 IApiFilter 类型的过滤器，这些过滤器将对整个接口生效，且优先于通过特性标注的 IApiFilterAttribute 类型执行。
 ```csharp
-services.AddHttpApi<ICloudflareApi>().ConfigureHttpApi(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
     o.GlobalFilters.Add(new UserFiler());
 });
