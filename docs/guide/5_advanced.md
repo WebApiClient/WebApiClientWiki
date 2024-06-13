@@ -138,14 +138,23 @@ public interface IUserApi
 ```
 
 ### Form 提交嵌套的模型
+ 
 
-| 字段          | 值        |
-| ------------- | --------- |
-| `filed1`      | someValue |
-| `field2.name` | sb        |
-| `field2.age`  | 18        |
-
-
+有时候我们遇到使用 Form 提交复杂的嵌套结构的数据结构如下：
+```
+filed1=someValue&field2.name=LittleCutie&field2.age=20
+```
+基于对应的 .NET 模型为
+```csharp
+{
+    Field1 = "someValue",
+    Field2 = 
+    {
+        Name = "LittleCutie",
+        Age = 20
+    }
+}
+```
 合理情况下，对于复杂嵌套结构的数据模型，应当使用 applicaiton/json，但接口要求必须使用 Form 提交，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
 
 ```csharp
