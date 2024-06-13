@@ -1,7 +1,7 @@
 ﻿---
 home: true
 heroImage: /logo.png
-heroHeight: 800
+heroHeight: 200
 heroText: WebApiClient
 tagline: 集高性能高可扩展性于一体的声明式http客户端库
 actions:

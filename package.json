@@ -1,31 +1,20 @@
 {
-  "name": "webapiclientwiki",
-  "version": "1.0.0",
-  "description": "WebApiClientCore文档",
-  "main": "index.js",
-  "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EzrealJ/WebApiClientWiki.git"
-  },
-  "keywords": [
-    "WebApiClient"
-  ],
-  "author": "Ezreal",
+  "name": "weiapiclient_docs",
+  "version": "2.0.0",
+  "description": "WebApiClient 文档",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/EzrealJ/WebApiClientWiki/issues"
+  "type": "module",
+  "scripts": {
+    "docs:build": "vuepress-vite build docs",
+    "docs:clean-dev": "vuepress-vite dev docs --clean-cache",
+    "docs:dev": "vuepress-vite dev docs",
+    "docs:update-package": "pnpm dlx vp-update"
   },
-  "homepage": "https://github.com/EzrealJ/WebApiClientWiki#readme",
   "devDependencies": {
-    "@vuepress/plugin-register-components": "^2.0.0-rc.0",
-    "@vuepress/plugin-search": "^2.0.0-rc.0",
-    "vuepress": "2.0.0-rc.0"
-  },
-  "directories": {
-    "doc": "docs"
+    "@vuepress/bundler-vite": "2.0.0-rc.13",
+    "@vuepress/plugin-search": "2.0.0-rc.34",
+    "vue": "^3.4.27",
+    "vuepress": "2.0.0-rc.13",
+    "vuepress-theme-hope": "2.0.0-rc.48"
   }
 }
