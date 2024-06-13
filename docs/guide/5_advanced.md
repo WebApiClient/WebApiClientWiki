@@ -138,11 +138,11 @@ public interface IUserApi
 
 ### Form 提交嵌套的模型
 
-| 字段        | 值        |
-| ----------- | --------- |
-| filed1      | someValue |
-| field2.name | sb        |
-| field2.age  | 18        |
+| 字段          | 值        |
+| ------------- | --------- |
+| `filed1`      | someValue |
+| `field2.name` | sb        |
+| `field2.age`  | 18        |
 
 
 合理情况下，对于复杂嵌套结构的数据模型，应当使用 applicaiton/json，但接口要求必须使用 Form 提交，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
