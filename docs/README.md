@@ -38,13 +38,13 @@ footer: MIT Licensed | Copyright © WebApiClient.
 ---
 ## 👯 Contributors (贡献者)
 
-### 感谢以下贡献者为项目添砖加瓦
+### 感谢以下贡献者添砖加瓦，完善项目
 
 <a href="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient">
   <img src="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient" />
 </a>
 
-### 感谢以下贡献者对文档锦上添花
+### 感谢以下贡献者锦上添花，贡献文档
 
 <a href="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki">
   <img src="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki" />
