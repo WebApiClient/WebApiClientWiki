@@ -375,6 +375,31 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 });
 ```
 
+## 在接口配置中使用过滤器
+除了能在接口声明中使用 IApiFilterAttribute 子类的特性标注之外，还可以在接口注册时的配置添加 IApiFilter 类型的过滤器，这些过滤器将对整个接口生效，且优先于通过特性标注的 IApiFilterAttribute 类型执行。
+```csharp
+services.AddHttpApi<ICloudflareApi>().ConfigureHttpApi(o =>
+{
+    o.GlobalFilters.Add(new UserFiler());
+});
+```
+
+```csharp
+public class UserFiler : IApiFilter
+{
+    public Task OnRequestAsync(ApiRequestContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task OnResponseAsync(ApiResponseContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+```
+
+
 ## 自定义请求内容与响应内容解析
 
 除了常见的 xml 或 json 响应内容要反序列化为强类型结果模型，你可能会遇到其它的二进制协议响应内容，比如 google 的 ProtoBuf 二进制内容。
