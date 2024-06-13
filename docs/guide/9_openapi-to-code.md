@@ -1,4 +1,4 @@
-﻿# 客户端代码生成器
+# 将OpenApi(swagger)生成代码
 
 使用这个工具可以将 OpenApi 的本地或远程文档解析生成 WebApiClientCore 的接口定义代码文件，aspnetcore 的 swagger json 文件也适用
 

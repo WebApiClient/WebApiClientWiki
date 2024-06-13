@@ -6,6 +6,9 @@ import bundler from "./vite.js";
 export default defineUserConfig({
   base: "/",
   port: 3000,
+  lang: "zh-CN",
+  title: "WebApiClient",
+  description: "声明式调用Http接口",
   head: [
     [
       "script",

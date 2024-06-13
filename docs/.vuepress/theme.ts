@@ -4,7 +4,7 @@ import { enSidebar, zhSidebar } from "./configs/sidebar/index.js";
 import { searchPlugin } from '@vuepress/plugin-search';
 
 export default hopeTheme({
-  logo: "/logo.png",
+  logo: "icon.png",
   repo: "dotnetcore/WebApiClient",
   docsRepo: "WebApiClient/WebApiClientWiki",
   docsDir: "docs",
