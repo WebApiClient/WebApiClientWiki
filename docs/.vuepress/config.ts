@@ -18,8 +18,7 @@ export default defineUserConfig({
         charset: "UTF-8",
         async: true,
       },
-    ],
-    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ]
   ],
   locales: {
 

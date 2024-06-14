@@ -1,12 +1,11 @@
-﻿import { log } from "console";
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { sidebar } from "vuepress-theme-hope";
 
 
 function readDirectoryFiles(directoryPath) {
   const folderPath = path.resolve(directoryPath); // 解析为绝对路径
-  console.log(folderPath);
+  // console.log(folderPath);
   try {
     const files = fs.readdirSync(folderPath);
     return files;
@@ -21,7 +20,7 @@ function readmeFirst(array) {
     array.splice(index, 1);
     array.unshift("README.md");
   }
-  console.log(array);
+  // console.log(array);
   return array;
 }
 
@@ -83,12 +82,6 @@ const sidebarZh = {
       },
     ],
   }],
-  "/qa/": [{
-    text: "社区QA",
-    // children: ["/qa/README.md", "/qa/1.md"],
-    prefix: "/qa/",
-    children: readmeFirst(readDirectoryFiles(path.resolve(__dirname, "../../../qa"))),
-  }]
 };
 
 export const zhSidebar = sidebar(sidebarZh);

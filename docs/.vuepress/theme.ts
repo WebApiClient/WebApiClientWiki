@@ -4,6 +4,7 @@ import { enSidebar, zhSidebar } from "./configs/sidebar/index.js";
 
 export default hopeTheme({
   logo: "icon.png",
+  favicon: "favicon.ico",
   repo: "dotnetcore/WebApiClient",
   docsRepo: "WebApiClient/WebApiClientWiki",
   docsDir: "docs",

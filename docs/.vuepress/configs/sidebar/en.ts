@@ -1,12 +1,11 @@
-﻿import { log } from "console";
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { sidebar } from "vuepress-theme-hope";
 
 
 function readDirectoryFiles(directoryPath) {
     const folderPath = path.resolve(directoryPath); // 解析为绝对路径
-    console.log(folderPath);
+    // console.log(folderPath);
     try {
         const files = fs.readdirSync(folderPath);
         return files;
@@ -21,46 +20,33 @@ function readmeFirst(array) {
         array.splice(index, 1);
         array.unshift("README.md");
     }
-    console.log(array);
     return array;
 }
 
-const sidebarEn = [
-    {
-        text: "Guide",
-        prefix: "/guide/",
-        children: [
-            { link: "README.md" },
-            { link: "getting-started.md" },
-            { link: "core-analyzers.md" },
-            { link: "config.md" },
-            { link: "data-validation.md" },
-            { link: "attribute.md" },
-            { link: "request.md" },
-            { link: "response.md" },
-            { link: "log.md" },
-            { link: "file-download.md" },
-            { link: "interface-demo.md" },
-            { link: "retry.md" },
-            { link: "source-generator.md" },
-            { link: "exception-process.md" },
-            { link: "deformed-interface.md" },
-            { link: "diy-request-response.md" },
-            { link: "http-message-handler.md" },
-            { link: "oauths-token.md" },
-            { link: "jsonnet.md" },
-            { link: "json-rpc.md" },
-            { link: "dynamic-host.md" },
-            { link: "openapi-sg.md" },
-        ],
-    },
-    {
+const sidebarEn = {
+
+    "/guide/": [
+        {
+            text: "Guide",
+            prefix: "/guide/",
+            children: [
+                "1_getting-started",
+                "2_attributes",
+                "3_special-type",
+                "4_data-validation",
+                "5_advanced",
+                "6_auth-token-extension",
+                "7_json-net-extension",
+                "8_jsonrpc-extension",
+                "9_openapi-to-code",
+            ]
+        }],
+    "/old/": [{
         text: "Legacy[EOL]",
         prefix: "/old/",
         children: [
-            { link: "README.md" },
-            { link: "getting-started.md" },
-            { link: "qa.md" },
+            "getting-started.md",
+            "qa.md",
             {
                 text: "Basic",
                 prefix: "basic/",
@@ -76,7 +62,7 @@ const sidebarEn = [
                 ],
             },
             {
-                text: "Advanced",
+                text: "Intermediate",
                 prefix: "advanced/",
                 children: [
                     "env-without-di.md",
@@ -84,7 +70,7 @@ const sidebarEn = [
                 ],
             },
             {
-                text: "Master",
+                text: "Advanced",
                 prefix: "senior/",
                 children: [
                     "filter.md",
@@ -94,13 +80,7 @@ const sidebarEn = [
                 ],
             },
         ],
-    },
-    {
-        text: "Q&A",
-        // children: ["/qa/README.md", "/qa/1.md"],
-        prefix: "/qa/",
-        children: readmeFirst(readDirectoryFiles(path.resolve(__dirname, "../../../qa"))),
-    },
-];
+    }],
+};
 
 export const enSidebar = sidebar(sidebarEn);
