@@ -5,7 +5,7 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pnpm"  
+  - package-ecosystem: "npm"  
     directory: "/" # 指定包含 package.json 的目录，如果它在根目录下，则使用 "/"  
     schedule:  
       interval: "daily" # 检查更新的频率  
