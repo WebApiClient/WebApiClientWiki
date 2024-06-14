@@ -84,7 +84,7 @@ var result = await userApi.GetAsync(id: "id001")
 - Pipes // 竖线分隔
 - Multi // 多个同名键的键值对
 
-对于 id = new string []{"001","002"} 这样的值，在 PathQueryAttribute 与 FormContentAttribute 处理后分别是：
+对于 `id = ["001","002"]` 这样的数组值，在 PathQueryAttribute 与 FormContentAttribute 处理后分别是：
 
 | CollectionFormat                                       | Data            |
 | ------------------------------------------------------ | --------------- |
@@ -98,7 +98,7 @@ var result = await userApi.GetAsync(id: "id001")
 
 ### 不友好的参数名别名
 
-例如服务器要求一个 Query 参数的名字为`field-Name`，这个是 c#关键字或变量命名不允许的，我们可以使用`[AliasAsAttribute]`来达到这个要求：
+例如服务器要求一个 Query 参数的名字为`field-Name`，这个是`C#`关键字或变量命名不允许的，我们可以使用`[AliasAsAttribute]`来达到这个要求：
 
 ```csharp
 public interface IUserApi
@@ -112,12 +112,12 @@ public interface IUserApi
 
 ### Form 的某个字段为 json 文本
 
-| 字段   | 值                     |
-| ------ | ---------------------- |
-| field1 | someValue              |
+| 字段   | 值                       |
+| ------ | ------------------------ |
+| field1 | someValue                |
 | field2 | `{"name":"sb","age":18}` |
 
-对应强类型模型是
+field2 对应的 .NET 模型为
 
 ```csharp
 public class Field2
@@ -137,28 +137,33 @@ public interface IUserApi
 }
 ```
 
-### Form 提交嵌套的模型
+### Form 的字段多层嵌套
 
-有时候我们遇到使用 Form 提交复杂的嵌套结构的数据结构如下：
+| 字段        | 值        |
+| ----------- | --------- |
+| field1      | someValue |
+| field2.name | sb        |
+| field2.age  | 18        |
 
-```
-filed1=someValue&field2.name=LittleCutie&field2.age=20
-```
 
-基于对应的 .NET 模型为
-
+Form 对应的 .NET 模型为
 ```csharp
+public class FormModel
 {
-    Field1 = "someValue",
-    Field2 = 
-    {
-        Name = "LittleCutie",
-        Age = 20
-    }
-}
-```
+    public string Field1 {get; set;}
 
-合理情况下，对于复杂嵌套结构的数据模型，应当使用 applicaiton/json，但接口要求必须使用 Form 提交，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
+    public Field2 Field2 {get; set;}
+}
+
+public class Field2
+{
+    public string Name {get; set;}
+
+    public int Age {get; set;}
+}
+``` 
+
+合理情况下，对于复杂嵌套结构的数据模型，应当设计为使用 applicaiton/json 提交 FormModel，但服务提供方设计为使用 x-www-form-urlencoded  来提交 FormModel，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
 
 ```csharp
 services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
@@ -167,9 +172,9 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 });
 ```
 
-### 响应的 ContentType 不是期待值
+### 响应的 Content-Type 不是预期值
 
-响应的内容通过肉眼看上是 json 内容，但响应头里的 Content-Type 为非期待值 application/json，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 Content-Type 值为 text/plain 一样，让服务端无法处理。
+响应的内容通过肉眼看上是 json 内容，但响应头里的 Content-Type 为非预期值 application/json或 application/xml，而是诸如 text/html 等。这好比客户端提交 json 内容时指示请求头的 Content-Type 值为 text/plain 一样，让服务端无法处理。
 
 解决办法是在 Interface 或 Method 声明`[JsonReturn]`特性，并设置其 EnsureMatchAcceptContentType 属性为 false，表示 Content-Type 不是期望值匹配也要处理。
 
@@ -180,7 +185,7 @@ public interface IUserApi
 }
 ```
 
-## 动态 Host
+## 动态 HttpHost
 
 ### 使用 UriAttribute 传绝对 Uri 参
 
@@ -232,7 +237,7 @@ public class ServiceNameHostAttribute : HttpHostBaseAttribute
 
 ## 请求签名
 
-### 请求动态签名
+### 动态追加请求签名
 
 例如每个请求的 Uri 额外的动态添加一个叫 sign 的 query 参数，这个 sign 可能和请求参数值有关联，每次都需要计算。
 我们可以自定义 ApiFilterAttribute 的子来实现自己的 sign 功能，然后把自定义 Filter 声明到 Interface 或 Method 即可
@@ -256,7 +261,7 @@ public interface IUserApi
 }
 ```
 
-### 表单字段排序
+### 请求表单的字段排序
 
 不知道是哪门公司起的所谓的“签名算法”，往往要表单的字段排序等。
 
@@ -316,7 +321,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 });
 ```
 
-## PrimaryHttpMessageHandler 的配置
+## ConfigurePrimaryHttpMessageHandler
 
 ### Http 代理配置
 
