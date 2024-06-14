@@ -27,6 +27,14 @@ public interface IUserApi
     [HttpPost("api/users")]
     Task<User> PostAsync([JsonContent] User user);
 }
+
+public class User
+{ 
+    [JsonPropertyName("account")]
+    public string Account { get; set; } = string.Empty;
+
+    public string Password { get; set; } = string.Empty;
+}
 ```
 
 ## 注册和配置接口
@@ -40,6 +48,13 @@ public void ConfigureServices(IServiceCollection services)
     {
         o.UseLogging = Environment.IsDevelopment();
         o.HttpHost = new Uri("http://localhost:5000/");
+
+        // o.JsonSerializeOptions -> json 序列化选项
+        // o.JsonDeserializeOptions -> json 反序列化选项
+        // o.KeyValueSerializeOptions -> 键值对序列化选项
+        // o.XmlSerializeOptions -> xml 序列化选项
+        // o.XmlDeserializeOptions -> xml 反序列化选项
+        // o.GlobalFilters -> 全局过滤器集合
     });
 }
 ```
@@ -52,7 +67,7 @@ public static void Main(string[] args)
     // 无依赖注入的环境需要自行创建
     var services = new ServiceCollection();
     services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
-    {
+    {       
         o.UseLogging = Environment.IsDevelopment();
         o.HttpHost = new Uri("http://localhost:5000/");
     });
@@ -68,8 +83,9 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddWebApiClient().ConfigureHttpApi(o =>
     {
-        o.UseLogging = Environment.IsDevelopment();
-        o.HttpHost = new Uri("http://localhost:5000/");
+        o.JsonSerializeOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.JsonDeserializeOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.KeyValueSerializeOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 }
 ```
@@ -90,7 +106,7 @@ public class YourService
     public async Task GetAsync()
     {
         // 调用接口
-        var user = await userApi.GetAsync(id:"id001");
+        var user = await this.userApi.GetAsync(id:"id001");
         ...
     }
 }
