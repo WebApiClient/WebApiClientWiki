@@ -321,7 +321,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 });
 ```
 
-## ConfigurePrimaryHttpMessageHandler
+## 主 HttpMessageHandler 的配置
 
 ### Http 代理配置
 

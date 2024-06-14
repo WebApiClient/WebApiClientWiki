@@ -4,7 +4,7 @@
 
 ## CancellationToken 类型
 
-每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于取消请求操作。CancellationToken.None 表示永不取消，创建一个 CancellationTokenSource，可以提供一个 CancellationToken。
+每个接口都支持声明一个或多个 CancellationToken 类型的参数，用于取消请求操作。
 
 ```csharp
 public interface IUserApi

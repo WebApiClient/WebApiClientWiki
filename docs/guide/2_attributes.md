@@ -35,15 +35,15 @@ Return特性用于处理响应内容为对应的.NET数据模型，其存在以�
 
 ### 缺省的Return特性
 
-在缺省情况下，每个接口的都已经隐性存在了多个AcceptQuality为0.001的Return特性，当你想修改某种Return特性的其它属性时，你只需要声明一个AcceptQuality值更大的同类型Return特性即可。
+在缺省情况下，每个接口的都已经隐性存在了多个AcceptQuality为0.1的Return特性，当你想修改某种Return特性的其它属性时，你只需要声明一个AcceptQuality值更大的同类型Return特性即可。
 
 ```csharp
-[Json(EnsureMatchAcceptContentType = false)] // AcceptQuality = 1.0
+[Json] // .AcceptQuality = 1.0, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false
 /* 以下特性是隐性存在的
-[RawReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
-[NoneReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
-[JsonReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
-[XmlReturn(0.001, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
+[RawReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
+[NoneReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
+[JsonReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
+[XmlReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
 */
 Task<SpecialResultClass> DemoApiMethod();
 ```
@@ -89,7 +89,7 @@ Task<int> DemoApiMethod();
 
 ### HttpHostAttribute
 
-当请求域名是已知的常量时，才能使用HttpHost特性。
+当请求域名是已知的常量时，才能使用 HttpHost 特性。
 
 ```csharp
 [HttpHost("http://localhost:5000/")] // 对接口下所有方法适用
@@ -109,7 +109,7 @@ GET请求
 ```csharp
 public interface IUserApi
 {   
-    [HttpGet("api/users/{id}")] //支持 null、绝对或相对路径
+    [HttpGet("api/users/{id}")] // 支持 null、绝对或相对路径
     Task<User> GetAsync(string id);
 }
 ```
@@ -121,7 +121,7 @@ POST请求
 ```csharp
 public interface IUserApi
 {
-    [HttpPost("api/users")] //支持 null、绝对或相对路径
+    [HttpPost("api/users")] // 支持 null、绝对或相对路径
     Task<User> PostAsync([JsonContent] User user);
 }
 ```
@@ -133,7 +133,7 @@ PUT请求
 ```csharp
 public interface IUserApi
 {
-    [HttpPut("api/users")] //支持 null、绝对或相对路径
+    [HttpPut("api/users")] // 支持 null、绝对或相对路径
     Task<User> PutAsync([JsonContent] User user);
 }
 ```
@@ -145,7 +145,7 @@ DELETE请求
 ```csharp
 public interface IUserApi
 {
-    [HttpDelete("api/users")] //支持 null、绝对或相对路径
+    [HttpDelete("api/users")] // 支持 null、绝对或相对路径
     Task<User> DeleteAsync([JsonContent] User user);
 }
 ```
@@ -168,7 +168,7 @@ doc.Replace(item => item.Email, "laojiu@qq.com");
 
 ### HeaderAttribute
 
-// 常量值请求头。
+常量值请求头。
 
 ```csharp
 public interface IUserApi
@@ -267,7 +267,7 @@ public interface IUserApi
 public interface IUserApi
 {
     [HttpPost("api/users")]
-    Task<User> PostAsync([FormDataContent] User user, FormDataFile headImage);
+    Task<User> PostAsync([FormDataContent] User user, /*表单文件*/ FormDataFile headImage);
 }
 ```
 
@@ -279,7 +279,7 @@ public interface IUserApi
 public interface IUserApi
 {
     [HttpPost("api/users")]
-    Task<User> PostAsync([FormDataContent] User user, FormDataFile headImage, [FormDataText] string field1);
+    Task<User> PostAsync([FormDataContent] User user, /*表单文件*/ FormDataFile headImage, [FormDataText] string field1);
 }
 ```
 
@@ -309,7 +309,7 @@ public interface IUserApi
 
 ### UriAttribute
 
-参数值作为请求uri，只能修饰第一个参数，可以是相对 Uri 或绝对 Uri。
+参数值作为请求Uri，只能修饰第一个参数，可以是相对 Uri 或绝对 Uri。
 
 ```csharp
 public interface IUserApi

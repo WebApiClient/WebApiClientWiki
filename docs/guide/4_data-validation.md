@@ -8,9 +8,8 @@
 public interface IUserApi
 {    
     [HttpGet("api/users/{email}")]
-    Task<User> GetAsync(
-        // 这些验证特性用于请求前验证此参数
-        [EmailAddress, Required] 
+    Task<User> GetAsync(        
+        [EmailAddress, Required] // 这些验证特性用于请求前验证此参数
         string email);
 }
 ```

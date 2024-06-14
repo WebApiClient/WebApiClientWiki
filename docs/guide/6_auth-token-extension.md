@@ -4,7 +4,7 @@
 
 ## 对象与概念
 ### ITokenProviderFactory
-ITokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 tokenProvider。
+ITokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 ITokenProvider。
 
 ### ITokenProvider
 token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token。 
@@ -18,7 +18,7 @@ token 的应用特性，使用 ITokenProviderFactory 创建 ITokenProvider，然
 
 ## OAuth 的 Client 模式
 
-### 为接口注册 tokenProvider
+### 为接口注册 TokenProvider
 
 ```csharp
 // 为接口注册与配置Client模式的tokenProvider
@@ -47,7 +47,7 @@ public interface IUserApi
 }
 ```
 
-OAuthTokenAttribute 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 uri 的 query，需要重写 OAuthTokenAttribute：
+OAuthTokenAttribute 默认实现将 token 放到 Authorization 请求头，如果你的接口需要请 token 放到其它地方比如 Uri 的 Query，需要重写 OAuthTokenAttribute：
 
 ```csharp
 public class UriQueryTokenAttribute : OAuthTokenAttribute
