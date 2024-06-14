@@ -1,0 +1,13 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "pnpm"  
+    directory: "/" # 指定包含 package.json 的目录，如果它在根目录下，则使用 "/"  
+    schedule:  
+      interval: "daily" # 检查更新的频率  
+      time: "12:00" # 在每天的 12:00 UTC 进行更新检查  
+    open-pull-requests-limit: 10 # 允许同时打开的拉取请求的最大数量 
