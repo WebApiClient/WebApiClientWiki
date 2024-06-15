@@ -35,8 +35,9 @@ Return 特性用于处理响应内容为对应的 .NET 数据模型，其存在�
 
 ### 缺省的Return特性
 
-在缺省情况下，每个接口的都已经隐性存在了多个 AcceptQuality 为 0.1 的 Return 特性，能同时处理原始类型、json 和 xml 多种相应内容。
-当你想以特定的 Return 特性或修改特定的 Return 特性的属性值时，你需要声明一个 AcceptQuality 值更大的同类型 Return 特性即可。
+在缺省情况下，每个接口的都已经隐性存在了多个 AcceptQuality 为 0.1 的 Return 特性，能同时处理原始类型、json 和 xml 多种响应内容。
+
+当你想以特定的 Return 特性来处理相应内容而不关注相应的 Content-Type，你需要声明缺省参数的 Return 特性即可。
 
 ```csharp
 [JsonReturn] // .AcceptQuality = 1.0, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false
