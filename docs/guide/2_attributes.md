@@ -39,7 +39,7 @@ Return 特性用于处理响应内容为对应的 .NET 数据模型，其存在�
 当你想以特定的 Return 特性或修改特定的 Return 特性的属性值时，你需要声明一个 AcceptQuality 值更大的同类型 Return 特性即可。
 
 ```csharp
-[Json] // .AcceptQuality = 1.0, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false
+[JsonReturn] // .AcceptQuality = 1.0, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false
 /* 以下特性是隐性存在的
 [RawReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
 [NoneReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
