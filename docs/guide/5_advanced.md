@@ -94,7 +94,7 @@ var result = await userApi.GetAsync(id: "id001")
 | [PathQuery(CollectionFormat = CollectionFormat.Pipes)] | `id=001\|002`   |
 | [PathQuery(CollectionFormat = CollectionFormat.Multi)] | `id=001&id=002` |
 
-## 调整参数缺省特性规则
+## 调整缺省参数特性
 WebApiClientCore 是基于元数据来执行请求和处理响应，可以自定义 Api 方法的描述，填充上想要的特性即可。现代 Web 接口中，json 请求几乎占据了大部分的场景，所以你的客户端接口提交的内容往往也是 json 内容，以下 UseJsonFirstApiActionDescriptor 行为在非GET或HEAD请求的缺省参数特性声明时，为复杂参数类型的参数应用 JsonContentAttribute。
 
 ```csharp
@@ -103,7 +103,7 @@ services
     .UseJsonFirstApiActionDescriptor();
 ```
 
-*你可以为 IUserApi 标注上你的一个自定义 ApiFilterAttribute 子类，由于观察调用 PostAsync 时的 ApiRequestContext.ActionDescriptor.Parameters[0].Attributes，会发现集合里面默认加上了 JsonContentAttribute。*
+*你可以为 IUserApi 标注上你的一个自定义 ApiFilterAttribute 子类，用于观察调用 PostAsync 时的 ApiRequestContext.ActionDescriptor.Parameters[0].Attributes，会发现集合里面默认加上了 JsonContentAttribute。*
 
 ```csharp
 public interface IUserApi
