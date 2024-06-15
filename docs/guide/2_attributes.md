@@ -26,16 +26,17 @@ public interface DemoApiInterface
 
 ## Return 特性
 
-Return特性用于处理响应内容为对应的.NET数据模型，其存在以下规则：
+Return 特性用于处理响应内容为对应的 .NET 数据模型，其存在以下规则：
 
-1. 当其EnsureMatchAcceptContentType属性为true(默认值)时，其AcceptContentType属性值与响应的Content-Type值匹配时才生效。
-2. 当所有Return特性的AcceptContentType属性值都不匹配响应的Content-Type值时，引发`ApiReturnNotSupportedException`
-3. 当其EnsureSuccessStatusCode属性为true(默认值)时，且响应的状态码不在200到299之间时，引发`ApiResponseStatusException`。
-4. 同一种AcceptContentType属性值的多个Return特性，只有AcceptQuality属性值最大的特性生效。
+1. 当特性的 EnsureMatchAcceptContentType 属性为 true 时(默认为 false)，其 AcceptContentType 属性值与响应的 Content-Type 值匹配时才生效。
+2. 当所有 Return 特性的 AcceptContentType 属性值都不匹配响应的 Content-Type 值时，引发`ApiReturnNotSupportedException`
+3. 当特性的 EnsureSuccessStatusCode 属性为 true 时(默认值 为true)，且响应的状态码不在 200 到 299 之间时，引发`ApiResponseStatusException`。
+4. 同一种 AcceptContentType 属性值的多个 Return 特性，只有 AcceptQuality 属性值最大的特性生效。
 
 ### 缺省的Return特性
 
-在缺省情况下，每个接口的都已经隐性存在了多个AcceptQuality为0.1的Return特性，当你想修改某种Return特性的其它属性时，你只需要声明一个AcceptQuality值更大的同类型Return特性即可。
+在缺省情况下，每个接口的都已经隐性存在了多个 AcceptQuality 为 0.1 的 Return 特性，能同时处理原始类型、json 和 xml 多种相应内容。
+当你想以特定的 Return 特性或修改特定的 Return 特性的属性值时，你需要声明一个 AcceptQuality 值更大的同类型 Return 特性即可。
 
 ```csharp
 [Json] // .AcceptQuality = 1.0, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false
