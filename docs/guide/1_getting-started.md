@@ -87,6 +87,32 @@ public static void Main(string[] args)
 }
 ``` 
 
+Prism.Unity
+```xml
+<PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
+```
+```csharp
+public partial class App
+{      
+    protected override IContainerExtension CreateContainerExtension()
+    {
+        var services = new ServiceCollection();
+        services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
+        {       
+            o.UseLogging = Environment.IsDevelopment();
+            o.HttpHost = new Uri("http://localhost:5000/");
+        });
+
+        var container = new Unity.UnityContainer();
+        Unity.Microsoft.DependencyInjection.ServiceProviderExtensions.BuildServiceProvider(services, container);
+        return new Prism.Unity.UnityContainerExtension(container);
+    } 
+    
+    protected override void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+    }    
+}
+```
 ## 全局配置接口
 
 全局配置可以做为所有接口的默认初始配置，当项目中有很多接口时就很有用。
