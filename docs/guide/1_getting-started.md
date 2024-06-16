@@ -22,10 +22,23 @@
 public interface IUserApi
 {
     [HttpGet("api/users/{id}")]
-    Task<User> GetAsync(string id);
+    Task<User> GetAsync(string id, CancellationToken token = default);
 
+    // POST application/json content
     [HttpPost("api/users")]
-    Task<User> PostAsync([JsonContent] User user);
+    Task<User> PostJsonAsync([JsonContent] User user, CancellationToken token = default);
+
+    // POST application/xml content
+    [HttpPost("api/users")]
+    Task<User> PostXmlAsync([XmlContent] User user, CancellationToken token = default);
+
+    // POST x-www-form-urlencoded content
+    [HttpPost("api/users")]
+    Task<User> PostFormAsync([FormContent] User user, CancellationToken token = default);
+
+    // POST multipart/form-data content
+    [HttpPost("api/users")]
+    Task<User> PostFormDataAsync([FormDataContent] User user, FormDataFile avatar, CancellationToken token = default);
 }
 
 public class User
@@ -72,7 +85,7 @@ public static void Main(string[] args)
         o.HttpHost = new Uri("http://localhost:5000/");
     });
 }
-```
+``` 
 
 ## 全局配置接口
 
