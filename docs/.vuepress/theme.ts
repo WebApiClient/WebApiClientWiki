@@ -9,7 +9,8 @@ export default hopeTheme({
   docsRepo: "WebApiClient/WebApiClientWiki",
   docsDir: "docs",
   docsBranch: "main",
-  darkmode: "auto",
+  darkmode: "toggle",
+  fullscreen: true,
   locales: {
     /**
      *  Chinese locale config
