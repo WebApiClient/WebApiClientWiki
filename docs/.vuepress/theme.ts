@@ -11,6 +11,7 @@ export default hopeTheme({
   docsBranch: "main",
   darkmode: "toggle",
   fullscreen: true,
+  iconAssets: "fontawesome",
   locales: {
     /**
      *  Chinese locale config
@@ -64,6 +65,7 @@ export default hopeTheme({
     },
     // All features are enabled for demo, only preserve features you need here
     mdEnhance: {
+      alert: true,
       align: true,
       attrs: true,
       codetabs: true,

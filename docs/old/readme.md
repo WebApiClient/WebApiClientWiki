@@ -1,5 +1,10 @@
 ﻿# 概览
 
+> [!warning]
+> 你正在浏览的部分是老版本`WebApiClient.JIT`、`WebApiClient.AOT`的文档。  
+> 它将不会有新的功能更新，即使有bug我们也不能保证快速修复。  
+> 我们建议您尽快迁移到新的版本，更现代的`WebApiClientCore`。
+
 ## WebApiClient.JIT
 
 在运行时使用Emit创建Http请求接口的代理类，HttpApiClient.Create()时，在新的程序集创建了TInterface的代理类，类名与TInterface相同，命名空间也相同，由于代理类和TInterface接口不在同一程序集，所以要求TInterface为public。

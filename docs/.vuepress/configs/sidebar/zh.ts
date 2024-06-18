@@ -30,6 +30,7 @@ const sidebarZh = {
     {
       text: "指南",
       prefix: "/guide/",
+      collapsible: true,
       children: [
         "1_getting-started",
         "2_attributes",
