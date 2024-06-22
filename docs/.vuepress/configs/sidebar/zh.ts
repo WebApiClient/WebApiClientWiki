@@ -1,35 +1,14 @@
-﻿import fs from "fs";
-import path from "path";
+﻿
 import { sidebar } from "vuepress-theme-hope";
 
 
-function readDirectoryFiles(directoryPath) {
-  const folderPath = path.resolve(directoryPath); // 解析为绝对路径
-  // console.log(folderPath);
-  try {
-    const files = fs.readdirSync(folderPath);
-    return files;
-  } catch (error) {
-    console.error("Error reading folder:", error);
-    return [];
-  }
-}
-function readmeFirst(array) {
-  const index = array.indexOf("README.md");
-  if (index != -1) {
-    array.splice(index, 1);
-    array.unshift("README.md");
-  }
-  // console.log(array);
-  return array;
-}
 
 const sidebarZh = {
-
   "/guide/": [
     {
       text: "指南",
       prefix: "/guide/",
+      link: "/guide/",
       collapsible: true,
       children: [
         "1_getting-started",

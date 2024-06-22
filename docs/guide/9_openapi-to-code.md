@@ -26,6 +26,7 @@ WebApiClientCore.OpenApi.SourceGenerator -o https://petstore.swagger.io/v2/swagg
 ```
 
 ### 工具原理
+
 1. 使用 NSwag 解析 OpenApi 的 json 得到 OpenApiDocument 对象
 2. 使用 RazorEngine 将 OpenApiDocument 传入 cshtml 模板编译得到 html
 3. 使用 XDocument 将 html 的文本代码提取，得到 WebApiClientCore 的声明式代码

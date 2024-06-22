@@ -1,34 +1,14 @@
-﻿import fs from "fs";
-import path from "path";
-import { sidebar } from "vuepress-theme-hope";
+﻿import { sidebar } from "vuepress-theme-hope";
 
-
-function readDirectoryFiles(directoryPath) {
-    const folderPath = path.resolve(directoryPath); // 解析为绝对路径
-    // console.log(folderPath);
-    try {
-        const files = fs.readdirSync(folderPath);
-        return files;
-    } catch (error) {
-        console.error("Error reading folder:", error);
-        return [];
-    }
-}
-function readmeFirst(array) {
-    const index = array.indexOf("README.md");
-    if (index != -1) {
-        array.splice(index, 1);
-        array.unshift("README.md");
-    }
-    return array;
-}
 
 const sidebarEn = {
 
-    "/guide/": [
+    "/en/guide/": [
         {
-            text: "Guide",
-            prefix: "/guide/",
+            text: "Guide[Machine translation]",
+            prefix: "/en/guide/",
+            link: "/en/guide/",
+            collapsible: false,
             children: [
                 "1_getting-started",
                 "2_attributes",
@@ -41,9 +21,9 @@ const sidebarEn = {
                 "9_openapi-to-code",
             ]
         }],
-    "/old/": [{
+    "/en/old/": [{
         text: "Legacy[EOL]",
-        prefix: "/old/",
+        prefix: "/en/old/",
         children: [
             "getting-started.md",
             "qa.md",

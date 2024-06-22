@@ -3,15 +3,15 @@
 const navbarEn = [
     {
         text: "Guide",
-        link: "/guide/",
+        link: "/en/guide/",
     },
     {
         text: "Legacy[EOL]",
-        link: "/old/",
+        link: "/en/old/",
     },
     {
         text: "Donate",
-        link: "/reference/donate",
+        link: "/en/reference/donate",
     },
 ];
 
