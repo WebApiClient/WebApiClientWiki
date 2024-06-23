@@ -42,7 +42,7 @@ const sidebarEn = {
                 ],
             },
             {
-                text: "Intermediate",
+                text: "Advanced",
                 prefix: "advanced/",
                 children: [
                     "env-without-di.md",
@@ -50,7 +50,7 @@ const sidebarEn = {
                 ],
             },
             {
-                text: "Advanced",
+                text: "Senior",
                 prefix: "senior/",
                 children: [
                     "filter.md",

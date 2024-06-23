@@ -12,7 +12,7 @@ actions:
     link: /en/reference/nuget
     type: default
   - text: Legacy[EOL]
-    link: /old/
+    link: /en/old/
     type: default
   - text: Donate
     link: /en/reference/donate

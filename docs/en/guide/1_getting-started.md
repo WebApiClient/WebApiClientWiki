@@ -1,4 +1,4 @@
-﻿# Quick Started
+﻿# Getting Started
 
 ## Prerequisites
 
