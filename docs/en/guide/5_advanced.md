@@ -214,6 +214,7 @@ public interface IUserApi
 }
 ```
 
+### Custom implementation of HttpHostBaseAttribute
 ```csharp
 [ServiceNameHost("baidu")] // Using custom ServiceNameHostAttribute
 public interface IUserApi
