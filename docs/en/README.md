@@ -6,16 +6,16 @@ heroText: WebApiClient
 tagline: A declarative http client library that combines high performance and scalability
 actions:
   - text: Quick Start 💡
-    link: /guide/
+    link: /en/guide/
     type: primary
   - text: Install
-    link: /reference/nuget
+    link: /en/reference/nuget
     type: default
   - text: Legacy[EOL]
     link: /old/
     type: default
   - text: Donate
-    link: /reference/donate
+    link: /en/reference/donate
     type: default
 features:
   - title: Semantic Declaration
