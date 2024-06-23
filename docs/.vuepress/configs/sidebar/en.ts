@@ -22,7 +22,7 @@ const sidebarEn = {
             ]
         }],
     "/en/old/": [{
-        text: "Legacy[EOL]",
+        text: "Legacy[EOL][Machine translation]",
         prefix: "/en/old/",
         children: [
             "getting-started.md",
