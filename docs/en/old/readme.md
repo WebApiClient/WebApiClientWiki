@@ -1,22 +1,22 @@
-﻿# 概览
+﻿# Overview
 
 > [!warning]
-> 你正在浏览的部分是老版本`WebApiClient.JIT`、`WebApiClient.AOT`的文档。  
-> 它将不会有新的功能更新，即使有bug我们也不能保证快速修复。  
-> 我们建议您尽快迁移到新的版本，更现代的`WebApiClientCore`。
+> You are viewing the documentation for the old versions of `WebApiClient.JIT` and `WebApiClient.AOT`.  
+> There will be no new feature updates, and we cannot guarantee quick bug fixes.  
+> We recommend migrating to the new version, `WebApiClientCore`, as soon as possible.
 
 ## WebApiClient.JIT
 
-在运行时使用Emit创建Http请求接口的代理类，HttpApiClient.Create()时，在新的程序集创建了TInterface的代理类，类名与TInterface相同，命名空间也相同，由于代理类和TInterface接口不在同一程序集，所以要求TInterface为public。
+Creates proxy classes for HTTP request interfaces at runtime using Emit. When calling HttpApiClient.Create(), a proxy class for TInterface is created in a new assembly with the same class name and namespace as TInterface. Since the proxy class and TInterface are not in the same assembly, TInterface must be public.
 
-+ 可以在项目中直接引用WebApiClient.JIT.dll就能使用；
-+ 不适用于不支持JIT技术的平台(IOS、UWP)；
-+ 接口要求为public；
++ Can be directly referenced in the project by including WebApiClient.JIT.dll;
++ Not suitable for platforms that do not support JIT technology (iOS, UWP);
++ The interface must be public.
 
 ## WebApiClient.AOT
 
-在编译过程中使用Mono.Cecil修改编译得到的程序集，向其插入Http请求接口的代理类IL指令，这一步是在AOT编译阶段之前完成。代理类型所在的程序集、模块、命名空间与接口类型的一样，其名称为$前缀的接口类型名称，使用反编译工具查看项目编译后的程序集可以看到这些代理类。
+Modifies the compiled assembly using Mono.Cecil during the compilation process to insert IL instructions for proxy classes of HTTP request interfaces. This step is done before the AOT compilation phase. The assembly, module, and namespace of the proxy type are the same as the interface type, and its name is the interface type name with a $ prefix. These proxy classes can be seen by inspecting the compiled assembly using a decompiler.
 
-+ 项目必须使用nuget安装WebApiClient.AOT才能正常使用；
-+ 没有JIT，支持的平台广泛；
-+ 接口不要求为public，可以嵌套在类里面；
++ The project must install WebApiClient.AOT via NuGet to work properly;
++ No JIT, supports a wide range of platforms;
++ The interface does not need to be public and can be nested within a class.
