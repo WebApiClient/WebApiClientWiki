@@ -44,7 +44,7 @@ public interface IMyWebApi : IHttpApi
 }
 ```
 
-When the return data of the method is JSON or XML text of type UserInfo, and the response Content-Type is application/json or application/xml, the original return type ITask<HttpResponseMessage> can be declared as ITask<UserInfo>.
+When the return data of the method is JSON or XML text of type UserInfo, and the response Content-Type is application/json or application/xml, the original return type `ITask<HttpResponseMessage>` can be declared as `ITask<UserInfo>`.
 
 ### Explicit Conversion to Strongly Typed Model
 
