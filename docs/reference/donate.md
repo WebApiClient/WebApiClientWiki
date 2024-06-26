@@ -1,4 +1,4 @@
-﻿# 为我们加油
+﻿# ☕为我们加油
 
 ## 如果您觉得WebApiClient对你有所帮助，就请支持一下我们吧
 
@@ -17,7 +17,7 @@
 .donation-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .donation-item {
