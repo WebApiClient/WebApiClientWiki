@@ -17,7 +17,6 @@
 .donation-container {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
 }
 
 .donation-item {
