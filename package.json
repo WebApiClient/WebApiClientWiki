@@ -11,11 +11,11 @@
     "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "@vuepress/bundler-vite": "2.0.0-rc.13",
+    "@vuepress/bundler-vite": "2.0.0-rc.14",
     "vue": "^3.4.31",
-    "vuepress": "2.0.0-rc.13",
-    "vuepress-plugin-search-pro": "2.0.0-rc.48",
-    "vuepress-theme-hope": "2.0.0-rc.48"
+    "vuepress": "2.0.0-rc.14",
+    "vuepress-plugin-search-pro": "2.0.0-rc.50",
+    "vuepress-theme-hope": "2.0.0-rc.50"
   },
   "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
 }
