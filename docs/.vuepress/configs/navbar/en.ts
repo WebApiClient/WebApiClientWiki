@@ -5,6 +5,11 @@ const navbarEn = [
         text: "Guide",
         link: "/en/guide/",
     },
+    // {
+    //     text: "benchmarks",
+    //     icon: "rocket",
+    //     link: "/benchmarks/",
+    // },
     {
         text: "Legacy[EOL]",
         link: "/en/old/",

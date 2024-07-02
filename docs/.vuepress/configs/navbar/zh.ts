@@ -7,6 +7,11 @@ const navbarZh = [
         link: "/guide/",
     },
     {
+        text: "性能测试",
+        icon: "rocket",
+        link: "/benchmarks/",
+    },
+    {
         text: "旧版本[不再更新]",
         icon: "folder",
         link: "/old/",
@@ -18,3 +23,4 @@ const navbarZh = [
     },
 ];
 export const zhNavbar = navbar(navbarZh);
+/*  */
