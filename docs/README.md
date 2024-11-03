@@ -44,5 +44,6 @@ features:
 footer: MIT Licensed | Copyright © WebApiClient.
 ---
 
+<Content path="/reference/tags.md" />
 <Content path="/reference/contributors.md" />
 <Content path="/reference/donate.md" />

@@ -36,16 +36,7 @@ features:
     details: 🚀 In BenchmarkDotNet, the performance and allocation under various requests are 2.X times ahead of similar products Refit 
 footer: MIT Licensed | Copyright © WebApiClient.
 ---
-# 👯 Contributors
 
-## Thanks to the following contributors for their contributions and improvement of the project
-
-<a href="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient">
-  <img src="https://contributors-img.web.app/image?repo=dotnetcore/WebApiClient" />
-</a>
-
-## Thanks to the following contributors for adding some documentation
-
-<a href="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki">
-  <img src="https://contributors-img.web.app/image?repo=WebApiClient/WebApiClientWiki" />
-</a>
+<Content path="/reference/tags.md" />
+<Content path="/reference/contributors_en.md" />
+<Content path="/reference/donate_en.md" />
