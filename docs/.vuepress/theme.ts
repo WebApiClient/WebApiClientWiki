@@ -1,6 +1,7 @@
 import { hopeTheme } from "vuepress-theme-hope";
 import { enNavbar, zhNavbar } from "./configs/navbar/index.js";
 import { enSidebar, zhSidebar } from "./configs/sidebar/index.js";
+import { slimsearchPlugin } from '@vuepress/plugin-slimsearch'
 
 export default hopeTheme({
   logo: "icon.png",
@@ -37,58 +38,39 @@ export default hopeTheme({
         editLink: "Edit this page on GitHub",
       },
     },
-
-
-  },
-
-  plugins: {
-    components: {
-      components: ["Badge", "VPCard"],
-    },
-
-    searchPro: {
-      locales: {
-        "/": {
-          placeholder: "搜索文档",
-        },
-        "/en/": {
-          placeholder: "Search",
-        },
-      },
-    },
     // All features are enabled for demo, only preserve features you need here
-    mdEnhance: {
-      alert: true,
-      align: true,
-      attrs: true,
-      codetabs: true,
-      component: true,
-      demo: true,
-      figure: true,
-      imgLazyload: true,
-      imgSize: true,
-      include: true,
-      mark: true,
-      plantuml: true,
-      spoiler: true,
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              };
-          },
-        },
-      ],
-      sub: true,
-      sup: true,
-      tabs: true,
-      tasklist: true,
-      vPre: true,
+    markdown: {
+      // alert: true,
+      // align: true,
+      // attrs: true,
+      // codetabs: true,
+      // component: true,
+      // demo: true,
+      // figure: true,
+      // imgLazyload: true,
+      // imgSize: true,
+      // include: true,
+      // mark: true,
+      // plantuml: true,
+      // spoiler: true,
+      // stylize: [
+      //   {
+      //     matcher: "Recommended",
+      //     replacer: ({ tag }) => {
+      //       if (tag === "em")
+      //         return {
+      //           tag: "Badge",
+      //           attrs: { type: "tip" },
+      //           content: "Recommended",
+      //         };
+      //     },
+      //   },
+      // ],
+      // sub: true,
+      // sup: true,
+      // tabs: true,
+      // tasklist: true,
+      // vPre: true,
       // Install chart.js before enabling it
       // chart: true,
 
@@ -128,6 +110,17 @@ export default hopeTheme({
       // sandpack: true,
     },
 
+
+  },
+
+  plugins: {
+    components: {
+      components: ["Badge", "VPCard"],
+    },
+    slimsearch: {
+      filter: page => !page.path.startsWith("/old"),
+      indexContent: true
+    }
     // Install @vuepress/plugin-pwa and uncomment these if you want a PWA
     // pwa: {
     //   favicon: "/favicon.ico",
