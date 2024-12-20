@@ -1,7 +1,5 @@
 ﻿// .vuepress/client.js
 import { defineClientConfig } from "vuepress/client";
-// import Ad from "./components/ad.vue";
-
 export default defineClientConfig({
   setup() {
     // do some initialization
@@ -35,6 +33,12 @@ export default defineClientConfig({
         // ad.style.zIndex = "999";
         document.body.insertBefore(ad, app);
       }
+      // 创建一个新的script元素
+      const adhelper = document.createElement('script');
+      // 设置script的src属性为你的js文件路径
+      adhelper.src = '/js/adhelper.js';
+      // 将script元素添加到body的末尾
+      document.body.appendChild(adhelper);
     }
   },
 });
