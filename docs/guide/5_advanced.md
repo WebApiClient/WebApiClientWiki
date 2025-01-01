@@ -72,7 +72,7 @@ var result = await userApi.GetAsync(id: "id001")
     .WhenResult(r => r.Age <= 0);
 ```
 
-`ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试，请结合使用 [Resilience](https://learn.microsoft.com/zh-cn/dotnet/core/resilience/http-resilience) 来实现。
+`ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试；请结合使用 [Polly](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 来实现；对于`.NET8`以上，可以选择使用 [Resilience](https://learn.microsoft.com/zh-cn/dotnet/core/resilience/http-resilience) 来实现。
 
 ## 表单集合处理
 
@@ -95,6 +95,7 @@ var result = await userApi.GetAsync(id: "id001")
 | [PathQuery(CollectionFormat = CollectionFormat.Multi)] | `id=001&id=002` |
 
 ## 调整缺省参数特性
+
 WebApiClientCore 是基于元数据来执行请求和处理响应，可以自定义 Api 方法的描述，填充上想要的特性即可。现代 Web 接口中，json 请求几乎占据了大部分的场景，所以你的客户端接口提交的内容往往也是 json 内容，以下 UseJsonFirstApiActionDescriptor 行为在非GET或HEAD请求的缺省参数特性声明时，为复杂参数类型的参数应用 JsonContentAttribute。
 
 ```csharp
@@ -112,7 +113,6 @@ public interface IUserApi
     Task<User> PostAsync(/*[JsonContent]*/ User user);
 }
 ```
-
 
 ## 适配畸形接口
 
@@ -165,8 +165,8 @@ public interface IUserApi
 | field2.name | sb        |
 | field2.age  | 18        |
 
-
 Form 对应的 .NET 模型为
+
 ```csharp
 public class FormModel
 {
@@ -181,7 +181,7 @@ public class Field2
 
     public int Age {get; set;}
 }
-``` 
+```
 
 合理情况下，对于复杂嵌套结构的数据模型，应当设计为使用 applicaiton/json 提交 FormModel，但服务提供方设计为使用 x-www-form-urlencoded  来提交 FormModel，我可以配置 KeyValueSerializeOptions 来达到这个格式要求：
 
@@ -401,7 +401,9 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 ```
 
 ## 在接口配置中使用过滤器
+
 除了能在接口声明中使用 IApiFilterAttribute 子类的特性标注之外，还可以在接口注册时的配置添加 IApiFilter 类型的过滤器，这些过滤器将对整个接口生效，且优先于通过特性标注的 IApiFilterAttribute 类型执行。
+
 ```csharp
 services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 {
@@ -424,12 +426,12 @@ public class UserFiler : IApiFilter
 }
 ```
 
-
 ## 自定义请求内容与响应内容解析
 
 除了常见的 xml 或 json 响应内容要反序列化为强类型结果模型，你可能会遇到其它的二进制协议响应内容，比如 google 的 ProtoBuf 二进制内容。
 
 自定义请求内容处理特性
+
 ```csharp
 public class ProtobufContentAttribute : HttpContentAttribute
 {
@@ -453,6 +455,7 @@ public class ProtobufContentAttribute : HttpContentAttribute
 ```
 
 自定义响应内容解析特性
+
 ```csharp
 public class ProtobufReturnAttribute : ApiReturnAttribute
 {
@@ -470,6 +473,7 @@ public class ProtobufReturnAttribute : ApiReturnAttribute
 ```
 
 应用相关自定义特性
+
 ```csharp
 [ProtobufReturn]
 public interface IProtobufApi

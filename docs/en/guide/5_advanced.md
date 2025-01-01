@@ -70,7 +70,7 @@ var result = await userApi.GetAsync(id: "id001")
     .WhenResult(r => r.Age <= 0);
 ```
 
-With `ITask<>`, you can precisely control the retry logic for a specific method. If you want to implement retries globally, consider using [Resilience](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience).
+ITask<> can precisely control the retry logic of a method. If you want to implement retry globally, please use [Polly](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) to implement it. For .NET 8 and above, you can choose to use [Resilience](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience). to implement it.
 
 ## Handling Form Collections
 
@@ -215,6 +215,7 @@ public interface IUserApi
 ```
 
 ### Custom implementation of HttpHostBaseAttribute
+
 ```csharp
 [ServiceNameHost("baidu")] // Using custom ServiceNameHostAttribute
 public interface IUserApi
