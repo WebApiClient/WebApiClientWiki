@@ -70,7 +70,7 @@ var result = await userApi.GetAsync(id: "id001")
     .WhenResult(r => r.Age <= 0);
 ```
 
-With `ITask<>`, you can precisely control the retry logic for a specific method. If you want to implement retries globally, consider using [Polly](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly).
+With `ITask<>`, you can precisely control the retry logic for a specific method. If you want to implement retries globally, consider using [Resilience](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience).
 
 ## Handling Form Collections
 
