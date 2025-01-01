@@ -72,7 +72,7 @@ var result = await userApi.GetAsync(id: "id001")
     .WhenResult(r => r.Age <= 0);
 ```
 
-`ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试，请结合使用 [Polly](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) 来实现。
+`ITask<>`可以精确控制某个方法的重试逻辑，如果想全局性实现重试，请结合使用 [Resilience](https://learn.microsoft.com/zh-cn/dotnet/core/resilience/http-resilience) 来实现。
 
 ## 表单集合处理
 
