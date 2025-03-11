@@ -245,7 +245,7 @@ public interface IUserApi
 public interface IUserApi
 {
     [HttpPost("api/users")]
-    Task<User> PostAsync([FormDataContent] User user);
+    Task<User> PostAsync([FormContent] User user);
 }
 ```
 
@@ -257,7 +257,7 @@ public interface IUserApi
 public interface IUserApi
 {
     [HttpPost("api/users")]
-    Task<User> PostAsync([FormDataContent] User user, [FormField] string field1);
+    Task<User> PostAsync([FormContent] User user, [FormField] string field1);
 }
 ```
 
