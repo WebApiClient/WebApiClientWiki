@@ -17,7 +17,7 @@
     "vuepress": "2.0.0-rc.19",
     "vuepress-theme-hope": "2.0.0-rc.64"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.6.2",
   "dependencies": {
     "weiapiclient_docs": "file:"
   }
