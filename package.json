@@ -11,13 +11,14 @@
     "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "@vuepress/bundler-vite": "2.0.0-rc.21",
     "@vuepress/plugin-slimsearch": "2.0.0-rc.66",
+    "npm-check-updates": "^17.1.18",
     "vue": "^3.5.13",
-    "vuepress": "2.0.0-rc.19",
-    "vuepress-theme-hope": "2.0.0-rc.64"
+    "vuepress": "2.0.0-rc.21",
+    "vuepress-theme-hope": "2.0.0-rc.82"
   },
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.8.1",
   "dependencies": {
     "weiapiclient_docs": "file:"
   }

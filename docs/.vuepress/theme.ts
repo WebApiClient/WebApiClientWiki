@@ -12,7 +12,6 @@ export default hopeTheme({
   docsBranch: "main",
   darkmode: "toggle",
   fullscreen: true,
-  iconAssets: "fontawesome",
   locales: {
     /**
      *  Chinese locale config
@@ -48,7 +47,6 @@ export default hopeTheme({
     alert: true,
     align: true,
     attrs: true,
-    codetabs: true,
     component: true,
     demo: true,
     figure: true,
@@ -121,7 +119,10 @@ export default hopeTheme({
     slimsearch: {
       filter: page => !page.path.startsWith("/old"),
       indexContent: true
-    }
+    },
+    icon: {
+      assets: "fontawesome"
+    },
     // Install @vuepress/plugin-pwa and uncomment these if you want a PWA
     // pwa: {
     //   favicon: "/favicon.ico",

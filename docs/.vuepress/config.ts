@@ -31,7 +31,6 @@ export default defineUserConfig({
       description: "WebApiClient Docs",
     },
   },
-
   theme,
   plugins,
   bundler
