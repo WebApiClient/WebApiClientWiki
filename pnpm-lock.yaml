@@ -19,8 +19,8 @@ importers:
         specifier: 2.0.0-rc.118
         version: 2.0.0-rc.118(vuepress@2.0.0-rc.26(@vuepress/bundler-vite@2.0.0-rc.26(@types/node@24.10.0)(sass-embedded@1.97.3)(sass@1.97.3))(vue@3.5.29))
       npm-check-updates:
-        specifier: ^19.4.1
-        version: 19.4.1
+        specifier: ^19.6.2
+        version: 19.6.2
       sass-embedded:
         specifier: ^1.97.3
         version: 1.97.3
@@ -1526,8 +1526,8 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
 
-  npm-check-updates@19.4.1:
-    resolution: {integrity: sha512-g3s+khrneBo0iGx7xqu/cQUk0Qc1XAHEYDptPCyCFF447RdhiBd6yPRxB7GkesbUBHXeNfmqV3ArlwxcI8h56w==}
+  npm-check-updates@19.6.2:
+    resolution: {integrity: sha512-fxoQAhn90dx/pLOHY0w3U0IzW02DGDgkNwjTsPpHexo3niLxkL3xAggTQNjODMwTtWoRhP7rhnm7ji0hw/F1kA==}
     engines: {node: '>=20.0.0', npm: '>=8.12.1'}
     hasBin: true
 
@@ -3732,7 +3732,7 @@ snapshots:
 
   normalize-range@0.1.2: {}
 
-  npm-check-updates@19.4.1: {}
+  npm-check-updates@19.6.2: {}
 
   nth-check@2.1.1:
     dependencies:
