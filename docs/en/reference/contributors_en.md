@@ -1,28 +1,28 @@
-# 👯 Contributors (贡献者)
+# 👯 Contributors
 
-## 感谢以下贡献者添砖加瓦，完善项目
+## Thanks to the following contributors for building and improving the project
 
 <a href="https://github.com/dotnetcore/WebApiClient/graphs/contributors">
-  <img :src="webapiUrl" alt="贡献者列表" loading="lazy" />
+  <img :src="webapiUrl" alt="Contributors" loading="lazy" />
 </a>
 
-## 感谢以下贡献者锦上添花，贡献文档
+## Thanks to the following contributors for improving the documentation
 
 <a href="https://github.com/WebApiClient/WebApiClientWiki/graphs/contributors">
-  <img :src="wikiUrl" alt="文档贡献者列表" loading="lazy" />
+  <img :src="wikiUrl" alt="Documentation Contributors" loading="lazy" />
 </a>
 
-> 💡 点击图片可在 GitHub 查看完整贡献者列表
+> 💡 Click the image to view the full contributors list on GitHub
 
 <script setup>
 import { ref } from 'vue'
 
-// 使用年-周作为缓存破坏参数，每周自动刷新
+// Use year-week as cache-bust parameter, auto-refresh weekly
 const getYearWeek = () => {
   const now = new Date()
   const start = new Date(now.getFullYear(), 0, 1)
   const diff = now - start
-  const oneWeek = 604800000 // 一周的毫秒数
+  const oneWeek = 604800000 // one week in milliseconds
   const week = Math.ceil(diff / oneWeek)
   return `${now.getFullYear()}-${week}`
 }
