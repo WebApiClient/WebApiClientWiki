@@ -1,10 +1,12 @@
-﻿# Special Parameters
+> This document is machine translated and requires review.
 
-Special parameters refer to certain parameter types that can work without any attributes.
+# Special Parameter Types
+
+Special parameters are parameter types that work without requiring any attributes.
 
 ## CancellationToken Type
 
-Each interface supports declaring one or more parameters of type CancellationToken for canceling request operations.
+Each interface supports declaring one or more CancellationToken type parameters for canceling request operations.
 
 ```csharp
 public interface IUserApi
@@ -16,7 +18,7 @@ public interface IUserApi
 
 ## FileInfo Type
 
-Used as a file item in a multipart/form-data form to implement file upload functionality.
+Used as a file item in multipart/form-data form to implement file upload functionality.
 
 ```csharp
 public interface IUserApi
@@ -26,7 +28,7 @@ public interface IUserApi
 }
 ```
 
-## Subtypes of HttpContent
+## HttpContent Subtypes
 
 ```csharp
 public interface IUserApi
@@ -42,13 +44,13 @@ public interface IUserApi
 }
 ```
 
-## Subtypes of IApiParameter
+## IApiParameter Subtypes
 
-Types that implement IApiParameter are called self-explanatory parameter types, which can address some complex parameters that attributes cannot solve.
+Types implementing IApiParameter are called self-describing parameter types, which can handle complex parameters that attributes cannot solve.
 
 ### FormDataFile Type
 
-Used as a file item in a multipart/form-data form to implement file upload functionality, equivalent to the FileInfo type.
+Used as a file item in multipart/form-data form to implement file upload functionality, equivalent to the FileInfo type.
 
 ```csharp
 public interface IUserApi

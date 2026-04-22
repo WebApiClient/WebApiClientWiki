@@ -1,6 +1,8 @@
-﻿# Data Validation
+> This document is machine translated and requires review.
 
-Use ValidationAttribute subclasses to validate request parameter values and response results.
+# Data Validation
+
+Use ValidationAttribute subclass attributes to validate request parameter values and response results.
 
 ## Parameter Value Validation
 
@@ -37,16 +39,16 @@ public class User
 }
 ```
 
-## Disable Data Validation
+## Disabling Data Validation
 
-Data validation is enabled by default, but you can disable it by configuring the HttpApiOptions of the interface.
+Data validation is enabled by default. You can disable data validation in the interface's HttpApiOptions configuration.
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
     {
-        // Disable data validation, even if validation attributes are used.
+        // Disable data validation, even if validation attributes are applied, validation will not occur.
         o.UseParameterPropertyValidate = false;
         o.UseReturnValuePropertyValidate = false;
     }); 
