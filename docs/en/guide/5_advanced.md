@@ -431,13 +431,18 @@ public class ProtobufContentAttribute : HttpContentAttribute
     }
 }
 
+public class ProtobufReturnAttribute : ApiReturnAttribute
 {
-}
+    public ProtobufReturnAttribute(string acceptContentType = "application/x-protobuf")
+        : base(new MediaTypeWithQualityHeaderValue(acceptContentType))
+    {
+    }
 
-public override async Task SetResultAsync(ApiResponseContext context)
-{
-    var stream = await context.HttpContext.ResponseMessage.Content.ReadAsStreamAsync();
-    context.Result = Serializer.NonGeneric.Deserialize(context.ApiAction.Return.DataType.Type, stream);
+    public override async Task SetResultAsync(ApiResponseContext context)
+    {
+        var stream = await context.HttpContext.ResponseMessage.Content.ReadAsStreamAsync();
+        context.Result = Serializer.NonGeneric.Deserialize(context.ApiAction.Return.DataType.Type, stream);
+    }
 }
 ```
 
@@ -446,19 +451,51 @@ Apply the relevant custom attributes:
 ```csharp
 [ProtobufReturn]
 public interface IProtobufApi
-{...}
-
-/// <summary>
-/// Login and refresh the cookie
-/// </summary>
-/// <returns>Returns the login response message</returns>
-protected override Task<HttpResponseMessage> RefreshCookieAsync()
 {
-    return this.api.LoginAsync(new Account
+    [HttpPut("/users/{id}")]
+    Task<User> UpdateAsync([Required, PathQuery] string id, [ProtobufContent] User user);
+}
+```
+
+## Custom CookieAuthorizationHandler
+
+For interfaces using Cookie mechanism, we can implement a custom CookieAuthorizationHandler to automatically refresh Cookie when it expires during request processing.
+
+First, we need to split the login interface and business interfaces into different interface definitions, such as IUserApi and IUserLoginApi:
+
+```csharp
+[HttpHost("http://localhost:5000/")]
+public interface IUserLoginApi
+{
+    [HttpPost("/users")]
+    Task<HttpResponseMessage> LoginAsync([JsonContent] Account account);
+}
+```
+
+Then implement the AutoRefreshCookieHandler:
+
+```csharp
+public class AutoRefreshCookieHandler : CookieAuthorizationHandler
+{
+    private readonly IUserLoginApi api;
+
+    public AutoRefreshCookieHandler(IUserLoginApi api)
     {
-        account = "admin",
-        password = "123456"
-    });
+        this.api = api;
+    }
+
+    /// <summary>
+    /// Login and refresh the cookie
+    /// </summary>
+    /// <returns>Returns the login response message</returns>
+    protected override Task<HttpResponseMessage> RefreshCookieAsync()
+    {
+        return this.api.LoginAsync(new Account
+        {
+            account = "admin",
+            password = "123456"
+        });
+    }
 }
 ```
 
@@ -473,7 +510,17 @@ services
     .AddHttpMessageHandler(s => new AutoRefreshCookieHandler(s.GetRequiredService<IUserLoginApi>()));
 ```
 
+Now, calling any interface of IUserApi will trigger IUserLoginApi login when the response status code is 401, then retry the request with the new cookie.
+
+## Custom Logging Output Target
+
 ```csharp
+[CustomLogging]
+public interface IUserApi
+{
+}
+
+public class CustomLoggingAttribute : LoggingFilterAttribute
 {
     protected override Task WriteLogAsync(ApiResponseContext context, LogMessage logMessage)
     {
@@ -484,8 +531,6 @@ services
 ```
 
 ## Custom Cache Provider
-
-The default cache provider is in-memory cache. If you want to store the cache in a different storage location, you need to customize the cache provider and register it to replace the default cache provider.
 
 ```csharp
 public static IWebApiClientBuilder UseRedisResponseCacheProvider(this IWebApiClientBuilder builder)
@@ -519,7 +564,13 @@ In some extreme cases, such as face comparison interfaces, the input model may n
 JSON model required by the server:
 
 ```json
+{
+  "image1": "base64 of image 1",
+  "image2": "base64 of image 2"
+}
+```
 
+Client expected business model:
 
 ```csharp
 public class FaceModel

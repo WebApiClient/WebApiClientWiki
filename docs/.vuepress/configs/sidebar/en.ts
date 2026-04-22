@@ -1,4 +1,4 @@
-﻿import { sidebar } from "vuepress-theme-hope";
+import { sidebar } from "vuepress-theme-hope";
 
 
 const sidebarEn = {
@@ -19,6 +19,20 @@ const sidebarEn = {
                 "7_json-net-extension",
                 "8_jsonrpc-extension",
                 "9_openapi-to-code",
+                "10_itask-retry",
+                "11_exception-handling",
+                "12_aot-publishing",
+                "13_migration-guide",
+            ]
+        }],
+    "/en/reference/": [
+        {
+            text: "Reference",
+            prefix: "/en/reference/",
+            link: "/en/reference/",
+            collapsible: false,
+            children: [
+                "api-reference",
             ]
         }],
     "/en/old/": [{
