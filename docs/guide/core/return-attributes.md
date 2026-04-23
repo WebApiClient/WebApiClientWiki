@@ -20,7 +20,7 @@ Return 特性存在以下规则：
 ```csharp
 [JsonReturn] // (.AcceptQuality = MAX, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false)
 /* 以下特性是隐性存在的
-[RawReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
+[RawReturn(0.1, EnsureSuccessStatusCode = true)]  // RawReturn 无 EnsureMatchAcceptContentType 属性
 [NoneReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
 [JsonReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
 [XmlReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
@@ -79,7 +79,10 @@ Task<XmlResultClass> DemoApiMethod();
 
 ## NoneReturnAttribute
 
-表示响应状态为 204 时将结果设置为返回类型的默认值特性：
+表示响应状态为 204 或响应体为空时将结果设置为返回类型的默认值特性：
+
+- 响应状态码为 204 NoContent
+- 或响应状态码为成功（200-299）且 Content-Length 为 0
 
 ```csharp
 [NoneReturn] 

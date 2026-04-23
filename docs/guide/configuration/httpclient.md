@@ -33,19 +33,26 @@ services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 });
 ```
 
-## 命名 HttpClient 配置
+## 共享 HttpClient 配置
 
-如果多个接口需要共享配置，可以使用命名 HttpClient：
+如果多个接口需要共享相同的 HttpClient 配置（如 BaseAddress、默认请求头等），可以在注册时统一配置：
 
 ```csharp
-services.AddHttpClient("MyApi", client =>
+// 统一配置多个接口
+services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 {
-    client.BaseAddress = new Uri("http://api.example.com/");
-    client.Timeout = TimeSpan.FromSeconds(30);
+    httpClient.BaseAddress = new Uri("http://api.example.com/");
+    httpClient.Timeout = TimeSpan.FromSeconds(30);
 });
 
-services.AddHttpApi<IUserApi>().ConfigureHttpClient("MyApi");
+services.AddHttpApi<IOrderApi>().ConfigureHttpClient(httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://api.example.com/");
+    httpClient.Timeout = TimeSpan.FromSeconds(30);
+});
 ```
+
+> 提示：对于复杂的共享配置场景，建议封装为扩展方法或使用配置中心统一管理。
 
 ## 类型化 HttpClient
 

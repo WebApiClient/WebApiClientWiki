@@ -203,3 +203,74 @@ public class CustomTokenProvider : TokenProvider
 ### 自定义 TokenProvider 的选项
 
 每个 TokenProvider 都有一个 Name 属性，与 service.AddTokenProvider()返回的 ITokenProviderBuilder 的 Name 是同一个值。读取 Options 值可以使用 TokenProvider 的 GetOptionsValue()方法，配置 Options 则通过 ITokenProviderBuilder 的 Name 来配置。
+
+## 高级配置
+
+### Token 刷新窗口
+
+为了避免 Token 在使用过程中过期，可以配置提前刷新窗口：
+
+```csharp
+services.AddHttpApi<IUserApi>()
+    .ConfigureOAuthTokenOptions(o =>
+    {
+        o.UseTokenRefreshWindow = true;
+        o.RefreshWindowSeconds = 120;  // 提前 2 分钟刷新
+        // 或使用百分比计算
+        // o.RefreshWindowPercentage = 0.1;  // 提前 10% 时间刷新
+    });
+```
+
+### 禁用 refresh_token
+
+如果服务器不支持 refresh_token，可以禁用：
+
+```csharp
+services.AddClientCredentialsTokenProvider<IUserApi>(o =>
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens");
+    o.Credentials.Client_id = "clientId";
+    o.Credentials.Client_secret = "xxyyzz";
+    o.UseRefreshToken = false;  // 禁用 refresh_token，过期时重新请求
+});
+```
+
+### 别名功能
+
+支持注册多个 TokenProvider，通过别名区分：
+
+```csharp
+// 注册多个 TokenProvider 别名
+services.AddClientCredentialsTokenProvider<IUserApi>("api1", o => 
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens1");
+    // ...
+});
+services.AddClientCredentialsTokenProvider<IUserApi>("api2", o => 
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens2");
+    // ...
+});
+
+// 通过参数动态选择
+public interface IUserApi
+{
+    [OAuthToken("providerName")]
+    Task GetDataAsync(string providerName);
+}
+```
+
+### TokenProvider 查找模式
+
+`OAuthTokenAttribute` 的 `TokenProviderSearchMode` 属性控制如何查找 TokenProvider：
+
+```csharp
+[OAuthToken(TokenProviderSearchMode = TypeMatchMode.Exact)]
+public interface IUserApi
+{
+    // ...
+}
+```
+
+- `TypeOrBaseTypes`（默认）：从当前接口类型开始，逐级查找基接口
+- `Exact`：仅查找当前接口类型

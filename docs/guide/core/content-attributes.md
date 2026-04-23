@@ -16,6 +16,10 @@ public interface IUserApi
 }
 ```
 
+支持属性：
+- `CharSet`: 编码名称，默认 utf-8
+- `AllowChunked`: 是否允许分块传输，默认 true
+
 ### XmlContentAttribute
 
 参数值序列化为请求的 xml 内容：
@@ -27,6 +31,9 @@ public interface IUserApi
     Task<User> PostAsync([XmlContent] User user);
 }
 ```
+
+支持属性：
+- `CharSet`: 编码名称，默认 utf-8
 
 ## 表单特性
 
@@ -41,6 +48,9 @@ public interface IUserApi
     Task<User> PostAsync([FormContent] User user);
 }
 ```
+
+支持属性：
+- `CollectionFormat`: 集合格式化方式，默认 Multi
 
 ### FormFieldAttribute
 
@@ -78,6 +88,9 @@ public interface IUserApi
 }
 ```
 
+支持属性：
+- `CollectionFormat`: 集合格式化方式，默认 Multi
+
 ### FormDataTextAttribute
 
 常量值 multipart/form-data 表单字段：
@@ -114,6 +127,18 @@ public interface IUserApi
 }
 ```
 
+### JsonFormDataTextAttribute
+
+参数值序列化为 JSON 字符串作为 multipart/form-data 表单字段：
+
+```csharp
+public interface IUserApi
+{
+    [HttpPost("api/submit")]
+    Task PostAsync([FormDataContent] User user, [JsonFormDataText] ComplexData metadata);
+}
+```
+
 ## 原始内容特性
 
 ### RawStringContentAttribute
@@ -127,6 +152,9 @@ public interface IUserApi
     Task PostAsync([RawStringContent("text/plain")] string text);
 }
 ```
+
+支持属性：
+- `CharSet`: 编码名称，默认 utf-8
 
 ### RawJsonContentAttribute
 
@@ -172,6 +200,8 @@ public interface IUserApi
 | `[XmlContent]` | application/xml |
 | `[FormContent]` | application/x-www-form-urlencoded |
 | `[FormDataContent]` | multipart/form-data |
+| `[JsonFormField]` | 作为表单字段，值为 JSON 字符串 |
+| `[JsonFormDataText]` | 作为 multipart 字段，值为 JSON 字符串 |
 | `[RawStringContent]` | 自定义 |
 | `[RawJsonContent]` | application/json |
 | `[RawXmlContent]` | application/xml |

@@ -107,6 +107,30 @@ doc.Replace(item => item.Account, "laojiu");
 doc.Replace(item => item.Email, "laojiu@qq.com");
 ```
 
+### HttpHeadAttribute
+
+HEAD request:
+
+```csharp
+public interface IUserApi
+{
+    [HttpHead("api/users/{id}")] // Supports null, absolute or relative paths
+    Task<HttpResponseMessage> HeadAsync(string id);
+}
+```
+
+### HttpOptionsAttribute
+
+OPTIONS request:
+
+```csharp
+public interface IUserApi
+{
+    [HttpOptions("api/users")] // Supports null, absolute or relative paths
+    Task<HttpResponseMessage> OptionsAsync();
+}
+```
+
 ## Request Header Attributes
 
 ### HeaderAttribute
@@ -169,13 +193,59 @@ public interface IUserApi
 }
 ```
 
-Use parameter value as timeout in milliseconds:
+Use parameter value as timeout duration, supports numeric types (milliseconds) or TimeSpan:
 
 ```csharp
 public interface IUserApi
 {
     [HttpGet("api/users/{id}")]
-    Task<User> GetAsync(string id, [Timeout] int timeout);
+    Task<User> GetAsync(string id, [Timeout] int timeoutMs);
+    
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync2(string id, [Timeout] TimeSpan timeout);
+}
+```
+
+### BasicAuthAttribute
+
+Basic authentication:
+
+```csharp
+public interface IUserApi
+{
+    [BasicAuth("username", "password")]
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+}
+```
+
+### CacheAttribute
+
+Request result caching:
+
+```csharp
+public interface IUserApi
+{
+    [Cache(10 * 1000)] // Cache for 10 seconds
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+    
+    [Cache(10 * 1000, IncludeHeaders = "Authorization,X-Token")] // Cache key includes request headers
+    [HttpGet("api/users/{id}")]
+    Task<User> GetWithHeadersAsync(string id);
+}
+```
+
+### HttpCompletionOptionAttribute
+
+Indicates the request completion option to control response content reading behavior:
+
+```csharp
+public interface IUserApi
+{
+    [HttpCompletionOption(HttpCompletionOption.ResponseHeadersRead)]
+    [HttpGet("api/stream")]
+    Task<Stream> GetStreamAsync();
 }
 ```
 

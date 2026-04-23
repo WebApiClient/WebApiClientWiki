@@ -107,6 +107,30 @@ doc.Replace(item => item.Account, "laojiu");
 doc.Replace(item => item.Email, "laojiu@qq.com");
 ```
 
+### HttpHeadAttribute
+
+HEAD 请求：
+
+```csharp
+public interface IUserApi
+{
+    [HttpHead("api/users/{id}")] // 支持 null、绝对或相对路径
+    Task<HttpResponseMessage> HeadAsync(string id);
+}
+```
+
+### HttpOptionsAttribute
+
+OPTIONS 请求：
+
+```csharp
+public interface IUserApi
+{
+    [HttpOptions("api/users")] // 支持 null、绝对或相对路径
+    Task<HttpResponseMessage> OptionsAsync();
+}
+```
+
 ## 请求头特性
 
 ### HeaderAttribute
@@ -169,13 +193,59 @@ public interface IUserApi
 }
 ```
 
-参数值作为超时时间的毫秒数：
+参数值作为超时时间，支持数值类型（毫秒数）或 TimeSpan 类型：
 
 ```csharp
 public interface IUserApi
 {
     [HttpGet("api/users/{id}")]
-    Task<User> GetAsync(string id, [Timeout] int timeout);
+    Task<User> GetAsync(string id, [Timeout] int timeoutMs);
+    
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync2(string id, [Timeout] TimeSpan timeout);
+}
+```
+
+### BasicAuthAttribute
+
+基本授权：
+
+```csharp
+public interface IUserApi
+{
+    [BasicAuth("username", "password")]
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+}
+```
+
+### CacheAttribute
+
+请求结果缓存：
+
+```csharp
+public interface IUserApi
+{
+    [Cache(10 * 1000)] // 缓存 10 秒
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+    
+    [Cache(10 * 1000, IncludeHeaders = "Authorization,X-Token")] // 缓存键包含请求头
+    [HttpGet("api/users/{id}")]
+    Task<User> GetWithHeadersAsync(string id);
+}
+```
+
+### HttpCompletionOptionAttribute
+
+指示请求完成选项，用于控制响应内容的读取行为：
+
+```csharp
+public interface IUserApi
+{
+    [HttpCompletionOption(HttpCompletionOption.ResponseHeadersRead)]
+    [HttpGet("api/stream")]
+    Task<Stream> GetStreamAsync();
 }
 ```
 

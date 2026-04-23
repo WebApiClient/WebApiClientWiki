@@ -207,3 +207,74 @@ public class CustomTokenProvider : TokenProvider
 ### Options for Custom TokenProvider
 
 Each `TokenProvider` has a `Name` property, which is the same value as the `Name` of the `ITokenProviderBuilder` returned by `service.AddTokenProvider()`. You can use the `GetOptionsValue()` method of `TokenProvider` to read the Options value, and configure the Options using the `Name` of `ITokenProviderBuilder`.
+
+## Advanced Configuration
+
+### Token Refresh Window
+
+To avoid token expiration during use, you can configure the refresh window:
+
+```csharp
+services.AddHttpApi<IUserApi>()
+    .ConfigureOAuthTokenOptions(o =>
+    {
+        o.UseTokenRefreshWindow = true;
+        o.RefreshWindowSeconds = 120;  // Refresh 2 minutes early
+        // Or use percentage calculation
+        // o.RefreshWindowPercentage = 0.1;  // Refresh 10% of time early
+    });
+```
+
+### Disable refresh_token
+
+If the server does not support refresh_token, you can disable it:
+
+```csharp
+services.AddClientCredentialsTokenProvider<IUserApi>(o =>
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens");
+    o.Credentials.Client_id = "clientId";
+    o.Credentials.Client_secret = "xxyyzz";
+    o.UseRefreshToken = false;  // Disable refresh_token, re-request when expired
+});
+```
+
+### Alias Functionality
+
+Support for registering multiple TokenProviders with aliases:
+
+```csharp
+// Register multiple TokenProvider aliases
+services.AddClientCredentialsTokenProvider<IUserApi>("api1", o => 
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens1");
+    // ...
+});
+services.AddClientCredentialsTokenProvider<IUserApi>("api2", o => 
+{
+    o.Endpoint = new Uri("http://localhost:6000/api/tokens2");
+    // ...
+});
+
+// Dynamic selection via parameter
+public interface IUserApi
+{
+    [OAuthToken("providerName")]
+    Task GetDataAsync(string providerName);
+}
+```
+
+### TokenProvider Search Mode
+
+The `TokenProviderSearchMode` property of `OAuthTokenAttribute` controls how to find the TokenProvider:
+
+```csharp
+[OAuthToken(TokenProviderSearchMode = TypeMatchMode.Exact)]
+public interface IUserApi
+{
+    // ...
+}
+```
+
+- `TypeOrBaseTypes` (default): Search from the current interface type, then parent interfaces
+- `Exact`: Only search for the current interface type

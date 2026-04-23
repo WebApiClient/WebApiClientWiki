@@ -16,6 +16,10 @@ public interface IUserApi
 }
 ```
 
+Supported properties:
+- `CharSet`: Encoding name, default is utf-8
+- `AllowChunked`: Whether to allow chunked transfer, default is true
+
 ### XmlContentAttribute
 
 Serialize parameter value as XML content of the request:
@@ -27,6 +31,9 @@ public interface IUserApi
     Task<User> PostAsync([XmlContent] User user);
 }
 ```
+
+Supported properties:
+- `CharSet`: Encoding name, default is utf-8
 
 ## Form Attributes
 
@@ -41,6 +48,9 @@ public interface IUserApi
     Task<User> PostAsync([FormContent] User user);
 }
 ```
+
+Supported properties:
+- `CollectionFormat`: Collection format style, default is Multi
 
 ### FormFieldAttribute
 
@@ -78,6 +88,9 @@ public interface IUserApi
 }
 ```
 
+Supported properties:
+- `CollectionFormat`: Collection format style, default is Multi
+
 ### FormDataTextAttribute
 
 Constant value for multipart/form-data form field:
@@ -114,6 +127,18 @@ public interface IUserApi
 }
 ```
 
+### JsonFormDataTextAttribute
+
+Serialize parameter value as JSON string for multipart/form-data form field:
+
+```csharp
+public interface IUserApi
+{
+    [HttpPost("api/submit")]
+    Task PostAsync([FormDataContent] User user, [JsonFormDataText] ComplexData metadata);
+}
+```
+
 ## Raw Content Attributes
 
 ### RawStringContentAttribute
@@ -127,6 +152,9 @@ public interface IUserApi
     Task PostAsync([RawStringContent("text/plain")] string text);
 }
 ```
+
+Supported properties:
+- `CharSet`: Encoding name, default is utf-8
 
 ### RawJsonContentAttribute
 
@@ -172,6 +200,8 @@ public interface IUserApi
 | `[XmlContent]` | application/xml |
 | `[FormContent]` | application/x-www-form-urlencoded |
 | `[FormDataContent]` | multipart/form-data |
+| `[JsonFormField]` | As form field, value is JSON string |
+| `[JsonFormDataText]` | As multipart field, value is JSON string |
 | `[RawStringContent]` | Custom |
 | `[RawJsonContent]` | application/json |
 | `[RawXmlContent]` | application/xml |

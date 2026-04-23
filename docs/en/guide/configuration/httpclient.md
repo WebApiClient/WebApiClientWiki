@@ -33,19 +33,26 @@ services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 });
 ```
 
-## Named HttpClient Configuration
+## Shared HttpClient Configuration
 
-If multiple interfaces need to share configuration, you can use named HttpClient:
+If multiple interfaces need to share the same HttpClient configuration (such as BaseAddress, default headers, etc.), you can configure them uniformly during registration:
 
 ```csharp
-services.AddHttpClient("MyApi", client =>
+// Unified configuration for multiple interfaces
+services.AddHttpApi<IUserApi>().ConfigureHttpClient(httpClient =>
 {
-    client.BaseAddress = new Uri("http://api.example.com/");
-    client.Timeout = TimeSpan.FromSeconds(30);
+    httpClient.BaseAddress = new Uri("http://api.example.com/");
+    httpClient.Timeout = TimeSpan.FromSeconds(30);
 });
 
-services.AddHttpApi<IUserApi>().ConfigureHttpClient("MyApi");
+services.AddHttpApi<IOrderApi>().ConfigureHttpClient(httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://api.example.com/");
+    httpClient.Timeout = TimeSpan.FromSeconds(30);
+});
 ```
+
+> Tip: For complex shared configuration scenarios, consider encapsulating as extension methods or using a configuration center for unified management.
 
 ## Typed HttpClient
 

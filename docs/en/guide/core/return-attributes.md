@@ -20,7 +20,7 @@ By default, each interface already has multiple Return attributes with `AcceptQu
 ```csharp
 [JsonReturn] // (.AcceptQuality = MAX, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false)
 /* The following attributes are implicitly present
-[RawReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)] 
+[RawReturn(0.1, EnsureSuccessStatusCode = true)]  // RawReturn has no EnsureMatchAcceptContentType property
 [NoneReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
 [JsonReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
 [XmlReturn(0.1, EnsureSuccessStatusCode = true, EnsureMatchAcceptContentType = true)]
@@ -79,7 +79,10 @@ Task<XmlResultClass> DemoApiMethod();
 
 ## NoneReturnAttribute
 
-Represents an attribute that sets the result to the return type's default value when the response status code is 204:
+Represents an attribute that sets the result to the return type's default value when:
+
+- Response status code is 204 NoContent
+- Or response status code is successful (200-299) and Content-Length is 0
 
 ```csharp
 [NoneReturn] 

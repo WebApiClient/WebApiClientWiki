@@ -44,6 +44,15 @@ JSON-RPC is a lightweight Remote Procedure Call (RPC) protocol that uses JSON as
 dotnet add package WebApiClientCore.Extensions.JsonRpc
 ```
 
+## Namespaces
+
+To use this extension, you need to reference the following namespaces:
+
+```csharp
+using WebApiClientCore.Attributes;           // JsonRpcMethodAttribute, JsonRpcParamAttribute, JsonRpcParamsStyle
+using WebApiClientCore.Extensions.JsonRpc;   // JsonRpcResult<TResult>, JsonRpcError
+```
+
 ## JsonRpcMethodAttribute
 
 `JsonRpcMethodAttribute` is used to mark interface methods as JSON-RPC calls. It inherits from `HttpPostAttribute` and implements `IApiFilterAttribute`.

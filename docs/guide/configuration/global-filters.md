@@ -115,9 +115,9 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 });
 
 // 或者使用工厂方法
-services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
+services.AddHttpApi<IUserApi>().ConfigureHttpApi((o, sp) =>
 {
-    o.GlobalFilters.Add(sp => sp.GetRequiredService<SignFilter>());
+    o.GlobalFilters.Add(sp.GetRequiredService<SignFilter>());
 });
 ```
 
