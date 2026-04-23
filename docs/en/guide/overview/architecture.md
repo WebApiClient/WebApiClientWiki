@@ -1,8 +1,6 @@
-> This document is machine translated and requires review.
-
 # Architecture Overview
 
-WebApiClientCore is a .NET-based declarative HTTP client framework that defines HTTP requests through interfaces and attributes, without the need to manually build HttpRequestMessage.
+WebApiClientCore is a declarative HTTP client framework for .NET that allows you to define HTTP requests through interfaces and attributes, eliminating the need to manually construct HttpRequestMessage.
 
 ## Core Design Philosophy
 
@@ -68,7 +66,7 @@ public interface IUserApi
 
 ### 2. IApiParameter
 
-Self-describing parameter types that allow parameters to decide how to serialize and transmit themselves:
+Self-describing parameter types that allow parameters to control their own serialization and transmission:
 
 ```csharp
 public class FaceModel : IApiParameter
@@ -183,11 +181,11 @@ public class UserService
 
 | Package Name | Function |
 |--------------|----------|
-| WebApiClientCore | Core Package |
-| WebApiClientCore.Extensions.OAuths | OAuth2 and Token Management |
-| WebApiClientCore.Extensions.NewtonsoftJson | Newtonsoft.Json Support |
-| WebApiClientCore.Extensions.JsonRpc | JSON-RPC Protocol Support |
-| WebApiClientCore.OpenApi.SourceGenerator | OpenApi Code Generation Tool |
+| WebApiClientCore | Core package |
+| WebApiClientCore.Extensions.OAuths | OAuth2 and token management |
+| WebApiClientCore.Extensions.NewtonsoftJson | Newtonsoft.Json support |
+| WebApiClientCore.Extensions.JsonRpc | JSON-RPC protocol support |
+| WebApiClientCore.OpenApi.SourceGenerator | OpenAPI code generation tool |
 
 ## Comparison with Other Solutions
 
@@ -197,7 +195,7 @@ public class UserService
 | Compile-time Checking | ✅ | ✅ | ❌ |
 | Conditional Retry | ✅ ITask | ❌ | ❌ |
 | Custom Parameter Serialization | ✅ IApiParameter | ❌ | ✅ |
-| OAuth Extension | ✅ | Manual Implementation | Manual Implementation |
+| OAuth Extension | ✅ | Manual implementation | Manual implementation |
 | AOT Support | ✅ | ❌ | ✅ |
 
 ## Next Steps

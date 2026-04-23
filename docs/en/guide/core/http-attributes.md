@@ -1,29 +1,27 @@
-> This document is machine translated and requires review.
-
 # HTTP Attributes
 
 HTTP attributes are used to define the HTTP request method, path, and basic configuration.
 
 ## Execution Order
 
-> Pre-execution order
+**Pre-execution order:**
 
-Parameter value validation -> IApiActionAttribute -> IApiParameterAttribute -> IApiReturnAttribute -> IApiFilterAttribute
+Parameter value validation → IApiActionAttribute → IApiParameterAttribute → IApiReturnAttribute → IApiFilterAttribute
 
-> Post-execution order
+**Post-execution order:**
 
-IApiReturnAttribute -> Return value validation -> IApiFilterAttribute
+IApiReturnAttribute → Return value validation → IApiFilterAttribute
 
 ## Attribute Placement
 
 ```csharp
-[IApiFilterAttribute]/*Filter applied to all methods in the interface*/
-[IApiReturnAttribute]/*ReturnAttribute applied to all methods in the interface*/
+[IApiFilterAttribute] // Filter applied to all methods in the interface
+[IApiReturnAttribute] // ReturnAttribute applied to all methods in the interface
 public interface DemoApiInterface
 {
     [IApiActionAttribute]
-    [IApiFilterAttribute]/*Filter applied to this method*/
-    [IApiReturnAttribute]/*ReturnAttribute applied to this method*/
+    [IApiFilterAttribute] // Filter applied to this method
+    [IApiReturnAttribute] // ReturnAttribute applied to this method
     Task<HttpResponseMessage> DemoApiMethod([IApiParameterAttribute] ParameterClass parameterClass);
 }
 ```
@@ -32,7 +30,7 @@ public interface DemoApiInterface
 
 ### HttpHostAttribute
 
-Use the HttpHost attribute when the request domain is a known constant.
+Use the `HttpHost` attribute when the request domain is a known constant.
 
 ```csharp
 [HttpHost("http://localhost:5000/")] // Applies to all methods under the interface
@@ -125,7 +123,7 @@ public interface IUserApi
 }
 ```
 
-Parameter value as request header:
+Use parameter value as request header:
 
 ```csharp
 public interface IUserApi
@@ -137,7 +135,7 @@ public interface IUserApi
 
 ### HeadersAttribute
 
-Parameter value key-value pairs as request headers:
+Use parameter value key-value pairs as request headers:
 
 ```csharp
 public interface IUserApi
@@ -171,7 +169,7 @@ public interface IUserApi
 }
 ```
 
-Parameter value as timeout in milliseconds:
+Use parameter value as timeout in milliseconds:
 
 ```csharp
 public interface IUserApi
@@ -183,7 +181,7 @@ public interface IUserApi
 
 ### UriAttribute
 
-Parameter value as request Uri, can only decorate the first parameter, can be a relative Uri or absolute Uri:
+Use parameter value as request URI. Can only decorate the first parameter, and can be a relative or absolute URI:
 
 ```csharp
 public interface IUserApi
@@ -195,7 +193,7 @@ public interface IUserApi
 
 ### PathQueryAttribute
 
-Parameter value key-value pairs as request url path parameters or query parameters. For general type parameters, PathQueryAttribute is implicitly applied when no attribute is specified:
+Use parameter value key-value pairs as request URL path parameters or query parameters. For general type parameters, `PathQueryAttribute` is implicitly applied when no attribute is specified:
 
 ```csharp
 public interface IUserApi

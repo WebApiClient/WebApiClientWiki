@@ -1,20 +1,18 @@
-> This document is machine translated and requires review.
-
 # Getting Started
 
 ## Prerequisites
 
-`WebApiClientCore` requires your project's `.NET` version to support `.NET Standard2.1` and have a dependency injection environment.
+`WebApiClientCore` requires your project's .NET version to support .NET Standard 2.1 and have a dependency injection environment.
 
-## Install from Nuget
+## Install from NuGet
 
 | Package Name | Description |
 |--------------|-------------|
-| [WebApiClientCore](https://www.nuget.org/packages/WebApiClientCore) | Base package |
-| [WebApiClientCore.Extensions.OAuths](https://www.nuget.org/packages/WebApiClientCore.Extensions.OAuths) | OAuth2 and token management extension package |
-| [WebApiClientCore.Extensions.NewtonsoftJson](https://www.nuget.org/packages/WebApiClientCore.Extensions.NewtonsoftJson) | Newtonsoft Json.NET extension package |
-| [WebApiClientCore.Extensions.JsonRpc](https://www.nuget.org/packages/WebApiClientCore.Extensions.JsonRpc) | JsonRpc invocation extension package |
-| [WebApiClientCore.OpenApi.SourceGenerator](https://www.nuget.org/packages/WebApiClientCore.OpenApi.SourceGenerator) | dotnet tool that parses local or remote OpenApi documents to generate WebApiClientCore interface code |
+| [WebApiClientCore](https://www.nuget.org/packages/WebApiClientCore) | Core package |
+| [WebApiClientCore.Extensions.OAuths](https://www.nuget.org/packages/WebApiClientCore.Extensions.OAuths) | OAuth2 and token management extension |
+| [WebApiClientCore.Extensions.NewtonsoftJson](https://www.nuget.org/packages/WebApiClientCore.Extensions.NewtonsoftJson) | Newtonsoft Json.NET extension |
+| [WebApiClientCore.Extensions.JsonRpc](https://www.nuget.org/packages/WebApiClientCore.Extensions.JsonRpc) | JSON-RPC invocation extension |
+| [WebApiClientCore.OpenApi.SourceGenerator](https://www.nuget.org/packages/WebApiClientCore.OpenApi.SourceGenerator) | A dotnet tool that parses local or remote OpenAPI documents to generate WebApiClientCore interface code |
 
 ## Declare Interface
 

@@ -1,8 +1,6 @@
 # Dynamic HttpHost
 
-> This document is machine translated and requires review.
-
-In some scenarios, the host address of an API needs to be determined dynamically at runtime rather than fixed at compile time.
+In some scenarios, the API host address needs to be determined dynamically at runtime rather than being fixed at compile time.
 
 ## Using UriAttribute for Absolute Uri
 
@@ -15,7 +13,7 @@ public interface IUserApi
 }
 ```
 
-Pass in the complete URL when calling:
+Pass the complete URL when calling:
 
 ```csharp
 var user = await userApi.GetAsync("http://api.example.com/detail", "id001");
@@ -23,7 +21,7 @@ var user = await userApi.GetAsync("http://api.example.com/detail", "id001");
 
 ## Custom HttpHostBaseAttribute
 
-A more flexible approach is to customize HttpHostBaseAttribute to implement dynamic host resolution:
+A more flexible approach is to create a custom `HttpHostBaseAttribute` to implement dynamic host resolution:
 
 ```csharp
 [ServiceNameHost("baidu")]
@@ -47,20 +45,20 @@ public class ServiceNameHostAttribute : HttpHostBaseAttribute
 
     public override Task OnRequestAsync(ApiRequestContext context)
     {
-        // HostProvider is your own service, data source can be database or configuration center, etc.
+        // HostProvider is a custom service; the data source can be a database, configuration center, etc.
         var hostProvider = context.HttpContext.ServiceProvider.GetRequiredService<HostProvider>();
         string host = hostProvider.ResolveHost(this.ServiceName);
 
-        // Set RequestUri of the request message
+        // Set the RequestUri of the request message
         context.HttpContext.RequestMessage.RequestUri = new Uri(host);
         return Task.CompletedTask;
     }
 }
 ```
 
-## Combining with Service Discovery
+## Integration with Service Discovery
 
-In microservices architecture, you can combine with service discovery components to implement dynamic host resolution:
+In a microservices architecture, you can integrate with service discovery components:
 
 ```csharp
 public class ServiceDiscoveryHostAttribute : HttpHostBaseAttribute
@@ -77,14 +75,14 @@ public class ServiceDiscoveryHostAttribute : HttpHostBaseAttribute
         var discovery = context.HttpContext.ServiceProvider.GetRequiredService<IServiceDiscovery>();
         var instances = await discovery.GetInstancesAsync(_serviceName);
         
-        // Load balancing to select an instance
+        // Select an instance using load balancing
         var instance = instances.First();
         context.HttpContext.RequestMessage.RequestUri = new Uri(instance.Address);
     }
 }
 ```
 
-## Switching Host by Tenant
+## Tenant-Based Host Switching
 
 In multi-tenant scenarios, you can dynamically switch API hosts based on the current tenant:
 

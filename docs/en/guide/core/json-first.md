@@ -1,14 +1,12 @@
 # Adjusting Default Parameter Attributes
 
-> This document is machine translated and requires review.
-
-WebApiClientCore executes requests and handles responses based on metadata. You can customize Api method descriptions by populating them with desired attributes.
+WebApiClientCore executes requests and handles responses based on metadata. You can customize API method descriptions by applying desired attributes.
 
 ## UseJsonFirstApiActionDescriptor
 
-In modern Web interfaces, JSON requests occupy most scenarios, so your client interface submitted content is often JSON content.
+In modern web APIs, JSON is the most common request format, so client interfaces often need to submit JSON content.
 
-The `UseJsonFirstApiActionDescriptor` behavior automatically applies `JsonContentAttribute` to complex parameter types when declaring default parameter attributes for non-GET or HEAD requests.
+The `UseJsonFirstApiActionDescriptor` behavior automatically applies `JsonContentAttribute` to complex parameter types for non-GET or HEAD requests.
 
 ```csharp
 services
@@ -16,7 +14,7 @@ services
     .UseJsonFirstApiActionDescriptor();
 ```
 
-After configuration, the `User` parameter of the following interface will automatically have the `[JsonContent]` attribute applied:
+After configuration, the `User` parameter in the following interface will automatically have `[JsonContent]` applied:
 
 ```csharp
 public interface IUserApi
@@ -26,9 +24,9 @@ public interface IUserApi
 }
 ```
 
-## Verifying the Auto-Application Effect
+## Verifying Auto-Application
 
-You can annotate `IUserApi` with a custom `ApiFilterAttribute` subclass to observe the parameter attributes when calling `PostAsync`:
+You can apply a custom `ApiFilterAttribute` subclass to `IUserApi` to observe the parameter attributes when calling `PostAsync`:
 
 ```csharp
 public class DebugFilterAttribute : ApiFilterAttribute
@@ -49,10 +47,10 @@ public class DebugFilterAttribute : ApiFilterAttribute
 }
 ```
 
-You will find that `JsonContentAttribute` is automatically added to the collection.
+You will see that `JsonContentAttribute` has been automatically added to the attribute collection.
 
 ## When to Use
 
 - Most APIs use JSON as the request body format
-- Want to reduce repetitive `[JsonContent]` attribute annotations
-- Recommended to enable by default for new projects
+- You want to reduce repetitive `[JsonContent]` annotations
+- Recommended for new projects by default

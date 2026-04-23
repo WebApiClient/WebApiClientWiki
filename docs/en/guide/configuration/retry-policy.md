@@ -1,6 +1,6 @@
 # ITask and IRetryTask Details
 
-WebApiClientCore provides `ITask<TResult>` and `IRetryTask<TResult>` interfaces for implementing declarative request retry and exception handling mechanisms. This chapter introduces how to use these interfaces in detail.
+WebApiClientCore provides `ITask<TResult>` and `IRetryTask<TResult>` interfaces for implementing declarative request retry and exception handling. This chapter introduces how to use these interfaces in detail.
 
 ## Difference Between ITask and Task
 
@@ -94,26 +94,26 @@ await userApi.GetByIdAsync("id001")
     });
 ```
 
-## WhenCatch Exception Capturing
+## WhenCatch Exception Handling
 
-`WhenCatch` is used to specify retry triggers when specific exceptions are caught. Multiple overloads are supported.
+`WhenCatch` specifies retry triggers when specific exceptions are caught. Multiple overloads are supported.
 
 ### Method Signatures
 
 ```csharp
-// Catch specified type of exception and retry directly
+// Catch specified exception type and retry directly
 IRetryTask<TResult> WhenCatch<TException>() where TException : Exception
 
 // Execute handler after catching exception, then retry
 IRetryTask<TResult> WhenCatch<TException>(Action<TException> handler) where TException : Exception
 
-// Determine if retry is needed after catching exception
+// Determine whether to retry after catching exception
 IRetryTask<TResult> WhenCatch<TException>(Func<TException, bool> predicate) where TException : Exception
 
 // Async version: Execute async handler after catching exception
 IRetryTask<TResult> WhenCatchAsync<TException>(Func<TException, Task> handler) where TException : Exception
 
-// Async version: Async determination if retry is needed after catching exception
+// Async version: Async predicate to determine whether to retry
 IRetryTask<TResult> WhenCatchAsync<TException>(Func<TException, Task<bool>> predicate) where TException : Exception
 ```
 
@@ -158,9 +158,9 @@ var result = await userApi.GetByIdAsync("id001")
     });
 ```
 
-## WhenResult Result Condition Retry
+## WhenResult Result-Based Retry
 
-`WhenResult` is used to determine whether a retry is needed based on the response result.
+`WhenResult` determines whether a retry is needed based on the response result.
 
 ### Method Signatures
 
@@ -196,7 +196,7 @@ var result = await userApi.GetByIdAsync("id001")
     .Retry(3)
     .WhenResult(r => r == null);
 
-// Scenario 4: Async condition judgment (requires external service query)
+// Scenario 4: Async condition evaluation (requires external service query)
 var result = await userApi.GetByIdAsync("id001")
     .Retry(3)
     .WhenResultAsync(async r => 

@@ -1,8 +1,6 @@
 # HttpMessageHandler Configuration
 
-> This document is machine translated and requires review.
-
-HttpMessageHandler is the core component of HttpClient, used to handle HTTP requests and responses. By configuring HttpMessageHandler, you can implement advanced features such as proxy, certificates, and cookies.
+HttpMessageHandler is the core component of HttpClient responsible for processing HTTP requests and responses. By configuring HttpMessageHandler, you can implement advanced features such as proxy, certificates, and cookies.
 
 ## HTTP Proxy Configuration
 
@@ -45,7 +43,7 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 
 ## Maintaining CookieContainer Persistence
 
-If the requested API uses cookies to store authentication information, you need to consider maintaining the CookieContainer instance so it doesn't follow the HttpMessageHandler lifecycle. The default HttpMessageHandler has a minimum lifecycle of only 2 minutes.
+If the API uses cookies to store authentication information, you need to maintain the CookieContainer instance independently so it does not follow the HttpMessageHandler lifecycle. The default HttpMessageHandler has a minimum lifecycle of only 2 minutes.
 
 ```csharp
 var cookieContainer = new CookieContainer();
@@ -75,8 +73,8 @@ services.AddHttpApi<IUserApi>().ConfigurePrimaryHttpMessageHandler(() =>
 });
 ```
 
-::: warning Warning
-Skipping SSL certificate validation should only be used in development environments. Production environments must use valid certificates.
+::: warning
+Skipping SSL certificate validation should only be used in development environments. Production environments must use valid SSL certificates.
 :::
 
 ## Adding Custom DelegatingHandler

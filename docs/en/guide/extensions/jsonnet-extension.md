@@ -1,8 +1,8 @@
 # Json.NET Extension
 
-Use the WebApiClientCore.Extensions.NewtonsoftJson extension to easily support Newtonsoft's `Json.NET` for serializing and deserializing JSON.
+Use the WebApiClientCore.Extensions.NewtonsoftJson extension to easily support Newtonsoft's `Json.NET` for JSON serialization and deserialization.
 
-## Configuration (optional)
+## Configuration (Optional)
 
 ```csharp
 // ConfigureNewtonsoftJson
@@ -14,7 +14,7 @@ services.AddHttpApi<IUserApi>().ConfigureNewtonsoftJson(o =>
 
 ## Declare Attributes
 
-Replace the built-in [JsonReturn] with [JsonNetReturn], and [JsonContent] with [JsonNetContent].
+Replace the built-in `[JsonReturn]` with `[JsonNetReturn]`, and `[JsonContent]` with `[JsonNetContent]`.
 
 ```csharp
 /// <summary>

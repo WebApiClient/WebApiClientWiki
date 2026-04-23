@@ -1,8 +1,6 @@
-> This document is machine translated and requires review.
-
 # Custom Self-Describing Parameter Types
 
-In some extreme cases, such as face comparison APIs, our input model may not be equivalent to the transmission model.
+In certain scenarios, such as face comparison APIs, the input model may differ from the transmission model.
 
 ## Problem Scenario
 
@@ -15,7 +13,7 @@ JSON model required by the server:
 }
 ```
 
-Business model expected by the client:
+Business model on the client side:
 
 ```csharp
 public class FaceModel
@@ -25,11 +23,11 @@ public class FaceModel
 }
 ```
 
-We want to pass Bitmap objects when constructing the model instance, but have them converted to base64 values during transmission.
+We want to pass Bitmap objects when constructing the model, but have them converted to base64 strings during transmission.
 
 ## Solution: Implement IApiParameter
 
-Modify FaceModel to implement the `IApiParameter` interface:
+Modify `FaceModel` to implement the `IApiParameter` interface:
 
 ```csharp
 public class FaceModel : IApiParameter
@@ -67,7 +65,7 @@ public interface IFaceApi
     Task<CompareResult> CompareAsync(FaceModel faces);
 }
 
-// Call
+// Usage
 var result = await faceApi.CompareAsync(new FaceModel
 {
     Image1 = bitmap1,
@@ -75,7 +73,7 @@ var result = await faceApi.CompareAsync(new FaceModel
 });
 ```
 
-## More Application Scenarios
+## Additional Application Scenarios
 
 ### File Upload Model
 
@@ -115,7 +113,7 @@ public class EncryptedParameter : IApiParameter
 
     private string Encrypt(string content)
     {
-        // Encryption logic
+        // Implement encryption logic
         return Convert.ToBase64String(Encoding.UTF8.GetBytes(content));
     }
 }

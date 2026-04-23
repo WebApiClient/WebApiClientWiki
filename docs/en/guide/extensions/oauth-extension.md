@@ -1,24 +1,24 @@
-# OAuths & Token Extension
+# OAuth & Token Extension
 
-With the WebApiClientCore.Extensions.OAuths extension, it is easy to support token acquisition, refresh, and application.
+The WebApiClientCore.Extensions.OAuths extension makes it easy to support token acquisition, refresh, and application.
 
 ## Objects and Concepts
 
 ### ITokenProviderFactory
 
-The factory for creating ITokenProvider, providing the ability to get or create ITokenProvider through the HttpApi interface type.
+A factory for creating `ITokenProvider` instances, providing the ability to get or create an `ITokenProvider` based on the HttpApi interface type.
 
 ### ITokenProvider
 
-The token provider used to obtain tokens. It triggers a re-request or token refresh in the first request after the token expires.
+A token provider used to obtain tokens. It triggers a token re-request or refresh on the first request after the token expires.
 
 ### OAuthTokenAttribute
 
-The attribute for applying tokens. It creates an ITokenProvider using the ITokenProviderFactory, then uses the ITokenProvider to obtain the token, and finally applies the token to the request message.
+An attribute for applying tokens. It creates an `ITokenProvider` using `ITokenProviderFactory`, then uses the `ITokenProvider` to obtain the token, and finally applies the token to the request message.
 
 ### OAuthTokenHandler
 
-A HTTP message handler that functions similarly to OAuthTokenAttribute. In addition, if the server still returns unauthorized (401 status code) due to unexpected reasons, it will discard the old token and request a new token to retry the request.
+An HTTP message handler that functions similarly to `OAuthTokenAttribute`. Additionally, if the server returns an unauthorized response (401 status code) for unexpected reasons, it discards the old token, requests a new one, and retries the request.
 
 ## OAuth Client Mode
 
@@ -36,9 +36,9 @@ services.AddClientCredentialsTokenProvider<IUserApi>(o =>
 
 ### Applying the Token
 
-#### Using the OAuthToken attribute
+#### Using OAuthTokenAttribute
 
-OAuthTokenAttribute belongs to the WebApiClientCore framework layer, making it easy to manipulate request content and response models. For example, it is convenient to add the token as a form field to an existing request form or read the corresponding business model after deserializing the response message. However, it cannot implement the effect of retrying requests within the request when the token is lost after the server issues the token. Using OAuthTokenAttribute will result in a failed request that cannot be avoided.
+`OAuthTokenAttribute` belongs to the WebApiClientCore framework layer, making it easy to manipulate request content and response models. For example, you can conveniently add the token as a form field to an existing request form, or read the corresponding business model after deserializing the response message. However, it cannot retry requests within the same call if the token becomes invalid after the server issues it. Using `OAuthTokenAttribute` will result in a failed request that cannot be avoided.
 
 ```csharp
 /// <summary>
@@ -51,7 +51,7 @@ public interface IUserApi
 }
 ```
 
-The default implementation of OAuthTokenAttribute puts the token in the Authorization request header. If your interface needs to put the token in another place, such as the query of the URI, you need to override OAuthTokenAttribute:
+The default implementation of `OAuthTokenAttribute` places the token in the `Authorization` request header. If your interface needs to place the token elsewhere, such as in the URI query string, you need to override `OAuthTokenAttribute`:
 
 ```csharp
 public class UriQueryTokenAttribute : OAuthTokenAttribute
@@ -71,7 +71,7 @@ public interface IUserApi
 
 #### Using OAuthTokenHandler
 
-The strength of OAuthTokenHandler is its support for multiple attempts within a single request. After the server issues the token, if the server loses the token, OAuthTokenHandler will discard and re-request the token within the same request when it receives a 401 status code. It will use the new token to retry the request, making it appear as a normal request. However, OAuthTokenHandler is not an object of the WebApiClientCore framework layer. It can only access the original HttpRequestMessage and HttpResponseMessage. If you need to append the token to the Content of the HttpRequestMessage, it is very difficult. Similarly, if you want to use a field in the HttpResponseMessage's Content corresponding to the business model as the basis for determining the token's validity instead of using HTTP status codes (such as 401), it is also a challenging task.
+The strength of `OAuthTokenHandler` is its support for multiple retry attempts within a single request. If the server returns a 401 status code after issuing the token, `OAuthTokenHandler` discards the old token, requests a new one, and retries the request within the same call, making it appear as a normal request. However, `OAuthTokenHandler` is not part of the WebApiClientCore framework layer. It can only access the original `HttpRequestMessage` and `HttpResponseMessage`. Appending the token to the `HttpRequestMessage.Content` is difficult. Similarly, using a field from `HttpResponseMessage.Content` corresponding to the business model as the basis for determining token validity instead of HTTP status codes (such as 401) is also challenging.
 
 ```csharp
 // Register OAuthTokenHandler when registering the interface
@@ -80,7 +80,7 @@ services
     .AddOAuthTokenHandler();
 ```
 
-The default implementation of OAuthTokenHandler puts the token in the Authorization request header. If your interface needs to put the token in another place, such as the query of the URI, you need to override OAuthTokenHandler:
+The default implementation of `OAuthTokenHandler` places the token in the `Authorization` request header. If your interface needs to place the token elsewhere, such as in the URI query string, you need to override `OAuthTokenHandler`:
 
 ```csharp
 public class UriQueryOAuthTokenHandler : OAuthTokenHandler
@@ -120,7 +120,7 @@ services
 
 ## TokenProvider Shared by Multiple Interfaces
 
-You can set a base interface for the HTTP interface and configure the TokenProvider for the base interface. For example, the xxx and yyy interfaces below both belong to IBaidu, and you only need to configure the TokenProvider for IBaidu.
+You can define a base interface for HTTP interfaces and configure the `TokenProvider` for the base interface. For example, the `IBaidu_XXX_Api` and `IBaidu_YYY_Api` interfaces below both inherit from `IBaidu`, so you only need to configure the `TokenProvider` for `IBaidu`.
 
 ```csharp
 [OAuthToken]
@@ -142,7 +142,7 @@ public interface IBaidu_YYY_Api : IBaidu
 ```
 
 ```csharp
-// Register and configure the token provider for the password mode
+// Register and configure the token provider for password mode
 services.AddPasswordCredentialsTokenProvider<IBaidu>(o =>
 {
     o.Endpoint = new Uri("http://localhost:5000/api/tokens");
@@ -155,7 +155,7 @@ services.AddPasswordCredentialsTokenProvider<IBaidu>(o =>
 
 ## Custom TokenProvider
 
-The extension package already includes two standard token request modes: OAuth Client and Password. However, there are still many interface providers that only embody the spirit of OAuth in their implementation. In this case, you need to customize the TokenProvider. Assuming the interface provider's token request interface is as follows:
+The extension package includes two standard token request modes: OAuth Client and Password. However, many interface providers only loosely follow the OAuth spirit in their implementation. In such cases, you need to customize the `TokenProvider`. Assuming the interface provider's token request interface is as follows:
 
 ```csharp
 public interface ITokenApi
@@ -167,7 +167,7 @@ public interface ITokenApi
 
 ### Delegate TokenProvider
 
-Delegate TokenProvider is the simplest implementation. It uses the delegate for requesting the token as the implementation logic of the custom TokenProvider:
+Delegate `TokenProvider` is the simplest implementation. It uses a delegate for requesting the token as the implementation logic of the custom `TokenProvider`:
 
 ```csharp
 // Register a custom tokenProvider for the interface
@@ -206,4 +206,4 @@ public class CustomTokenProvider : TokenProvider
 
 ### Options for Custom TokenProvider
 
-Each TokenProvider has a Name property, which is the same value as the Name of the ITokenProviderBuilder returned by service.AddTokenProvider(). You can use the GetOptionsValue() method of TokenProvider to read the Options value, and configure the Options using the Name of ITokenProviderBuilder.
+Each `TokenProvider` has a `Name` property, which is the same value as the `Name` of the `ITokenProviderBuilder` returned by `service.AddTokenProvider()`. You can use the `GetOptionsValue()` method of `TokenProvider` to read the Options value, and configure the Options using the `Name` of `ITokenProviderBuilder`.

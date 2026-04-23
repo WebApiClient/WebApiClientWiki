@@ -1,5 +1,3 @@
-> This document is machine translated and requires review.
-
 # Special Parameter Types
 
 Special parameters are parameter types that work without requiring any attributes.

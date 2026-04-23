@@ -1,5 +1,3 @@
-> This document is machine translated and requires review.
-
 # Content Attributes
 
 Content attributes are used to define the format and serialization method of the HTTP request body.
@@ -8,7 +6,7 @@ Content attributes are used to define the format and serialization method of the
 
 ### JsonContentAttribute
 
-Parameter value serialized as json content of the request:
+Serialize parameter value as JSON content of the request:
 
 ```csharp
 public interface IUserApi
@@ -20,7 +18,7 @@ public interface IUserApi
 
 ### XmlContentAttribute
 
-Parameter value serialized as xml content of the request:
+Serialize parameter value as XML content of the request:
 
 ```csharp
 public interface IUserApi
@@ -34,7 +32,7 @@ public interface IUserApi
 
 ### FormContentAttribute
 
-Parameter value key-value pairs as x-www-form-urlencoded form:
+Use parameter value key-value pairs as x-www-form-urlencoded form:
 
 ```csharp
 public interface IUserApi
@@ -46,7 +44,7 @@ public interface IUserApi
 
 ### FormFieldAttribute
 
-Constant value x-www-form-urlencoded form field:
+Constant value for x-www-form-urlencoded form field:
 
 ```csharp
 public interface IUserApi
@@ -58,7 +56,7 @@ public interface IUserApi
 }
 ```
 
-Parameter value as x-www-form-urlencoded form field and value:
+Use parameter value as x-www-form-urlencoded form field:
 
 ```csharp
 public interface IUserApi
@@ -70,7 +68,7 @@ public interface IUserApi
 
 ### FormDataContentAttribute
 
-Parameter value key-value pairs as multipart/form-data form:
+Use parameter value key-value pairs as multipart/form-data form:
 
 ```csharp
 public interface IUserApi
@@ -82,7 +80,7 @@ public interface IUserApi
 
 ### FormDataTextAttribute
 
-Constant value multipart/form-data form field:
+Constant value for multipart/form-data form field:
 
 ```csharp
 public interface IUserApi
@@ -94,7 +92,7 @@ public interface IUserApi
 }
 ```
 
-Parameter value as multipart/form-data form field and value:
+Use parameter value as multipart/form-data form field:
 
 ```csharp
 public interface IUserApi
@@ -106,7 +104,7 @@ public interface IUserApi
 
 ### JsonFormFieldAttribute
 
-Parameter value serialized as JSON string as form field:
+Serialize parameter value as JSON string for form field:
 
 ```csharp
 public interface IUserApi
@@ -156,7 +154,7 @@ public interface IUserApi
 
 ### RawFormContentAttribute
 
-Raw x-www-form-urlencoded form content, this content needs to be form-encoded:
+Raw x-www-form-urlencoded form content. This content needs to be form-encoded:
 
 ```csharp
 public interface IUserApi

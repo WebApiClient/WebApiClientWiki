@@ -1,12 +1,10 @@
 # Request Signature
 
-> This document is machine translated and requires review.
-
-Some APIs require request signature verification to ensure request legitimacy and integrity.
+Some APIs require request signing to ensure request authenticity and integrity.
 
 ## Dynamically Appending Request Signature
 
-For example, each request's Uri needs to dynamically add a query parameter called `sign`. This sign may be related to request parameter values and needs to be calculated each time. We can create a custom subclass of `ApiFilterAttribute` to implement our own signature functionality:
+For example, if each request URI needs a dynamically added query parameter named `sign`, and this value depends on request parameters and must be calculated each time, you can create a custom subclass of `ApiFilterAttribute`:
 
 ```csharp
 public class SignFilterAttribute : ApiFilterAttribute
@@ -43,7 +41,7 @@ public class SortedFormContentAttribute : FormContentAttribute
 {
     protected override IEnumerable<KeyValue> SerializeToKeyValues(ApiParameterContext context)
     {
-        // Sorting, adding other derived fields, etc.
+        // Sorting, adding derived fields, etc.
         return base.SerializeToKeyValues(context).OrderBy(item => item.Key);
     }
 }
@@ -72,7 +70,7 @@ public class ApiSignAttribute : ApiFilterAttribute
         var signContent = BuildSignContent(request, timestamp);
         var sign = ComputeHmacSha256(signContent, _appSecret);
         
-        // Add signature related parameters
+        // Add signature-related parameters
         request.Headers.Add("X-App-Id", _appId);
         request.Headers.Add("X-Timestamp", timestamp);
         request.Headers.Add("X-Sign", sign);
@@ -105,7 +103,7 @@ public interface IPaymentApi
 }
 ```
 
-## Combining with Global Filters
+## Integration with Global Filters
 
 If all APIs require signatures, you can use global filters:
 

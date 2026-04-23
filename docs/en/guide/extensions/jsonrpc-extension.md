@@ -1,6 +1,6 @@
-# JsonRpc Extension
+# JSON-RPC Extension
 
-In rare scenarios, developers may encounter interfaces for JsonRpc calls. Since this protocol is not very popular, WebApiClientCore provides support for this functionality through the WebApiClientCore.Extensions.JsonRpc extension package. Simply decorate the Rpc methods with `[JsonRpcMethod]` and the Rpc parameters with `[JsonRpcParam]`.
+In some scenarios, developers may encounter JSON-RPC interfaces. Since this protocol is not widely used, WebApiClientCore provides support through the WebApiClientCore.Extensions.JsonRpc extension package. Simply decorate RPC methods with `[JsonRpcMethod]` and RPC parameters with `[JsonRpcParam]`.
 
 ## JSON-RPC 2.0 Protocol Overview
 
@@ -15,7 +15,7 @@ JSON-RPC is a lightweight Remote Procedure Call (RPC) protocol that uses JSON as
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| jsonrpc | string | Yes | Fixed as "2.0" |
+| jsonrpc | string | Yes | Fixed value "2.0" |
 | method | string | Yes | Method name to call |
 | params | array/object | No | Parameter values |
 | id | string/number | No | Request identifier (for matching responses) |
@@ -26,7 +26,7 @@ JSON-RPC is a lightweight Remote Procedure Call (RPC) protocol that uses JSON as
 
 | Field | Type | Description |
 |-------|------|-------------|
-| jsonrpc | string | Fixed as "2.0" |
+| jsonrpc | string | Fixed value "2.0" |
 | result | any | Method return value |
 | id | string/number | Corresponding request id |
 
@@ -34,7 +34,7 @@ JSON-RPC is a lightweight Remote Procedure Call (RPC) protocol that uses JSON as
 
 | Field | Type | Description |
 |-------|------|-------------|
-| jsonrpc | string | Fixed as "2.0" |
+| jsonrpc | string | Fixed value "2.0" |
 | error | object | Error object |
 | id | string/number | Corresponding request id |
 
@@ -293,7 +293,7 @@ public interface IEthereumApi
 
 ### Example 5: Dynamic Method Name
 
-When method name is not specified, the interface method name is used as the RPC method name:
+When the method name is not specified, the interface method name is used as the RPC method name:
 
 ```csharp
 [HttpHost("http://localhost:5000/jsonrpc")]
@@ -357,7 +357,7 @@ Accept: application/json
 
 ## Batch Calls
 
-JSON-RPC 2.0 protocol supports batch calls, but WebApiClientCore.Extensions.JsonRpc extension **does not directly support batch calls**. You can implement batch calls through the following approaches:
+The JSON-RPC 2.0 protocol supports batch calls, but the WebApiClientCore.Extensions.JsonRpc extension **does not directly support batch calls**. You can implement batch calls using the following approaches:
 
 ### Approach 1: Parallel Requests
 
@@ -431,7 +431,7 @@ public interface IBatchApi
 
 ## Important Notes
 
-1. **Request ID**: The extension automatically generates incrementing integer IDs, no manual specification needed
-2. **Version**: Fixed to JSON-RPC 2.0, version 1.0 is not supported
-3. **CancellationToken**: Not serialized into RPC parameters, can be used to cancel HTTP requests
-4. **Void Return**: If RPC method has no return value, use `JsonRpcResult<object>` or `JsonRpcResult<JsonElement>`
+1. **Request ID**: The extension automatically generates incrementing integer IDs; no manual specification needed
+2. **Version**: Fixed to JSON-RPC 2.0; version 1.0 is not supported
+3. **CancellationToken**: Not serialized into RPC parameters; can be used to cancel HTTP requests
+4. **Void Return**: If the RPC method has no return value, use `JsonRpcResult<object>` or `JsonRpcResult<JsonElement>`

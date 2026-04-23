@@ -1,8 +1,6 @@
-> This document is machine translated and requires review.
-
 # Data Validation
 
-Use ValidationAttribute subclass attributes to validate request parameter values and response results.
+Apply `ValidationAttribute` subclass attributes to validate request parameter values and response results.
 
 ## Parameter Value Validation
 
@@ -16,9 +14,9 @@ public interface IUserApi
 }
 ```
 
-## Request or Response Model Validation
+## Request and Response Model Validation
 
-Both properties of the User used in the request and response are validated.
+All properties of the `User` model used in both requests and responses are validated.
 
 ```csharp
 public interface IUserApi

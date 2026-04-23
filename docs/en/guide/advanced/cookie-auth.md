@@ -1,12 +1,10 @@
-> This document is machine translated and requires review.
-
 # Cookie Auto-Refresh
 
-For APIs that use Cookie-based authentication, you only know if the Cookie has expired after making a request. By implementing a custom `CookieAuthorizationHandler`, you can automatically refresh the Cookie when it expires during a request and retry the API call.
+For APIs that use Cookie-based authentication, Cookie expiration is typically detected only after a request fails. By implementing a custom `CookieAuthorizationHandler`, you can automatically refresh expired cookies during a request and retry the API call.
 
-## Separate Login Interface
+## Separating the Login Interface
 
-First, we need to separate the login interface from other business interfaces into different interface definitions:
+First, separate the login interface from other business interfaces:
 
 ```csharp
 [HttpHost("http://localhost:5000/")]
@@ -17,7 +15,7 @@ public interface IUserLoginApi
 }
 ```
 
-## Implementing Auto-Refresh Handler
+## Implementing the Auto-Refresh Handler
 
 ```csharp
 public class AutoRefreshCookieHandler : CookieAuthorizationHandler
@@ -53,11 +51,11 @@ services
         sp.GetRequiredService<IUserLoginApi>()));
 ```
 
-Now, when calling any method on `IUserApi`, if the response status code is 401, it will trigger `IUserLoginApi` login, then retry the request with the newly obtained Cookie, and finally return the correct result.
+Now, when calling any method on `IUserApi`, if the response status code is 401, the handler will trigger `IUserLoginApi.LoginAsync()`, retry the request with the newly obtained cookie, and return the result.
 
 ## Custom Unauthorized Detection
 
-By default, refresh is triggered when the response status code is 401. You can override the `IsUnauthorizedAsync` method to customize the detection logic:
+By default, refresh is triggered when the response status code is 401. Override the `IsUnauthorizedAsync` method to customize the detection logic:
 
 ```csharp
 public class CustomCookieHandler : CookieAuthorizationHandler
@@ -71,11 +69,11 @@ public class CustomCookieHandler : CookieAuthorizationHandler
 
     protected override Task<bool> IsUnauthorizedAsync(HttpResponseMessage response)
     {
-        // Custom detection logic
+        // Custom detection logic: check status code
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             return Task.FromResult(true);
 
-        // Can also check response content
+        // Also check custom headers
         if (response.Headers.Contains("X-Session-Expired"))
             return Task.FromResult(true);
 

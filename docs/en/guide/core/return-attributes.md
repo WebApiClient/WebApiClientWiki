@@ -1,5 +1,3 @@
-> This document is machine translated and requires review.
-
 # Return Attributes
 
 Return attributes are used to process response content into corresponding .NET data models.
@@ -8,16 +6,16 @@ Return attributes are used to process response content into corresponding .NET d
 
 Return attributes follow these rules:
 
-1. When the attribute's `EnsureMatchAcceptContentType` property is true (default is false), the attribute only takes effect when its `AcceptContentType` property value matches the response's Content-Type value.
-2. When none of the Return attributes' `AcceptContentType` property values match the response's Content-Type value, `ApiReturnNotSupportedException` is thrown.
-3. When the attribute's `EnsureSuccessStatusCode` property is true (default is true), and the response status code is not between 200 and 299, `ApiResponseStatusException` is thrown.
+1. When the attribute's `EnsureMatchAcceptContentType` property is `true` (default is `false`), the attribute only takes effect when its `AcceptContentType` property value matches the response's `Content-Type` value.
+2. When none of the Return attributes' `AcceptContentType` property values match the response's `Content-Type` value, `ApiReturnNotSupportedException` is thrown.
+3. When the attribute's `EnsureSuccessStatusCode` property is `true` (default is `true`), and the response status code is not between 200 and 299, `ApiResponseStatusException` is thrown.
 4. For multiple Return attributes with the same `AcceptContentType` property value, only the attribute with the highest `AcceptQuality` property value takes effect.
 
 ## Default Return Attributes
 
-By default, each interface already has multiple Return attributes with AcceptQuality of 0.1 implicitly present, which can handle raw types, json, and xml response content simultaneously.
+By default, each interface already has multiple Return attributes with `AcceptQuality` of 0.1 implicitly present, which can handle raw types, JSON, and XML response content simultaneously.
 
-**When you want to use a specific Return attribute to handle response content without caring about Content-Type matching, you just need to declare a specific Return attribute with default parameters.**
+**When you want to use a specific Return attribute to handle response content without caring about Content-Type matching, you only need to declare a specific Return attribute with default parameters.**
 
 ```csharp
 [JsonReturn] // (.AcceptQuality = MAX, .EnsureSuccessStatusCode = true, .EnsureMatchAcceptContentType = false)
@@ -50,7 +48,7 @@ Task<string> GetStringAsync();
 
 ## JsonReturnAttribute
 
-Represents a result attribute for json content, using `System.Text.Json` for serialization and deserialization:
+Represents a result attribute for JSON content, using `System.Text.Json` for serialization and deserialization:
 
 ```csharp
 [JsonReturn]
@@ -72,7 +70,7 @@ public interface IUserApi
 
 ## XmlReturnAttribute
 
-Represents a result attribute for xml content, using `System.Xml.Serialization` for serialization and deserialization:
+Represents a result attribute for XML content, using `System.Xml.Serialization` for serialization and deserialization:
 
 ```csharp
 [XmlReturn]
@@ -81,7 +79,7 @@ Task<XmlResultClass> DemoApiMethod();
 
 ## NoneReturnAttribute
 
-Represents an attribute that sets the result to the return type's default value when the response status is 204:
+Represents an attribute that sets the result to the return type's default value when the response status code is 204:
 
 ```csharp
 [NoneReturn] 

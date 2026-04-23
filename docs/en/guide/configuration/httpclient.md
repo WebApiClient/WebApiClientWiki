@@ -1,8 +1,6 @@
 # HttpClient Configuration
 
-> This document is machine translated and requires review.
-
-This section covers [HttpClient Factory](https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory) content, WebApiClientCore fully supports various HttpClient configurations.
+This section covers [HttpClient Factory](https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory) integration. WebApiClientCore fully supports all HttpClient configuration options.
 
 ## Basic Configuration
 

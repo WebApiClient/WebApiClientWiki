@@ -670,4 +670,4 @@ A: `ApiRetryException.InnerException` stores the last failed exception, which ca
 
 ### Q: How to customize exception handling?
 
-A: You can implement the `IHttpApiInterceptor` interface and handle exceptions uniformly in the `OnExceptionAsync` method.
+A: Implement the `IHttpApiInterceptor` interface and handle exceptions uniformly in the `OnExceptionAsync` method.

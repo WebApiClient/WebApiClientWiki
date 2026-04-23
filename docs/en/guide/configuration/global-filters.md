@@ -1,10 +1,8 @@
 # Global Filters
 
-> This document is machine translated and requires review.
+In addition to applying `IApiFilterAttribute` subclass attributes in interface declarations, you can also register `IApiFilter` type filters during interface configuration.
 
-In addition to using `IApiFilterAttribute` subclass attributes in interface declarations, you can also add `IApiFilter` type filters during interface registration configuration.
-
-These filters will apply to the entire interface and execute before `IApiFilterAttribute` type filters applied via attributes.
+These filters apply to the entire interface and execute before `IApiFilterAttribute` filters applied via attributes.
 
 ## Configuring Global Filters
 
@@ -108,7 +106,7 @@ public class TenantFilter : IApiFilter
 
 ## Dependency Injection
 
-Global filters support constructor injection:
+Global filters support constructor dependency injection:
 
 ```csharp
 services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>

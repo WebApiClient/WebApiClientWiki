@@ -1,12 +1,10 @@
-> This document is machine translated and requires review.
-
 # Filter Attributes
 
-Filter attributes can be used for final content modification before sending, or to view response data content.
+Filter attributes can be used for final content modification before sending a request, or to view response data content.
 
 ## LoggingFilterAttribute
 
-Output request and response content as logs to LoggingFactory:
+Output request and response content as logs to `LoggingFactory`:
 
 ```csharp
 [LoggingFilter] // All methods log requests
@@ -23,7 +21,7 @@ public interface IUserApi
 
 ## CacheAttribute
 
-Cache the current response content. If the conditions are met next time, the request will not be sent to the remote server, but the cached content will be retrieved from `IResponseCacheProvider`. Developers can implement their own ResponseCacheProvider.
+Cache the current response content. If the conditions are met next time, the request will not be sent to the remote server; instead, the cached content will be retrieved from `IResponseCacheProvider`. Developers can implement their own `ResponseCacheProvider`.
 
 ```csharp
 public interface IUserApi

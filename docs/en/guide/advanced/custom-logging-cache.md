@@ -1,10 +1,8 @@
-> This document is machine translated and requires review.
-
 # Custom Logging and Cache
 
 ## Custom Log Output Target
 
-By default, logs are output to console or files. You can customize the log output target by inheriting from `LoggingFilterAttribute`:
+By default, logs are output to the console or files. You can customize the log output target by inheriting from `LoggingFilterAttribute`:
 
 ```csharp
 [CustomLogging]
@@ -78,7 +76,7 @@ public class SerilogLoggingAttribute : LoggingFilterAttribute
 
 ## Custom Cache Provider
 
-The default cache provider uses in-memory cache. If you want to save cache to other storage locations, you need to implement a custom cache provider.
+The default cache provider uses in-memory caching. To store cache in other storage backends, implement a custom cache provider.
 
 ### Redis Cache Provider
 
@@ -124,7 +122,7 @@ public class RedisResponseCacheProvider : IResponseCacheProvider
 }
 ```
 
-### Usage
+### Using Redis Cache
 
 ```csharp
 services

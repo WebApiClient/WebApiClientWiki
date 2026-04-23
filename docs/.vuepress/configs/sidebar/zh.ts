@@ -5,7 +5,8 @@ const sidebarZh = {
     {
       text: "概览",
       prefix: "/guide/overview/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         { text: "架构概览", link: "architecture" },
         { text: "快速上手", link: "getting-started" },
@@ -14,7 +15,8 @@ const sidebarZh = {
     {
       text: "核心功能",
       prefix: "/guide/core/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         { text: "HTTP 特性", link: "http-attributes" },
         { text: "内容特性", link: "content-attributes" },
@@ -71,7 +73,8 @@ const sidebarZh = {
       text: "参考",
       prefix: "/reference/",
       link: "/reference/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         "api-reference",
       ]

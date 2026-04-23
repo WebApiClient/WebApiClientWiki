@@ -1,12 +1,10 @@
-# Adapting Unconventional APIs
+# Adapting Non-Standard APIs
 
-> This document is machine translated and requires review.
+Some backend API designs may not follow standard conventions. WebApiClientCore provides multiple approaches to handle these scenarios.
 
-Some server API designs may not conform to standard conventions. WebApiClientCore provides multiple ways to adapt to these situations.
+## Handling Unfriendly Parameter Names
 
-## Unfriendly Parameter Name Aliases
-
-For example, if the server requires a Query parameter named `field-Name`, which contains characters not allowed in C# keywords or variable naming, we can use `[AliasAsAttribute]` to achieve this:
+For example, if the server requires a query parameter named `field-Name`, which contains characters not allowed in C# identifiers, you can use `[AliasAsAttribute]`:
 
 ```csharp
 public interface IUserApi
@@ -16,9 +14,9 @@ public interface IUserApi
 }
 ```
 
-The final request uri becomes `api/users/?field-name=fileNameValue`
+The resulting request URI becomes: `api/users/?field-Name=fieldNameValue`
 
-## Form Field as JSON Text
+## Form Field as JSON String
 
 | Field | Value |
 |------|------|
@@ -35,7 +33,7 @@ public class Field2
 }
 ```
 
-Conventionally, we would need to JSON serialize the field2 instance to get JSON text, then assign it to the field2 string property. Using the `[JsonFormField]` attribute can automatically complete JSON serialization of the Field2 type and use the resulting string as a form field.
+Typically, you would need to serialize the field2 instance to JSON and assign the string to a form field. Using the `[JsonFormField]` attribute, you can automatically serialize the `Field2` type to JSON and use it as a form field value.
 
 ```csharp
 public interface IUserApi
@@ -44,7 +42,7 @@ public interface IUserApi
 }
 ```
 
-## Form Field with Multi-level Nesting
+## Form Fields with Nested Structure
 
 | Field | Value |
 |------|------|
@@ -68,7 +66,7 @@ public class Field2
 }
 ```
 
-Under reasonable circumstances, for complex nested data models, it should be designed to submit FormModel using `application/json`. However, the service provider designed it to submit FormModel using `x-www-form-urlencoded`. We can configure KeyValueSerializeOptions to achieve this format requirement:
+Ideally, complex nested data models should be submitted using `application/json`. However, if the service provider requires `x-www-form-urlencoded`, you can configure `KeyValueSerializeOptions` to achieve this format:
 
 ```csharp
 services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
@@ -77,11 +75,11 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 });
 ```
 
-## Response Content-Type Not Matching Expected Value
+## Response Content-Type Mismatch
 
-The response content appears to be JSON visually, but the Content-Type in the response header is not the expected `application/json` or `application/xml`, but something like `text/html`. This is like when a client submits JSON content with the Content-Type value in the request header set to `text/plain`, making it impossible for the server to process.
+The response body appears to be JSON, but the response Content-Type header is not `application/json` or `application/xml`—it might be `text/html` instead. Similarly, a client might submit JSON content with a `text/plain` Content-Type, preventing the server from processing it correctly.
 
-The solution is to declare the `[JsonReturn]` attribute on the Interface or Method, and set its EnsureMatchAcceptContentType property to false, indicating that Content-Type processing should proceed even if it doesn't match the expected value:
+To handle this, declare the `[JsonReturn]` attribute on the interface or method and set `EnsureMatchAcceptContentType` to `false`:
 
 ```csharp
 [JsonReturn(EnsureMatchAcceptContentType = false)]

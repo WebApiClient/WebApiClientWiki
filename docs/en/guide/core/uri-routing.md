@@ -1,26 +1,24 @@
-# Uri Routing Rules
+# URI Routing Rules
 
-> This document is machine translated and requires review.
+All URI routing is handled through the `new Uri(Uri baseUri, Uri relativeUri)` constructor.
 
-All Uri routing is done through the `new Uri(Uri baseUri, Uri relativeUri)` constructor.
-
-## baseUri with trailing `/`
+## baseUri with Trailing `/`
 
 - `http://a.com/` + `b/c/d` = `http://a.com/b/c/d`
 - `http://a.com/path1/` + `b/c/d` = `http://a.com/path1/b/c/d`
 - `http://a.com/path1/path2/` + `b/c/d` = `http://a.com/path1/path2/b/c/d`
 
-## baseUri without trailing `/`
+## baseUri without Trailing `/`
 
 - `http://a.com` + `b/c/d` = `http://a.com/b/c/d`
 - `http://a.com/path1` + `b/c/d` = `http://a.com/b/c/d`
 - `http://a.com/path1/path2` + `b/c/d` = `http://a.com/path1/b/c/d`
 
-In fact, `http://a.com` and `http://a.com/` are exactly the same, their paths are both `/`, so they behave identically.
+In fact, `http://a.com` and `http://a.com/` are identical—both have a path of `/`—so they behave the same way.
 
 ## Best Practices
 
-To avoid basic errors, use the standard baseUri format with `/` as the suffix:
+To avoid routing errors, use the standard baseUri format with a trailing `/`:
 
 ```csharp
 [HttpHost("http://api.example.com/")]  // Recommended: ends with /

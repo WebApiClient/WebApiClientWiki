@@ -5,7 +5,8 @@ const sidebarEn = {
     {
       text: "Overview",
       prefix: "/en/guide/overview/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         { text: "Architecture Overview", link: "architecture" },
         { text: "Getting Started", link: "getting-started" },
@@ -14,7 +15,8 @@ const sidebarEn = {
     {
       text: "Core Features",
       prefix: "/en/guide/core/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         { text: "HTTP Attributes", link: "http-attributes" },
         { text: "Content Attributes", link: "content-attributes" },
@@ -71,7 +73,8 @@ const sidebarEn = {
       text: "Reference",
       prefix: "/en/reference/",
       link: "/en/reference/",
-      collapsible: false,
+      collapsible: true,
+      expanded: true,
       children: [
         "api-reference",
       ]

@@ -1,6 +1,6 @@
 # Migrating from WebApiClient to WebApiClientCore
 
-This document helps you migrate from the legacy WebApiClient to the new WebApiClientCore.
+This guide helps you migrate from the legacy WebApiClient to WebApiClientCore.
 
 ## Version Overview
 
@@ -14,9 +14,9 @@ This document helps you migrate from the legacy WebApiClient to the new WebApiCl
 ## Package Name Changes
 
 | Legacy Package | New Package | Description |
-|---------------|-------------|-------------|
+|----------------|-------------|-------------|
 | WebApiClient.JIT | WebApiClientCore | Base package |
-| WebApiClient.AOT | WebApiClientCore | Unified to base package with AOT via source generators |
+| WebApiClient.AOT | WebApiClientCore | Unified into base package with AOT via source generators |
 | - | WebApiClientCore.Extensions.OAuths | OAuth & Token management extension |
 | - | WebApiClientCore.Extensions.NewtonsoftJson | Newtonsoft.Json extension |
 | - | WebApiClientCore.Extensions.JsonRpc | JsonRpc extension |
@@ -25,7 +25,7 @@ This document helps you migrate from the legacy WebApiClient to the new WebApiCl
 ## Namespace Changes
 
 | Feature | Legacy Namespace | New Namespace |
-|---------|-----------------|---------------|
+|---------|------------------|---------------|
 | Core Interface | WebApiClient | WebApiClientCore |
 | Attributes | WebApiClient.Attributes | WebApiClientCore |
 | Data Annotations | WebApiClient.DataAnnotations | Use System.Text.Json serialization attributes |
@@ -38,8 +38,8 @@ This document helps you migrate from the legacy WebApiClient to the new WebApiCl
 | Feature | Legacy | New |
 |---------|--------|-----|
 | Async Return Type | `ITask<T>` | `Task<T>` |
-| Retry Support | `ITask<T>` built-in Retry | `ITask<T>` retains retry functionality |
-| Cancellation Token | Explicit declaration | Explicit declaration, default value recommended |
+| Retry Support | `ITask<T>` has built-in retry | `ITask<T>` retains retry functionality |
+| Cancellation Token | Explicit declaration | Explicit declaration; default value recommended |
 
 ### Interface Declaration
 
@@ -54,34 +54,34 @@ This document helps you migrate from the legacy WebApiClient to the new WebApiCl
 ### Parameter Attributes
 
 | Legacy Attribute | New Attribute | Description |
-|-----------------|---------------|-------------|
-| `[Parameter(Kind.Query)]` | `[PathQuery]` | More intuitive naming |
+|------------------|---------------|-------------|
+| `[Parameter(Kind.Query)]` | `[PathQuery]` | More intuitive name |
 | `[Parameter(Kind.Form)]` | `[FormContent]` / `[FormField]` | Split into two attributes |
 | `[Parameter(Kind.FormData)]` | `[FormDataContent]` / `[FormDataText]` | Split into two attributes |
-| `[Parameter(Kind.JsonBody)]` | `[JsonContent]` | More intuitive naming |
-| `[Parameter(Kind.XmlBody)]` | `[XmlContent]` | More intuitive naming |
-| `[Url]` | `[Uri]` | More standard naming |
+| `[Parameter(Kind.JsonBody)]` | `[JsonContent]` | More intuitive name |
+| `[Parameter(Kind.XmlBody)]` | `[XmlContent]` | More intuitive name |
+| `[Url]` | `[Uri]` | More standard name |
 
 ## Configuration Changes
 
 ### Legacy: Static Configuration
 
 ```csharp
-// Legacy: Register and configure using static methods
+// Register and configure using static methods
 HttpApi.Register<IUserApi>().ConfigureHttpApiConfig(c =>
 {
     c.HttpHost = new Uri("http://www.webapiclient.com/");
     c.FormatOptions.DateTimeFormat = DateTimeFormats.ISO8601_WithMillisecond;
 });
 
-// Legacy: Get instance using static method
+// Get instance using static method
 var api = HttpApi.Resolve<IUserApi>();
 ```
 
 ### New: Dependency Injection Configuration
 
 ```csharp
-// New: Configure in Startup or ServiceCollection
+// Configure in Startup or ServiceCollection
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
@@ -95,7 +95,7 @@ public void ConfigureServices(IServiceCollection services)
     });
 }
 
-// New: Inject via constructor
+// Inject via constructor
 public class YourService
 {
     private readonly IUserApi userApi;
@@ -245,7 +245,6 @@ public class UserInfo
 ### Legacy Filter
 
 ```csharp
-// Legacy
 using WebApiClient.Filters;
 
 [TraceFilter(OutputTarget = OutputTarget.Console)]
@@ -254,7 +253,7 @@ public interface IUserApi : IHttpApi
     // ...
 }
 
-// Legacy custom filter
+// Custom filter
 class SignFilter : ApiActionFilterAttribute
 {
     public override Task OnBeginRequestAsync(ApiActionContext context)
@@ -269,7 +268,6 @@ class SignFilter : ApiActionFilterAttribute
 ### New Filter
 
 ```csharp
-// New
 using WebApiClientCore;
 
 [LoggingFilter]
@@ -278,7 +276,7 @@ public interface IUserApi
     // ...
 }
 
-// New custom filter
+// Custom filter
 class SignFilterAttribute : ApiFilterAttribute
 {
     public override Task OnRequestAsync(ApiRequestContext context)
@@ -295,11 +293,11 @@ class SignFilterAttribute : ApiFilterAttribute
 
 ### Legacy Approach
 
-Legacy version required implementing token management logic manually through filters or interceptors.
+The legacy version required implementing token management logic manually through filters or interceptors.
 
 ### New Approach
 
-New version provides a complete OAuth extension package:
+The new version provides a complete OAuth extension package:
 
 ```csharp
 // Register TokenProvider
@@ -354,12 +352,12 @@ services.AddHttpApi<IUserApi>().ConfigureHttpApi(o =>
 
 ### 3. Unable to Get Interface Instance
 
-**Issue:** Legacy used `HttpApi.Resolve<T>()` to get instance
+**Issue:** Legacy code used `HttpApi.Resolve<T>()` to get instances
 
 **Solution:**
 
 ```csharp
-// New version gets via dependency injection
+// Get instance via dependency injection
 public class YourService
 {
     private readonly IUserApi userApi;
@@ -402,11 +400,11 @@ var result = await api.GetAsync("id001");
 
 ### 5. ITask vs Task Conversion
 
-**Issue:** Legacy returns `ITask<T>`, new returns `Task<T>`
+**Issue:** Legacy version returns `ITask<T>`; new version returns `Task<T>`
 
 **Solution:**
 
-If retry functionality is needed, the new version still supports `ITask<T>`:
+If retry functionality is needed, the new version continues to support `ITask<T>`:
 
 ```csharp
 public interface IUserApi
@@ -496,7 +494,7 @@ public partial class AppJsonSerializerContext : JsonSerializerContext
 {
 }
 
-// Configure to use
+// Configure to use source generator
 services.AddWebApiClient()
     .ConfigureHttpApi(options =>
     {

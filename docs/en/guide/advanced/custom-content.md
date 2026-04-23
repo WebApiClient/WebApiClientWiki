@@ -1,10 +1,8 @@
-> This document is machine translated and requires review.
-
 # Custom Request Content and Response Content Parsing
 
-In addition to common XML or JSON response content that needs to be deserialized into strongly-typed result models, you may encounter other binary protocol response content, such as Google's ProtoBuf binary content.
+Besides common XML or JSON response content that needs deserialization into strongly-typed result models, you may encounter other binary protocol response content, such as Google's Protocol Buffers.
 
-## Custom Request Content Handling Attribute
+## Custom Request Content Attribute
 
 ```csharp
 public class ProtobufContentAttribute : HttpContentAttribute
@@ -28,7 +26,7 @@ public class ProtobufContentAttribute : HttpContentAttribute
 }
 ```
 
-## Custom Response Content Parsing Attribute
+## Custom Response Content Attribute
 
 ```csharp
 public class ProtobufReturnAttribute : ApiReturnAttribute
@@ -89,9 +87,9 @@ public class CustomXmlContentAttribute : XmlContentAttribute
 }
 ```
 
-## Handling Multiple Content-Types
+## Handling Multiple Content Types
 
-Automatically select a parser based on the response Content-Type:
+Automatically select an appropriate parser based on the response Content-Type:
 
 ```csharp
 public class SmartReturnAttribute : ApiReturnAttribute

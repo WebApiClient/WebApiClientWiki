@@ -2,26 +2,26 @@
 
 ## What is .NET AOT
 
-.NET AOT (Ahead-of-Time) compilation is a technology that compiles .NET applications directly into native code at compile time. Unlike traditional JIT (Just-in-Time) compilation, AOT converts IL code into platform-specific native machine code at publish time.
+.NET AOT (Ahead-of-Time) compilation compiles .NET applications directly into native code at build time. Unlike traditional JIT (Just-in-Time) compilation, AOT converts IL code into platform-specific native machine code during publishing.
 
 ### Benefits of AOT
 
 | Benefit | Description |
 |---------|-------------|
-| **Fast Startup** | No JIT compilation required, significantly reduced startup time |
-| **Low Memory** | Removes JIT compiler and IL code, reducing memory usage |
-| **Small Deployment** | Contains only necessary runtime code, generates single executable |
-| **No Runtime Required** | Target machine doesn't need .NET Runtime installed |
-| **Better Security** | Native code is harder to reverse engineer than IL |
+| **Fast Startup** | No JIT compilation required; significantly reduces startup time |
+| **Low Memory** | Removes JIT compiler and IL code, reducing memory footprint |
+| **Small Deployment** | Contains only necessary runtime code; generates a single executable |
+| **No Runtime Required** | Target machine does not require .NET Runtime installation |
+| **Better Security** | Native code is more difficult to reverse engineer than IL |
 
 ## How WebApiClientCore Supports AOT
 
 Traditional WebApiClientCore relies on runtime reflection to create interface proxy classes, which is not feasible in AOT environments because:
 
-1. **Trimming** - AOT publishing trims unused code, reflection-related type information may be lost
-2. **No JIT** - Runtime cannot dynamically generate proxy class code
+1. **Trimming** - AOT publishing trims unused code; reflection-related type information may be lost
+2. **No JIT** - The runtime cannot dynamically generate proxy class code
 
-To solve these issues, WebApiClientCore provides **Source Generator** support to generate proxy class code at compile time.
+To address these issues, WebApiClientCore provides **Source Generator** support to generate proxy class code at compile time.
 
 ### Architecture Comparison
 
@@ -302,13 +302,13 @@ dotnet publish -c Release -r linux-x64 \
 | `-p:OptimizationPreference=Speed` | Optimize for speed (or `Size`) |
 | `-p:IlcOptimizationPreference=Speed` | ILC compiler optimization preference |
 
-### View Generated Files
+### Viewing Generated Files
 
 ```bash
-# Publishing output located at
+# Publishing output directory
 bin/Release/net8.0/<RID>/publish/
 
-# Main files
+# Main files:
 # - <app_name> (executable)
 # - <app_name>.pdb (debug symbols, if not stripped)
 ```
@@ -453,7 +453,7 @@ class AppService : BackgroundService
 
 **Error**: `Cannot find proxy class for interface XXX`
 
-**Cause**: Source Generator not configured correctly or not executed
+**Cause**: Source Generator not configured correctly or did not execute
 
 **Solution**:
 1. Ensure `WebApiClientCore.Analyzers` is referenced as Analyzer
@@ -486,7 +486,7 @@ class AppService : BackgroundService
 
 **Error**: `ILTrim warnings` or `ILC warnings`
 
-**Cause**: Code uses patterns incompatible with AOT
+**Cause**: Code uses patterns that are incompatible with AOT
 
 **Solution**:
 1. Use `[DynamicallyAccessedMembers]` attribute to annotate types accessed via reflection
@@ -497,7 +497,7 @@ class AppService : BackgroundService
 
 **Error**: Types or members not found at runtime
 
-**Cause**: AOT trimmer removes types deemed unused
+**Cause**: The AOT trimmer removes types deemed unused
 
 **Solution**:
 1. Use `[DynamicDependency]` to preserve dependencies
@@ -513,7 +513,7 @@ class AppService : BackgroundService
 
 ### Issue 5: Large Publishing Size
 
-**Cause**: Unnecessary dependencies or debug information included
+**Cause**: Unnecessary dependencies or debug information are included
 
 **Solution**:
 1. Enable `InvariantGlobalization` to reduce globalization data
@@ -535,17 +535,17 @@ class AppService : BackgroundService
 
 | Limitation | Description | Alternative |
 |------------|-------------|-------------|
-| No JIT Compilation | Runtime cannot generate new code | Use Source Generator |
+| No JIT Compilation | Runtime cannot generate new code | Use Source Generators |
 | No Dynamic Loading | Cannot load external assemblies | Statically reference all dependencies |
-| Limited Reflection | Some reflection operations restricted | Use source generation or annotations |
+| Limited Reflection | Some reflection operations are restricted | Use source generation or annotations |
 | No COM Interop | Some COM scenarios not supported | Use P/Invoke instead |
-| Cross-platform | Need separate compilation per platform | CI/CD multi-target publishing |
+| Cross-platform | Requires separate compilation per platform | CI/CD multi-target publishing |
 
 ### WebApiClientCore Specific Limitations
 
 1. **No Runtime Dynamic Interfaces** - All `IHttpApi` interfaces must be defined at compile time
-2. **No Dynamic Attribute Modification** - Attribute configuration must be determined at compile time
-3. **JSON Serialization Requires Source Generation** - Must use `System.Text.Json` source generator
+2. **No Dynamic Attribute Modification** - Attribute configuration must be finalized at compile time
+3. **JSON Serialization Requires Source Generation** - Must use the `System.Text.Json` source generator
 4. **No Newtonsoft.Json Support** - `WebApiClientCore.Extensions.NewtonsoftJson` is incompatible with AOT
 
 ### Best Practices
@@ -561,11 +561,11 @@ class AppService : BackgroundService
 
 3. **Version Management**
    - Keep `WebApiClientCore` and `WebApiClientCore.Analyzers` versions consistent
-   - Version incompatibility will cause proxy class generation failure
+    - Version incompatibility will cause proxy class generation to fail
 
 4. **Debugging Tips**
    - Use `<PublishAot>false</PublishAot>` to temporarily disable AOT for debugging
-   - Check generated code in `obj/Release/netX.X/generated/` directory
+    - Check the generated code in the `obj/Release/netX.X/generated/` directory
 
 ## References
 
