@@ -8,16 +8,7 @@ export default defineUserConfig({
   port: 3000,
   title: "WebApiClient",
   description: "声明式调用Http接口",
-  head: [
-    [
-      "script",
-      {
-        src: "https://cdn.wwads.cn/js/makemoney.js",
-        type: "text/javascript",
-        charset: "UTF-8"
-      },
-    ]
-  ],
+  head: [],
   locales: {
 
     "/": {
