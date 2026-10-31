@@ -403,12 +403,37 @@ export default withMermaid(
     lastUpdated: true,
 
     themeConfig: {
+      // 双 GitHub 入口：章鱼猫图标进框架源码仓库，书本图标进本站文档仓库
+      // （WebApiClientWiki）。socialLinks 自带 svg 以 fill:currentColor 着色，
+      // 必须用实心图标，描边图标会不可见。
       socialLinks: [
-        { icon: "github", link: "https://github.com/dotnetcore/WebApiClient" },
+        {
+          icon: "github",
+          link: "https://github.com/dotnetcore/WebApiClient",
+          ariaLabel: "GitHub 源码仓库",
+        },
+        {
+          icon: {
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>',
+          },
+          link: "https://github.com/WebApiClient/WebApiClientWiki",
+          ariaLabel: "GitHub 文档仓库",
+        },
       ],
       search: {
         provider: "local",
         // VitePress 内置本地搜索默认使用 Intl.Segmenter 处理中文分词
+        options: {
+          // 旧版文档不进入搜索索引：_render 返回空字符串即跳过索引（官方约定）。
+          // 注意一旦自定义 _render，内置的 frontmatter search:false 分支会被
+          // 绕过，这里原样保留该语义。
+          async _render(src, env, md) {
+            const html = md.render(src, env);
+            if (env.frontmatter?.search === false) return "";
+            if (/^(en\/)?old\//.test(env.relativePath)) return "";
+            return html;
+          },
+        },
       },
     },
 

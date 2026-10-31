@@ -1,10 +1,9 @@
 ﻿# Overview
 
-[![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
+<span class="wac-badges">[![Member project of .NET Core Community](https://img.shields.io/badge/member%20project%20of-NCC-9e20c9.svg)](https://github.com/dotnetcore)
 [![nuget](https://img.shields.io/nuget/v/WebApiClientCore.svg?style=flat-square)](https://www.nuget.org/packages/WebApiClientCore)
-[![nuget](https://img.shields.io/nuget/vpre/WebApiClientCore.svg?style=flat-square)](https://www.nuget.org/packages/WebApiClientCore)
 [![stats](https://img.shields.io/nuget/dt/WebApiClientCore.svg?style=flat-square)](https://www.nuget.org/stats/packages/WebApiClientCore?groupby=Version)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dotnetcore/WebApiClient/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dotnetcore/WebApiClient/blob/master/LICENSE)</span>
 
 [![Stargazers over time](https://api.star-history.com/svg?repos=dotnetcore/WebApiClient&type=Date)](https://star-history.com/#dotnetcore/WebApiClient&Date)
 

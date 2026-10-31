@@ -213,6 +213,16 @@
   width: auto;
 }
 
+/* 正文里的徽章行（guide 概览、reference/tags）：
+   主题 reset 的 img{display:block} 会把行内徽章逐个顶成竖排，
+   这里用弹性横排收口，窄屏自动换行。与首页不同，跟随正文左对齐。 */
+.vp-doc .wac-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 /* 贡献者头像图 */
 .wac-home-extra .wac-contributors img {
   display: block;
