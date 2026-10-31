@@ -166,7 +166,7 @@
 /* ------------------------------------------------------------- 首页底部扩展区块通用骨架 */
 /* HomeTags / HomeContributors / HomeDonate 复用同一容器观感 */
 .wac-home-extra {
-  max-width: 1152px;
+  max-width: 1280px; /* 与放宽后的 hero/features 容器对齐 */
   margin: 0 auto;
   padding: 8px 24px 56px;
 }
@@ -276,4 +276,28 @@
     transform: none;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
+}
+
+/* ------------------------------------------------------------- 布局宽度 */
+/* 整页骨架 1440 → 1680：文档页容器与导航栏同步放宽；超宽屏仍封顶，
+   保住长文阅读的边界感（参考 vite.dev 的取舍）。 */
+:root {
+  --vp-layout-max-width: 1680px;
+}
+
+/* 正文列 688 → 864：API 文档的长代码块与参数表不再局促。
+   官方规则带 scoped 属性选择器（优先级 0,4,0），用重复类抵到同级，
+   custom.css 后于主题加载，同优先级下后来者胜。 */
+.VPDoc.has-aside .content-container.content-container {
+  max-width: 864px;
+}
+
+/* 首页 hero 与 features 容器默认硬编码 1152px，与放宽后的骨架脱节；
+   提到 1280 并保持两者对齐。 */
+.VPHero .container.container {
+  max-width: 1280px;
+}
+
+.VPFeatures .container.container {
+  max-width: 1280px;
 }
