@@ -33,17 +33,31 @@ const zhNav = [
   { text: "参考", link: "/reference/", activeMatch: "^/reference/$" },
   { text: "性能测试", link: "/benchmarks/", activeMatch: "^/benchmarks/" },
   { text: "旧版本[不再更新]", link: "/old/", activeMatch: "^/old/" },
-  { text: "支持我们", link: "/reference/donate", activeMatch: "^/reference/donate" },
+  { text: "支持我们", link: "/support/donate", activeMatch: "^/support/" },
 ];
 
 const enNav = [
   { text: "Guide", link: "/en/guide/", activeMatch: "^/en/guide/" },
   { text: "Reference", link: "/en/reference/", activeMatch: "^/en/reference/$" },
   { text: "Legacy[EOL]", link: "/en/old/", activeMatch: "^/en/old/" },
-  { text: "Donate", link: "/en/reference/donate", activeMatch: "^/en/reference/donate" },
+  { text: "Donate", link: "/en/support/donate", activeMatch: "^/en/support/" },
 ];
 
 // -------------------------------------------------------------- zh sidebar
+
+// 支持页专属侧栏：支持内容独立于 /support/ 目录（曾混住在 /reference/ 下，
+// 依赖逐页枚举侧栏键，新增页面易漏，故整体迁出，目录即边界）。
+const zhSupportSidebar = [
+  {
+    text: "支持",
+    collapsed: false,
+    items: [
+      { text: "捐赠", link: "/support/donate" },
+      { text: "贡献者", link: "/support/contributors" },
+      { text: "项目标签", link: "/support/tags" },
+    ],
+  },
+];
 
 const zhSidebar = {
   "/guide/": [
@@ -108,19 +122,7 @@ const zhSidebar = {
       ],
     },
   ],
-  // 支持页专属侧栏：与「参考」分开，「支持我们」菜单单纯指向支持内容。
-  // 键按前缀匹配，长键在前保证 /reference/donate 命中这里而不是 /reference/
-  "/reference/donate": [
-    {
-      text: "支持",
-      collapsed: false,
-      items: [
-        { text: "捐赠", link: "/reference/donate" },
-        { text: "贡献者", link: "/reference/contributors" },
-        { text: "项目标签", link: "/reference/tags" },
-      ],
-    },
-  ],
+  "/support/": zhSupportSidebar,
   "/reference/": [
     {
       text: "参考",
@@ -175,6 +177,19 @@ const zhSidebar = {
 };
 
 // -------------------------------------------------------------- en sidebar
+
+// 与 zhSupportSidebar 同构，页面在 /en/support/ 目录
+const enSupportSidebar = [
+  {
+    text: "Support",
+    collapsed: false,
+    items: [
+      { text: "Donate", link: "/en/support/donate" },
+      { text: "Contributors", link: "/en/support/contributors_en" },
+      { text: "Project Badges", link: "/en/support/tags" },
+    ],
+  },
+];
 
 const enSidebar = {
   "/en/guide/": [
@@ -239,17 +254,7 @@ const enSidebar = {
       ],
     },
   ],
-  "/en/reference/donate": [
-    {
-      text: "Support",
-      collapsed: false,
-      items: [
-        { text: "Donate", link: "/en/reference/donate" },
-        { text: "Contributors", link: "/en/reference/contributors_en" },
-        { text: "Project Badges", link: "/en/reference/tags" },
-      ],
-    },
-  ],
+  "/en/support/": enSupportSidebar,
   "/en/reference/": [
     {
       text: "Reference",
@@ -442,12 +447,20 @@ export default withMermaid(
     },
 
     // api-reference.md 被 rewrite 为各语言 reference 的 index 后，
-    // 文档正文里历史存在的 /reference/api-reference.html 深链会失效，
-    // 这里在构建产物中补一个跳转页保持旧链接可达。
+    // 文档正文里历史存在的 /reference/api-reference.html 深链会失效；
+    // 支持页从 /reference/ 迁到 /support/ 后旧地址同样需要兜底。
+    // 这里在构建产物中补跳转页保持旧链接可达。
     buildEnd() {
       const redirects: Array<[string, string]> = [
         ["reference/api-reference.html", "/reference/"],
         ["en/reference/api-reference.html", "/en/reference/"],
+        // 支持页迁移：/reference/* → /support/*
+        ["reference/donate.html", "/support/donate.html"],
+        ["reference/contributors.html", "/support/contributors.html"],
+        ["reference/tags.html", "/support/tags.html"],
+        ["en/reference/donate.html", "/en/support/donate.html"],
+        ["en/reference/contributors_en.html", "/en/support/contributors_en.html"],
+        ["en/reference/tags.html", "/en/support/tags.html"],
       ];
       for (const [file, to] of redirects) {
         const target = path.join(docsDir, ".vitepress/dist", file);

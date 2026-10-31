@@ -17,7 +17,7 @@ hero:
       link: /en/old/
     - theme: alt
       text: Donate
-      link: /en/reference/donate
+      link: /en/support/donate
 
 features:
   - icon: { src: '/icons/declarative.svg', width: 22, height: 22, alt: Declarative Syntax }

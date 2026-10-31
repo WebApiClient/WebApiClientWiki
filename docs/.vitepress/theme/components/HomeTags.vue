@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// 内容忠实于 docs/reference/tags.md（中英文两侧文件内容一致，徽章原样保留）。
+  // 内容忠实于 docs/support/tags.md（中英文两侧文件内容一致，徽章原样保留）。
 // 无 window/document 访问，SSR 安全。
 </script>
 

@@ -17,7 +17,7 @@ hero:
       link: /old/
     - theme: alt
       text: 支持我们
-      link: /reference/donate
+      link: /support/donate
 
 features:
   - icon: { src: '/icons/declarative.svg', width: 22, height: 22, alt: 声明式语法 }
