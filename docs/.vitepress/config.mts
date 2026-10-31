@@ -30,6 +30,7 @@ const editLinkPattern =
 
 const zhNav = [
   { text: "指南", link: "/guide/", activeMatch: "^/guide/" },
+  { text: "参考", link: "/reference/", activeMatch: "^/reference/$" },
   { text: "性能测试", link: "/benchmarks/", activeMatch: "^/benchmarks/" },
   { text: "旧版本[不再更新]", link: "/old/", activeMatch: "^/old/" },
   { text: "支持我们", link: "/reference/donate", activeMatch: "^/reference/donate" },
@@ -37,6 +38,7 @@ const zhNav = [
 
 const enNav = [
   { text: "Guide", link: "/en/guide/", activeMatch: "^/en/guide/" },
+  { text: "Reference", link: "/en/reference/", activeMatch: "^/en/reference/$" },
   { text: "Legacy[EOL]", link: "/en/old/", activeMatch: "^/en/old/" },
   { text: "Donate", link: "/en/reference/donate", activeMatch: "^/en/reference/donate" },
 ];
@@ -103,6 +105,19 @@ const zhSidebar = {
         { text: "AOT 发布", link: "/guide/advanced/aot-publishing" },
         { text: "AI 辅助开发", link: "/guide/advanced/ai-agent-skill" },
         { text: "迁移指南", link: "/guide/advanced/migration-guide" },
+      ],
+    },
+  ],
+  // 支持页专属侧栏：与「参考」分开，「支持我们」菜单单纯指向支持内容。
+  // 键按前缀匹配，长键在前保证 /reference/donate 命中这里而不是 /reference/
+  "/reference/donate": [
+    {
+      text: "支持",
+      collapsed: false,
+      items: [
+        { text: "捐赠", link: "/reference/donate" },
+        { text: "贡献者", link: "/reference/contributors" },
+        { text: "项目标签", link: "/reference/tags" },
       ],
     },
   ],
@@ -221,6 +236,17 @@ const enSidebar = {
         { text: "AOT Publishing", link: "/en/guide/advanced/aot-publishing" },
         { text: "AI-Assisted Development", link: "/en/guide/advanced/ai-agent-skill" },
         { text: "Migration Guide", link: "/en/guide/advanced/migration-guide" },
+      ],
+    },
+  ],
+  "/en/reference/donate": [
+    {
+      text: "Support",
+      collapsed: false,
+      items: [
+        { text: "Donate", link: "/en/reference/donate" },
+        { text: "Contributors", link: "/en/reference/contributors_en" },
+        { text: "Project Badges", link: "/en/reference/tags" },
       ],
     },
   ],
