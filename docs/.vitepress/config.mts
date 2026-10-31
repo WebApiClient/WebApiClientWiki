@@ -284,11 +284,11 @@ export default withMermaid(
 
     head: [
       ["link", { rel: "icon", href: "/favicon.ico" }],
-      // 版式开关的首屏恢复：在渲染前把用户选择的 wac-compact 挂到 <html>，避免闪烁
+      // 版式开关的首屏恢复：在渲染前把用户选择的全屏档挂到 <html>，避免闪烁
       [
         "script",
         {},
-        "(function(){try{if(localStorage.getItem('wac-width-mode')==='compact'){document.documentElement.classList.add('wac-compact')}}catch(e){}})();",
+        "(function(){try{if(localStorage.getItem('wac-width-mode')==='full'){document.documentElement.classList.add('wac-full')}}catch(e){}})();",
       ],
     ],
 

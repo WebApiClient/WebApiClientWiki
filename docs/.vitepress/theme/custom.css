@@ -279,16 +279,16 @@
 }
 
 /* ------------------------------------------------------------- 布局宽度（两档版式） */
-/* 宽敞（默认）：骨架 1680 / 正文列 864 / 首页容器 1280；
-   留白（html.wac-compact）：骨架 1440 / 正文列 688 / 首页容器 1152，
-   即 VitePress 原生观感，偏好高阅读效率的用户可选。
+/* 宽屏（默认）：骨架 1680 / 正文列 864 / 首页容器 1280，两侧留呼吸空间；
+   全屏（html.wac-full）：一切 max-width 解除，内容吃满可用宽度，
+   左右只剩正文自身的 padding（偏好信息密度的用户可选）。
    状态由 WidthToggle.vue 持久化，首屏由 config.mts head 内联脚本恢复。 */
 :root {
   --vp-layout-max-width: 1680px;
 }
 
-html.wac-compact {
-  --vp-layout-max-width: 1440px;
+html.wac-full {
+  --vp-layout-max-width: 100%;
 }
 
 /* 官方规则带 scoped 属性选择器（优先级 0,4,0），用重复类抵到同级，
@@ -297,8 +297,8 @@ html.wac-compact {
   max-width: 864px;
 }
 
-html.wac-compact .VPDoc.has-aside .content-container.content-container {
-  max-width: 688px;
+html.wac-full .VPDoc.has-aside .content-container.content-container {
+  max-width: 100%;
 }
 
 /* 首页 hero 与 features 容器默认硬编码 1152px，需跟随版式档位。 */
@@ -307,13 +307,13 @@ html.wac-compact .VPDoc.has-aside .content-container.content-container {
   max-width: 1280px;
 }
 
-html.wac-compact .VPHero .container.container,
-html.wac-compact .VPFeatures .container.container {
-  max-width: 1152px;
+html.wac-full .VPHero .container.container,
+html.wac-full .VPFeatures .container.container {
+  max-width: 100%;
 }
 
-html.wac-compact .wac-home-extra {
-  max-width: 1152px;
+html.wac-full .wac-home-extra {
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
