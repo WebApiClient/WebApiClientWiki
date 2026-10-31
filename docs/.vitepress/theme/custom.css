@@ -1,0 +1,394 @@
+/**
+ * WebApiClient 文档站自定义样式
+ * 品牌基色：.NET 紫 #512BD4；图标强调色 #7c5cff。
+ * 设计取向：克制、专业，参考 vitepress.dev 官网观感，不堆砌特效。
+ */
+
+/* ------------------------------------------------------------- 品牌色变量 */
+:root {
+  --vp-c-brand-1: #512bd4;
+  --vp-c-brand-2: #3e1fae;
+  --vp-c-brand-3: #6a3df0;
+  --vp-c-brand-soft: rgba(81, 43, 212, 0.14);
+
+  /* 旧别名（部分组件仍引用） */
+  --vp-c-brand-light: #6a3df0;
+  --vp-c-brand-lighter: #8b66ff;
+  --vp-c-brand-dark: #3e1fae;
+  --vp-c-brand-darker: #2e1794;
+
+  /* 主按钮：浅色模式用基色实底，保证白字对比度 */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: #512bd4;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #3e1fae;
+
+  /* Hero 名称渐变（VitePress 官方通道） */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    #512bd4 10%,
+    #7c5cff 50%,
+    #a78bfa 90%
+  );
+}
+
+.dark {
+  --vp-c-brand-1: #a78bfa;
+  --vp-c-brand-2: #c0aaff;
+  --vp-c-brand-3: #7c5cff;
+  --vp-c-brand-soft: rgba(167, 139, 250, 0.16);
+
+  --vp-c-brand-light: #7c5cff;
+  --vp-c-brand-lighter: #a78bfa;
+  --vp-c-brand-dark: #c0aaff;
+  --vp-c-brand-darker: #8b66ff;
+
+  /* 暗色下主按钮稍亮一档，hover 继续提亮 */
+  --vp-button-brand-bg: #5b35dd;
+  --vp-button-brand-hover-bg: #6542e8;
+
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    #c0aaff 5%,
+    #a78bfa 45%,
+    #7c5cff 95%
+  );
+}
+
+/* ------------------------------------------------------------- 字体栈（系统字体，不外链） */
+:root {
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --vp-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* ------------------------------------------------------------- 圆角与阴影统一 */
+:root {
+  --wac-radius: 12px;
+  --wac-radius-sm: 8px;
+  --wac-shadow: 0 2px 8px rgba(38, 22, 96, 0.06);
+  --wac-shadow-lift: 0 14px 32px rgba(38, 22, 96, 0.12);
+}
+
+.dark {
+  --wac-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --wac-shadow-lift: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+.VPButton {
+  border-radius: var(--wac-radius-sm);
+}
+
+/* ------------------------------------------------------------- Hero 名称渐变 */
+/* 官方变量之外再做一层直选，防结构差异导致回退成纯色 */
+.VPHero .name {
+  background: var(--vp-home-hero-name-background);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--vp-home-hero-name-color);
+}
+
+/* ------------------------------------------------------------- Hero 图：柔光 + 轻浮动 */
+.VPHero .image-container {
+  position: relative;
+  animation: wac-hero-float 6s ease-in-out infinite;
+}
+
+.VPHero .image-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(124, 92, 255, 0.38),
+    rgba(124, 92, 255, 0.14) 55%,
+    transparent 78%
+  );
+  filter: blur(22px);
+  z-index: -1;
+}
+
+.dark .VPHero .image-container::before {
+  background: radial-gradient(
+    closest-side,
+    rgba(124, 92, 255, 0.42),
+    rgba(124, 92, 255, 0.16) 55%,
+    transparent 78%
+  );
+}
+
+@keyframes wac-hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPHero .image-container {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------- Feature 卡片 hover 抬升 */
+.VPFeature {
+  border-radius: var(--wac-radius);
+  box-shadow: var(--wac-shadow);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: var(--wac-shadow-lift);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPFeature,
+  .VPFeature:hover {
+    transform: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+}
+
+/* ------------------------------------------------------------- 首页底部扩展区块通用骨架 */
+/* HomeTags / HomeContributors / HomeDonate 复用同一容器观感 */
+.wac-home-extra {
+  max-width: 1280px; /* 与放宽后的 hero/features 容器对齐 */
+  margin: 0 auto;
+  padding: 8px 24px 56px;
+}
+
+.wac-home-extra .wac-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.wac-home-extra h2 {
+  margin: 0 0 6px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--vp-c-text-1);
+}
+
+.wac-home-extra p.wac-sub {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.wac-home-extra h3 {
+  margin: 28px 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+/* 徽章行（tags） */
+.wac-home-extra .wac-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.wac-home-extra .wac-badges img {
+  height: 20px;
+  width: auto;
+}
+
+/* 贡献者头像图 */
+.wac-home-extra .wac-contributors img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  border-radius: var(--wac-radius);
+}
+
+.wac-home-extra .wac-note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+/* 赞助卡片 */
+.wac-home-extra .wac-donate-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.wac-home-extra .wac-donate-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--wac-radius);
+  background: var(--vp-c-bg);
+  box-shadow: var(--wac-shadow);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.wac-home-extra .wac-donate-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: var(--wac-shadow-lift);
+}
+
+.wac-home-extra .wac-donate-card img {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--wac-radius-sm);
+}
+
+.wac-home-extra .wac-donate-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wac-home-extra .wac-donate-card,
+  .wac-home-extra .wac-donate-card:hover {
+    transform: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+}
+
+/* ------------------------------------------------------------- 布局宽度（两档版式） */
+/* 宽屏（默认）：骨架 1680 / 正文列 864 / 首页容器 1280，两侧留呼吸空间；
+   全屏（html.wac-full）：一切 max-width 解除，内容吃满可用宽度，
+   左右只剩正文自身的 padding（偏好信息密度的用户可选）。
+   状态由 WidthToggle.vue 持久化，首屏由 config.mts head 内联脚本恢复。 */
+:root {
+  --vp-layout-max-width: 1680px;
+}
+
+html.wac-full {
+  --vp-layout-max-width: 100%;
+}
+
+/* 官方规则带 scoped 属性选择器（优先级 0,4,0），用重复类抵到同级，
+   custom.css 后于主题加载，同优先级下后来者胜。 */
+.VPDoc.has-aside .content-container.content-container {
+  max-width: 864px;
+}
+
+/* 无左侧栏的页面（如 /benchmarks/）容器与正文被默认主题硬编码
+   1104px / 752~784px，不随版式变量走；接回 --vp-layout-max-width
+   轨道后，宽屏档由 content-container 的 864px 收口，全屏档放开 */
+.VPDoc:not(.has-sidebar) .container.container,
+.VPDoc:not(.has-sidebar) .content.content {
+  max-width: var(--vp-layout-max-width);
+}
+
+html.wac-full .VPDoc.has-aside .content-container.content-container {
+  max-width: 100%;
+}
+
+/* 首页 hero 与 features 容器默认硬编码 1152px，需跟随版式档位。 */
+.VPHero .container.container,
+.VPFeatures .container.container {
+  max-width: 1280px;
+}
+
+html.wac-full .VPHero .container.container,
+html.wac-full .VPFeatures .container.container {
+  max-width: 100%;
+}
+
+html.wac-full .wac-home-extra {
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .VPDoc .container,
+  .VPDoc .content-container,
+  .VPHero .container,
+  .VPFeatures .container,
+  .wac-home-extra {
+    transition: max-width 0.25s ease;
+  }
+}
+
+/* 版式开关：右下角浮动按钮，位于"回到顶部"上方。
+   不放导航栏（右侧图标区层叠复杂点击不稳），不放左下角（被侧边栏区域覆盖）。 */
+.wac-width-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 76px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  box-shadow: var(--wac-shadow);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wac-width-toggle:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: var(--wac-shadow-lift);
+}
+
+.wac-width-toggle-ph {
+  width: 18px;
+  height: 18px;
+}
+
+/* ------------------------------------------------------------- mermaid 图表容器 */
+/* 图随正文列居中；超宽图横向滚动而不是把文字压扁 */
+.vp-doc .mermaid {
+  margin: 1.5rem 0;
+  padding: 8px 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.vp-doc .mermaid svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 关键隔离：html 标签内部是 <p>，mermaid 自带的 p{margin:0} 重置会被
+   VitePress 的 .vp-doc p（margin + 行高）以更高优先级压过，导致文字
+   每行被撑高 ~5px、顶出节点框——这里以更高优先级夺回控制权 */
+.vp-doc .mermaid :is(p, div, span) {
+  margin: 0;
+}
+
+.vp-doc .mermaid p {
+  line-height: inherit;
+}

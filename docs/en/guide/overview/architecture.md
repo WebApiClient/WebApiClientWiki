@@ -35,7 +35,7 @@ public interface IUserApi
 
 ```mermaid
 flowchart TD
-    I["Your Interface<br/>declare interfaces and attributes, e.g. IUserApi"]
+    I["Your Interface<br/>declare interfaces and attributes<br/>e.g. IUserApi"]
     subgraph Proxy["HttpApiProxy (generated at runtime)"]
         direction LR
         P1["Parse attributes"] --> P2["Build HttpRequestMessage"] --> P3["Execute request"]
@@ -116,7 +116,7 @@ var user = await userApi.GetAsync(id)
 ```mermaid
 flowchart TD
     A["1. Interface call"] --> B["2. Parse interface metadata<br/>method, parameters, attributes"]
-    B --> C["3. Build HttpRequestMessage<br/>path values · query · body · headers"]
+    B --> C["3. Build HttpRequestMessage<br/>path values · query<br/>body · headers"]
     C --> D["4. GlobalFilters.OnRequestAsync"]
     D --> E["5. Attribute filters OnRequestAsync"]
     E --> F["6. Send HTTP request"]

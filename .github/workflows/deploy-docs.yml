@@ -35,11 +35,9 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: 构建文档
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
         run: |-
           pnpm run docs:build
-          > docs/.vuepress/dist/.nojekyll
+          > docs/.vitepress/dist/.nojekyll
 
       - name: 部署文档
         uses: JamesIves/github-pages-deploy-action@v4
@@ -47,7 +45,7 @@ jobs:
           # 部署文档
           repository-name: WebApiClient/WebApiClient.github.io
           branch: gh-pages
-          folder: docs/.vuepress/dist
+          folder: docs/.vitepress/dist
           ssh-key: ${{ secrets.GH_KEY }}
           commit-message: "Docs Deploy"
           single-commit: true

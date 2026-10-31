@@ -6,7 +6,7 @@
 [![stats](https://img.shields.io/nuget/dt/WebApiClientCore.svg?style=flat-square)](https://www.nuget.org/stats/packages/WebApiClientCore?groupby=Version)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dotnetcore/WebApiClient/blob/master/LICENSE)
 
-[![Stargazers over time](https://starchart.cc/dotnetcore/WebApiClient.svg)](https://starchart.cc/dotnetcore/WebApiClient)
+[![Stargazers over time](https://api.star-history.com/svg?repos=dotnetcore/WebApiClient&type=Date)](https://star-history.com/#dotnetcore/WebApiClient&Date)
 
 ## 简介
 
