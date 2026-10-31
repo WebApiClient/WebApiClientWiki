@@ -2,7 +2,16 @@
 
 ## 依赖环境
 
-`WebApiClientCore` 要求项目的 `.NET` 版本支持 `.NET Standard2.1`，并且具备依赖注入的环境。
+`WebApiClientCore` 需要具备依赖注入的环境，并支持以下目标框架：
+
+| 目标框架 | 说明 |
+|----------|------|
+| `netstandard2.1` | 覆盖 .NET Core 3.0+、.NET 5+，以及 Xamarin/MAUI 等支持 netstandard2.1 的平台 |
+| `net5.0` | 原生目标 |
+| `net8.0` | 原生目标，`IsAotCompatible`，支持 AOT 发布 |
+| `net10.0` | 原生目标，`IsAotCompatible`，支持 AOT 发布（`v2.1.6+`） |
+
+也就是说，.NET Core 3.1 及以上、.NET 5/6/7/8/9/10 的项目都可以直接使用。AOT 发布的说明见 [AOT 发布](../advanced/aot-publishing.md)。
 
 ## 从 Nuget 安装
 

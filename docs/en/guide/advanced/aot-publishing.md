@@ -112,7 +112,7 @@ static partial class HttpApiProxyClass
 ### Prerequisites
 
 > [!important] .NET Version Requirements
-> - **AOT Publishing**: Requires .NET 8.0 or later
+> - **AOT Publishing**: Requires .NET 8.0 or later (WebApiClientCore enables `IsAotCompatible` on the `net8.0` and `net10.0` targets)
 > - **JSON Source Generator**: `PrependJsonSerializerContext` method only supports .NET 8.0+
 > - **Source Generator**: Supports .NET Standard 2.1+ and .NET 5.0+
 
@@ -121,10 +121,10 @@ static partial class HttpApiProxyClass
 ```xml
 <ItemGroup>
     <!-- WebApiClientCore core package -->
-    <PackageReference Include="WebApiClientCore" Version="3.0.0" />
+    <PackageReference Include="WebApiClientCore" Version="2.1.6" />
     
     <!-- Source Generator package (must be referenced as Analyzer) -->
-    <PackageReference Include="WebApiClientCore.Analyzers" Version="3.0.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="WebApiClientCore.Analyzers" Version="2.1.6" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 </ItemGroup>
 ```
 
@@ -169,8 +169,8 @@ Edit your `.csproj` file:
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WebApiClientCore" Version="3.0.0" />
-        <PackageReference Include="WebApiClientCore.Analyzers" Version="3.0.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <PackageReference Include="WebApiClientCore" Version="2.1.6" />
+        <PackageReference Include="WebApiClientCore.Analyzers" Version="2.1.6" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>
 ```

@@ -65,6 +65,7 @@ const sidebarEn = {
         { text: "Custom Logging & Cache", link: "custom-logging-cache" },
         { text: "Self-Describing Parameters", link: "self-describing-param" },
         { text: "AOT Publishing", link: "aot-publishing" },
+        { text: "AI-Assisted Development", link: "ai-agent-skill" },
         { text: "Migration Guide", link: "migration-guide" },
       ]
     }],

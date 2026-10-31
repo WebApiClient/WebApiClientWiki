@@ -2,7 +2,16 @@
 
 ## Prerequisites
 
-`WebApiClientCore` requires your project's .NET version to support .NET Standard 2.1 and have a dependency injection environment.
+`WebApiClientCore` requires a dependency injection environment and supports the following target frameworks:
+
+| Target Framework | Notes |
+|------------------|-------|
+| `netstandard2.1` | Covers .NET Core 3.0+, .NET 5+, and platforms such as Xamarin/MAUI that support netstandard2.1 |
+| `net5.0` | Native target |
+| `net8.0` | Native target, `IsAotCompatible`, supports AOT publishing |
+| `net10.0` | Native target, `IsAotCompatible`, supports AOT publishing (`v2.1.6+`) |
+
+In other words, projects on .NET Core 3.1 and above, and .NET 5/6/7/8/9/10, can use it directly. See [AOT Publishing](../advanced/aot-publishing.md) for AOT details.
 
 ## Install from NuGet
 

@@ -20,24 +20,24 @@ actions:
 features:
   - title: 语义化声明
     details: ⛳ 客户端的开发，只需语义化的声明接口
-    link: /guide/1_getting-started.md#声明接口
+    link: /guide/overview/getting-started.html
   - title: 多样序列化
     details: 🛠 支持json、xml、form等序列化和其它自定义序列化方式
-    link: /guide/7_json-net-extension.md
+    link: /guide/extensions/jsonnet-extension.html
   - title: 裁剪与AOT
     details: 🤖 支持.NET8的代码完全裁剪和AOT发布。
-    link: /guide/5_advanced.md#net8-aot-发布
+    link: /guide/advanced/aot-publishing.html
   - title: 面向切面
     details: 🎉 支持多种拦截器、过滤器、日志、重试、缓存自定义等功能
-    link: /guide/2_attributes.md
+    link: /guide/core/filter-attributes.html
   - title: 语法分析
     details: 🤔 提供接口声明的语法分析与提示，帮助开发者声明接口时避免使用不当的语法
   - title: 快速接入
     details: 🔒 支持OAuth2与token管理扩展包，方便实现身份认证和授权
-    link: /guide/6_auth-token-extension.md
+    link: /guide/extensions/oauth-extension.html
   - title: 自动代码
     details: 💻 支持将本地或远程OpenApi文档解析生成WebApiClientCore接口代码的dotnet tool，简化接口声明的工作量
-    link: /guide/9_openapi-to-code.md
+    link: /guide/extensions/openapi-generator.html
   - title: 性能强劲
     details: 🚀 在BenchmarkDotNet中，各种请求下性能和分配2.X倍领先于同类产品Refit  
     link: /benchmarks/

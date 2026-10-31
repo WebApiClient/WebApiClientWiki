@@ -65,6 +65,7 @@ const sidebarZh = {
         { text: "自定义日志和缓存", link: "custom-logging-cache" },
         { text: "自解释参数类型", link: "self-describing-param" },
         { text: "AOT 发布", link: "aot-publishing" },
+        { text: "AI 辅助开发", link: "ai-agent-skill" },
         { text: "迁移指南", link: "migration-guide" },
       ]
     }],

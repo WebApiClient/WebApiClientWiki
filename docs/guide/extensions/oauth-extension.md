@@ -7,7 +7,9 @@
 ITokenProvider 的创建工厂，提供通过 HttpApi 接口类型获取或创建 ITokenProvider。
 
 ### ITokenProvider
-token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token。 
+token 提供者，用于获取 token，在 token 的过期后的头一次请求里触发重新请求或刷新 token。
+
+从 `v2.1.6` 开始，`ITokenProvider` 支持取消令牌：`GetTokenAsync` 与 `ClearTokenAsync` 提供了接收 `CancellationToken` 的重载，token 的请求与刷新过程可以跟随业务请求一起取消，避免为已经放弃的请求申请 token。
 
 ### OAuthTokenAttribute
 token 的应用特性，使用 ITokenProviderFactory 创建 ITokenProvider，然后使用 ITokenProvider 获取 token，最后将 token 应用到请求消息中。
@@ -157,16 +159,26 @@ services.AddPasswordCredentialsTokenProvider<IBaidu>(o =>
 public interface ITokenApi
 {
     [HttpPost("http://xxx.com/token")]
-    Task<TokenResult> RequestTokenAsync([Parameter(Kind.Form)] string clientId, [Parameter(Kind.Form)] string clientSecret);
+    Task<TokenResult> RequestTokenAsync([Parameter(Kind.Form)] string clientId, [Parameter(Kind.Form)] string clientSecret, CancellationToken cancellationToken = default);
 }
 ```
 
 ### 委托 TokenProvider
 
-委托 TokenProvider 是一种最简单的实现方式，它将请求 token 的委托作为自定义 TokenProvider 的实现逻辑：
+委托 TokenProvider 是一种最简单的实现方式，它将请求 token 的委托作为自定义 TokenProvider 的实现逻辑。推荐使用带 `CancellationToken` 参数的重载（`v2.1.6+`），将取消令牌传递给 token 接口：
 
 ```csharp
-// 为接口注册自定义tokenProvider
+// 为接口注册自定义tokenProvider（v2.1.6+ 推荐写法）
+services.AddTokenProvider<IUserApi>((s, cancellationToken) =>
+{
+    return s.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret", cancellationToken);
+});
+```
+
+旧的无 `CancellationToken` 参数的写法仍然可用，但无法在取消请求时中断 token 的申请过程：
+
+```csharp
+// 旧写法：仍然兼容
 services.AddTokenProvider<IUserApi>(s =>
 {
     return s.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
@@ -188,17 +200,21 @@ public class CustomTokenProvider : TokenProvider
     {
     }
 
-    protected override Task<TokenResult> RequestTokenAsync(IServiceProvider serviceProvider)
+    protected override Task<TokenResult> RequestTokenAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
     {
-        return serviceProvider.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
+        return serviceProvider.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret", cancellationToken);
     }
 
-    protected override Task<TokenResult> RefreshTokenAsync(IServiceProvider serviceProvider, string refresh_token)
+    protected override Task<TokenResult> RefreshTokenAsync(IServiceProvider serviceProvider, string refresh_token, CancellationToken cancellationToken)
     {
-        return this.RequestTokenAsync(serviceProvider);
+        return this.RequestTokenAsync(serviceProvider, cancellationToken);
     }
 }
 ```
+
+::: warning 旧版本写法已过时
+在 `v2.1.6` 之前，重写的是不带 `CancellationToken` 参数的 `RequestTokenAsync(IServiceProvider)` 与 `RefreshTokenAsync(IServiceProvider, string)`，这两个方法已标记 `[Obsolete]`，仍可编译但会产生编译警告，请迁移到带 `CancellationToken` 参数的新签名。
+:::
 
 ### 自定义 TokenProvider 的选项
 

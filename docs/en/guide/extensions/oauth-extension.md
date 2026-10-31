@@ -12,6 +12,8 @@ A factory for creating `ITokenProvider` instances, providing the ability to get 
 
 A token provider used to obtain tokens. It triggers a token re-request or refresh on the first request after the token expires.
 
+Since `v2.1.6`, `ITokenProvider` supports cancellation tokens: `GetTokenAsync` and `ClearTokenAsync` provide overloads accepting a `CancellationToken`, so token requests and refreshes can be cancelled together with the business request, avoiding token acquisition for requests that have already been abandoned.
+
 ### OAuthTokenAttribute
 
 An attribute for applying tokens. It creates an `ITokenProvider` using `ITokenProviderFactory`, then uses the `ITokenProvider` to obtain the token, and finally applies the token to the request message.
@@ -161,16 +163,26 @@ The extension package includes two standard token request modes: OAuth Client an
 public interface ITokenApi
 {
     [HttpPost("http://xxx.com/token")]
-    Task<TokenResult> RequestTokenAsync([Parameter(Kind.Form)] string clientId, [Parameter(Kind.Form)] string clientSecret);
+    Task<TokenResult> RequestTokenAsync([Parameter(Kind.Form)] string clientId, [Parameter(Kind.Form)] string clientSecret, CancellationToken cancellationToken = default);
 }
 ```
 
 ### Delegate TokenProvider
 
-Delegate `TokenProvider` is the simplest implementation. It uses a delegate for requesting the token as the implementation logic of the custom `TokenProvider`:
+Delegate `TokenProvider` is the simplest implementation. It uses a delegate for requesting the token as the implementation logic of the custom `TokenProvider`. Prefer the overload with a `CancellationToken` parameter (`v2.1.6+`) to forward the cancellation token to the token endpoint:
 
 ```csharp
-// Register a custom tokenProvider for the interface
+// Register a custom tokenProvider for the interface (v2.1.6+ recommended)
+services.AddTokenProvider<IUserApi>((s, cancellationToken) =>
+{
+    return s.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret", cancellationToken);
+});
+```
+
+The old overload without the `CancellationToken` parameter still works, but it cannot interrupt the token acquisition when the request is cancelled:
+
+```csharp
+// Old style: still compatible
 services.AddTokenProvider<IUserApi>(s =>
 {
     return s.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
@@ -192,17 +204,21 @@ public class CustomTokenProvider : TokenProvider
     {
     }
 
-    protected override Task<TokenResult> RequestTokenAsync(IServiceProvider serviceProvider)
+    protected override Task<TokenResult> RequestTokenAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
     {
-        return serviceProvider.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret");
+        return serviceProvider.GetRequiredService<ITokenApi>().RequestTokenAsync("id", "secret", cancellationToken);
     }
 
-    protected override Task<TokenResult> RefreshTokenAsync(IServiceProvider serviceProvider, string refresh_token)
+    protected override Task<TokenResult> RefreshTokenAsync(IServiceProvider serviceProvider, string refresh_token, CancellationToken cancellationToken)
     {
-        return this.RequestTokenAsync(serviceProvider);
+        return this.RequestTokenAsync(serviceProvider, cancellationToken);
     }
 }
 ```
+
+::: warning Pre-v2.1.6 overrides are obsolete
+Before `v2.1.6`, you overrode `RequestTokenAsync(IServiceProvider)` and `RefreshTokenAsync(IServiceProvider, string)` without the `CancellationToken` parameter. These methods are now marked `[Obsolete]`: they still compile but produce compiler warnings. Please migrate to the new signatures with the `CancellationToken` parameter.
+:::
 
 ### Options for Custom TokenProvider
 

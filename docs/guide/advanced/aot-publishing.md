@@ -110,7 +110,7 @@ static partial class HttpApiProxyClass
 ### 前置要求
 
 > [!important] .NET 版本要求
-> - **AOT 发布**：需要 .NET 8.0 或更高版本
+> - **AOT 发布**：需要 .NET 8.0 或更高版本（WebApiClientCore 在 `net8.0` 与 `net10.0` 目标上启用了 `IsAotCompatible`）
 > - **JSON 源生成器**：`PrependJsonSerializerContext` 方法仅支持 .NET 8.0+
 > - **Source Generator**：支持 .NET Standard 2.1+ 和 .NET 5.0+
 
@@ -119,10 +119,10 @@ static partial class HttpApiProxyClass
 ```xml
 <ItemGroup>
     <!-- WebApiClientCore 核心包 -->
-    <PackageReference Include="WebApiClientCore" Version="3.0.0" />
+    <PackageReference Include="WebApiClientCore" Version="2.1.6" />
     
     <!-- Source Generator 包（必须作为 Analyzer 引用） -->
-    <PackageReference Include="WebApiClientCore.Analyzers" Version="3.0.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="WebApiClientCore.Analyzers" Version="2.1.6" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 </ItemGroup>
 ```
 
@@ -167,8 +167,8 @@ static partial class HttpApiProxyClass
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WebApiClientCore" Version="3.0.0" />
-        <PackageReference Include="WebApiClientCore.Analyzers" Version="3.0.0" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <PackageReference Include="WebApiClientCore" Version="2.1.6" />
+        <PackageReference Include="WebApiClientCore.Analyzers" Version="2.1.6" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>
 ```
