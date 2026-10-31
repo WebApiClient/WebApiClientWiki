@@ -33,23 +33,19 @@ public interface IUserApi
 
 ### Core Concepts
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Your Interface                        │
-│  public interface IUserApi { [HttpGet...] Task<User> Get() }│
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    HttpApiProxy (Generated at Runtime)       │
-│         Parse Attributes → Build HttpRequestMessage → Execute│
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    HttpClient (Underlying Transport)         │
-│              HttpClientFactory → HttpMessageHandler          │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    I["Your Interface<br/>declare interfaces and attributes, e.g. IUserApi"]
+    subgraph Proxy["HttpApiProxy (generated at runtime)"]
+        direction LR
+        P1["Parse attributes"] --> P2["Build HttpRequestMessage"] --> P3["Execute request"]
+    end
+    subgraph Client["HttpClient (underlying transport)"]
+        direction LR
+        C1["HttpClientFactory"] --> C2["HttpMessageHandler"]
+    end
+    I --> Proxy
+    Proxy --> Client
 ```
 
 ## Core Components
@@ -117,36 +113,16 @@ var user = await userApi.GetAsync(id)
 
 ## Request Processing Flow
 
-```
-1. Interface Call
-   │
-   ▼
-2. Parse Interface Metadata (method, parameters, attributes)
-   │
-   ▼
-3. Build HttpRequestMessage
-   │  - Parse URL path parameters
-   │  - Add Query parameters
-   │  - Set request body content
-   │  - Add request headers
-   │
-   ▼
-4. Execute GlobalFilters.OnRequestAsync
-   │
-   ▼
-5. Execute Attribute Filters.OnRequestAsync
-   │
-   ▼
-6. Send HTTP Request
-   │
-   ▼
-7. Execute Attribute Filters.OnResponseAsync
-   │
-   ▼
-8. Execute GlobalFilters.OnResponseAsync
-   │
-   ▼
-9. Parse Response Content → Return Result
+```mermaid
+flowchart TD
+    A["1. Interface call"] --> B["2. Parse interface metadata<br/>method, parameters, attributes"]
+    B --> C["3. Build HttpRequestMessage<br/>path values · query · body · headers"]
+    C --> D["4. GlobalFilters.OnRequestAsync"]
+    D --> E["5. Attribute filters OnRequestAsync"]
+    E --> F["6. Send HTTP request"]
+    F --> G["7. Attribute filters OnResponseAsync"]
+    G --> H["8. GlobalFilters.OnResponseAsync"]
+    H --> I["9. Parse response content and return result"]
 ```
 
 ## Dependency Injection

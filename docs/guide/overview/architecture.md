@@ -33,23 +33,19 @@ public interface IUserApi
 
 ### 核心概念
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Your Interface                        │
-│  public interface IUserApi { [HttpGet...] Task<User> Get() }│
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    HttpApiProxy (运行时生成)                  │
-│         解析特性 → 构建 HttpRequestMessage → 执行请求         │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    HttpClient (底层传输)                      │
-│              HttpClientFactory → HttpMessageHandler          │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    I["Your Interface<br/>声明接口与特性，如 IUserApi"]
+    subgraph Proxy["HttpApiProxy（运行时生成）"]
+        direction LR
+        P1["解析特性"] --> P2["构建 HttpRequestMessage"] --> P3["执行请求"]
+    end
+    subgraph Client["HttpClient（底层传输）"]
+        direction LR
+        C1["HttpClientFactory"] --> C2["HttpMessageHandler"]
+    end
+    I --> Proxy
+    Proxy --> Client
 ```
 
 ## 核心组件
@@ -117,36 +113,16 @@ var user = await userApi.GetAsync(id)
 
 ## 请求处理流程
 
-```
-1. 接口调用
-   │
-   ▼
-2. 解析接口元数据（方法、参数、特性）
-   │
-   ▼
-3. 构建 HttpRequestMessage
-   │  - 解析 URL 路径参数
-   │  - 添加 Query 参数
-   │  - 设置请求体内容
-   │  - 添加请求头
-   │
-   ▼
-4. 执行 GlobalFilters.OnRequestAsync
-   │
-   ▼
-5. 执行 Attribute Filters.OnRequestAsync
-   │
-   ▼
-6. 发送 HTTP 请求
-   │
-   ▼
-7. 执行 Attribute Filters.OnResponseAsync
-   │
-   ▼
-8. 执行 GlobalFilters.OnResponseAsync
-   │
-   ▼
-9. 解析响应内容 → 返回结果
+```mermaid
+flowchart TD
+    A["1. 接口调用"] --> B["2. 解析接口元数据<br/>方法、参数、特性"]
+    B --> C["3. 构建 HttpRequestMessage<br/>路径参数 · Query 参数 · 请求体 · 请求头"]
+    C --> D["4. GlobalFilters.OnRequestAsync"]
+    D --> E["5. 特性过滤器 OnRequestAsync"]
+    E --> F["6. 发送 HTTP 请求"]
+    F --> G["7. 特性过滤器 OnResponseAsync"]
+    G --> H["8. GlobalFilters.OnResponseAsync"]
+    H --> I["9. 解析响应内容，返回结果"]
 ```
 
 ## 依赖注入

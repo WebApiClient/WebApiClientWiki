@@ -25,18 +25,10 @@ To address these issues, WebApiClientCore provides **Source Generator** support 
 
 ### Architecture Comparison
 
-```
-Traditional Mode:
-┌─────────────────┐   Reflection   ┌──────────────────┐
-│   IHttpApi      │ ──────────→    │ Runtime Proxy    │
-│   Interface     │                │ Class            │
-└─────────────────┘                └──────────────────┘
-
-AOT Mode:
-┌─────────────────┐   Source       ┌──────────────────┐
-│   IHttpApi      │ ──────────→    │ Compile-time     │
-│   Interface     │ Generator      │ Proxy Class      │
-└─────────────────┘                └──────────────────┘
+```mermaid
+flowchart LR
+    A["IHttpApi interface"] -->|Reflection| B["Runtime proxy class"]
+    A -->|Source Generator| C["Compile-time proxy class"]
 ```
 
 ## Source Generator Mechanism
