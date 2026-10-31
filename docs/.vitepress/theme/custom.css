@@ -297,6 +297,14 @@ html.wac-full {
   max-width: 864px;
 }
 
+/* 无左侧栏的页面（如 /benchmarks/）容器与正文被默认主题硬编码
+   1104px / 752~784px，不随版式变量走；接回 --vp-layout-max-width
+   轨道后，宽屏档由 content-container 的 864px 收口，全屏档放开 */
+.VPDoc:not(.has-sidebar) .container.container,
+.VPDoc:not(.has-sidebar) .content.content {
+  max-width: var(--vp-layout-max-width);
+}
+
 html.wac-full .VPDoc.has-aside .content-container.content-container {
   max-width: 100%;
 }

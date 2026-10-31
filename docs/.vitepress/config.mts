@@ -109,9 +109,10 @@ const zhSidebar = {
   "/reference/": [
     {
       text: "参考",
-      link: "/reference/",
       collapsed: false,
-      items: [{ text: "api-reference", link: "/reference/api-reference" }],
+      // api-reference.md 已被 rewrite 为 /reference/ 本体，
+      // 侧栏直接指向它，链接旧地址只保留 buildEnd 的硬加载跳转
+      items: [{ text: "API 参考", link: "/reference/" }],
     },
   ],
   "/old/": [
@@ -226,9 +227,8 @@ const enSidebar = {
   "/en/reference/": [
     {
       text: "Reference",
-      link: "/en/reference/",
       collapsed: false,
-      items: [{ text: "api-reference", link: "/en/reference/api-reference" }],
+      items: [{ text: "API Reference", link: "/en/reference/" }],
     },
   ],
   "/en/old/": [
