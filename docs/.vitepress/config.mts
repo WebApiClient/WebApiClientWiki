@@ -282,7 +282,15 @@ export default withMermaid(
     description: "声明式调用Http接口",
     base: "/",
 
-    head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+    head: [
+      ["link", { rel: "icon", href: "/favicon.ico" }],
+      // 版式开关的首屏恢复：在渲染前把用户选择的 wac-compact 挂到 <html>，避免闪烁
+      [
+        "script",
+        {},
+        "(function(){try{if(localStorage.getItem('wac-width-mode')==='compact'){document.documentElement.classList.add('wac-compact')}}catch(e){}})();",
+      ],
+    ],
 
     // VitePress 不会像 VuePress 那样把 README.md 自动作为目录 index，
     // 这里显式重写，保证 /、/guide/、/en/ 等目录式链接可达。
@@ -404,7 +412,25 @@ export default withMermaid(
       }
     },
 
-    mermaid: {},
+    mermaid: {
+      // 中文标签按字符估宽容易溢出节点框：显式给 CJK 字体栈修正测量，
+      // 并拉大节点/层级间距，解决图太挤的问题
+      themeVariables: {
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif',
+        fontSize: "15px",
+      },
+      flowchart: {
+        // 溢出的真凶是 .vp-doc p 段落样式穿透进 html 标签的 <p>（见 custom.css 的隔离规则），
+        // htmlLabels 保持默认 true 渲染质量更好
+        htmlLabels: true,
+        nodeSpacing: 64,
+        rankSpacing: 80,
+        padding: 14,
+        useMaxWidth: true,
+        curve: "basis",
+      },
+    },
     mermaidPlugin: {},
   })
 );

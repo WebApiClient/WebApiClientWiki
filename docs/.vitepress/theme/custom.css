@@ -278,26 +278,109 @@
   }
 }
 
-/* ------------------------------------------------------------- 布局宽度 */
-/* 整页骨架 1440 → 1680：文档页容器与导航栏同步放宽；超宽屏仍封顶，
-   保住长文阅读的边界感（参考 vite.dev 的取舍）。 */
+/* ------------------------------------------------------------- 布局宽度（两档版式） */
+/* 宽敞（默认）：骨架 1680 / 正文列 864 / 首页容器 1280；
+   留白（html.wac-compact）：骨架 1440 / 正文列 688 / 首页容器 1152，
+   即 VitePress 原生观感，偏好高阅读效率的用户可选。
+   状态由 WidthToggle.vue 持久化，首屏由 config.mts head 内联脚本恢复。 */
 :root {
   --vp-layout-max-width: 1680px;
 }
 
-/* 正文列 688 → 864：API 文档的长代码块与参数表不再局促。
-   官方规则带 scoped 属性选择器（优先级 0,4,0），用重复类抵到同级，
+html.wac-compact {
+  --vp-layout-max-width: 1440px;
+}
+
+/* 官方规则带 scoped 属性选择器（优先级 0,4,0），用重复类抵到同级，
    custom.css 后于主题加载，同优先级下后来者胜。 */
 .VPDoc.has-aside .content-container.content-container {
   max-width: 864px;
 }
 
-/* 首页 hero 与 features 容器默认硬编码 1152px，与放宽后的骨架脱节；
-   提到 1280 并保持两者对齐。 */
-.VPHero .container.container {
+html.wac-compact .VPDoc.has-aside .content-container.content-container {
+  max-width: 688px;
+}
+
+/* 首页 hero 与 features 容器默认硬编码 1152px，需跟随版式档位。 */
+.VPHero .container.container,
+.VPFeatures .container.container {
   max-width: 1280px;
 }
 
-.VPFeatures .container.container {
-  max-width: 1280px;
+html.wac-compact .VPHero .container.container,
+html.wac-compact .VPFeatures .container.container {
+  max-width: 1152px;
+}
+
+html.wac-compact .wac-home-extra {
+  max-width: 1152px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .VPDoc .container,
+  .VPDoc .content-container,
+  .VPHero .container,
+  .VPFeatures .container,
+  .wac-home-extra {
+    transition: max-width 0.25s ease;
+  }
+}
+
+/* 版式开关：右下角浮动按钮，位于"回到顶部"上方。
+   不放导航栏（右侧图标区层叠复杂点击不稳），不放左下角（被侧边栏区域覆盖）。 */
+.wac-width-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 76px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  box-shadow: var(--wac-shadow);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wac-width-toggle:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: var(--wac-shadow-lift);
+}
+
+.wac-width-toggle-ph {
+  width: 18px;
+  height: 18px;
+}
+
+/* ------------------------------------------------------------- mermaid 图表容器 */
+/* 图随正文列居中；超宽图横向滚动而不是把文字压扁 */
+.vp-doc .mermaid {
+  margin: 1.5rem 0;
+  padding: 8px 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.vp-doc .mermaid svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 关键隔离：html 标签内部是 <p>，mermaid 自带的 p{margin:0} 重置会被
+   VitePress 的 .vp-doc p（margin + 行高）以更高优先级压过，导致文字
+   每行被撑高 ~5px、顶出节点框——这里以更高优先级夺回控制权 */
+.vp-doc .mermaid :is(p, div, span) {
+  margin: 0;
+}
+
+.vp-doc .mermaid p {
+  line-height: inherit;
 }

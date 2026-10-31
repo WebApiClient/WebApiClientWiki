@@ -35,7 +35,7 @@ public interface IUserApi
 
 ```mermaid
 flowchart TD
-    I["Your Interface<br/>声明接口与特性，如 IUserApi"]
+    I["Your Interface<br/>声明接口与特性<br/>如 IUserApi"]
     subgraph Proxy["HttpApiProxy（运行时生成）"]
         direction LR
         P1["解析特性"] --> P2["构建 HttpRequestMessage"] --> P3["执行请求"]
@@ -116,7 +116,7 @@ var user = await userApi.GetAsync(id)
 ```mermaid
 flowchart TD
     A["1. 接口调用"] --> B["2. 解析接口元数据<br/>方法、参数、特性"]
-    B --> C["3. 构建 HttpRequestMessage<br/>路径参数 · Query 参数 · 请求体 · 请求头"]
+    B --> C["3. 构建 HttpRequestMessage<br/>路径参数 · Query 参数<br/>请求体 · 请求头"]
     C --> D["4. GlobalFilters.OnRequestAsync"]
     D --> E["5. 特性过滤器 OnRequestAsync"]
     E --> F["6. 发送 HTTP 请求"]
