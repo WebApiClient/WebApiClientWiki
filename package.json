@@ -15,7 +15,7 @@
     "npm-check-updates": "^23.1.1",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17",
-    "vue": "^3.5.44"
+    "vue": "^3.5.45"
   },
   "pnpm": {
     "overrides": {
