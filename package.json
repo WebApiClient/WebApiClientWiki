@@ -11,7 +11,7 @@
     "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "mermaid": "^12.2.0",
+    "mermaid": "^12.3.0",
     "npm-check-updates": "^23.1.1",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17",
